@@ -9,6 +9,7 @@ namespace GameBehaviour
     //a class for some handy extra math functions, specifically for clamping values
     public static class HandyMath
     {
+        
         public static float Clamp(float value, float min, float max)
         {
             value = (value > max) ? max : value;

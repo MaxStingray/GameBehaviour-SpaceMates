@@ -4,9 +4,9 @@
   <Platform>Windows</Platform>
   <Config />
   <SourceFiles>
-    <File>C:/Users/Josh/Downloads/GameBehaviour/GameBehaviour/Content/PlayerSprite.png</File>
-    <File>C:/Users/Josh/Downloads/GameBehaviour/GameBehaviour/Content/GroundBlock.png</File>
-    <File>C:/Users/Josh/Downloads/GameBehaviour/GameBehaviour/Content/pointmarker.png</File>
-    <File>C:/Users/Josh/Downloads/GameBehaviour/GameBehaviour/Content/Selector.png</File>
+    <File>C:/Users/Josh/Downloads/GameBehaviour/GameBehaviour/GameBehaviour-SpaceMates/Content/PlayerSprite.png</File>
+    <File>C:/Users/Josh/Downloads/GameBehaviour/GameBehaviour/GameBehaviour-SpaceMates/Content/GroundBlock.png</File>
+    <File>C:/Users/Josh/Downloads/GameBehaviour/GameBehaviour/GameBehaviour-SpaceMates/Content/pointmarker.png</File>
+    <File>C:/Users/Josh/Downloads/GameBehaviour/GameBehaviour/GameBehaviour-SpaceMates/Content/Selector.png</File>
   </SourceFiles>
 </SourceFileCollection>

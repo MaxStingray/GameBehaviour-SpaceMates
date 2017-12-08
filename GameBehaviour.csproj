@@ -44,6 +44,7 @@
     <Compile Include="Astar.cs" />
     <Compile Include="Board.cs" />
     <Compile Include="BoxCollider.cs" />
+    <Compile Include="Drone.cs" />
     <Compile Include="ExtraMath.cs" />
     <Compile Include="GameBehaviourProject.cs" />
     <Compile Include="GameObject.cs" />
