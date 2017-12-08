@@ -1,0 +1,204 @@
+﻿using System;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using System.Collections.Generic;
+
+namespace GameBehaviour
+{
+    /// <summary>
+    /// This is the main type for your game.
+    /// </summary>
+    public class Game1 : Game // this is your game manager class you dork. Fix!
+    {
+        //use underscores so we can differentiate between global and member variables
+        private GraphicsDeviceManager _graphics;
+        private SpriteBatch _spriteBatch;
+
+        private Texture2D playerTexture;
+        private Player player;
+
+        private Texture2D groundTexture;
+        private Board board;
+        private Astar pathfinding;
+
+        private Texture2D selector;
+
+        private World _physicsWorld;
+
+        List<GameObject> activeObjects = new List<GameObject>();
+        List<Tile> activeTiles = new List<Tile>();
+
+        private bool paused = false;
+        private bool pauseKeyDown = false;
+        private bool pausedForGuide = false;
+
+        public Game1()
+        {
+            _graphics = new GraphicsDeviceManager(this);
+            _graphics.PreferredBackBufferWidth = 1330;  //set window size to 720(ish)p
+            _graphics.PreferredBackBufferHeight = 770;
+            _graphics.ApplyChanges();
+            Content.RootDirectory = "Content";
+        }
+
+        /// <summary>
+        /// Allows the game to perform any initialization it needs to before starting to run.
+        /// This is where it can query for any required services and load any non-graphic
+        /// related content.  Calling base.Initialize will enumerate through any components
+        /// and initialize them as well.
+        /// </summary>
+        protected override void Initialize()
+        {
+            // TODO: Add your initialization logic here
+            base.Initialize();
+        }
+
+        /// <summary>
+        /// LoadContent will be called once per game and is the place to load
+        /// all of your content.
+        /// </summary>
+        protected override void LoadContent()
+        {
+            // Create a new SpriteBatch, which can be used to draw textures.
+            _spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            //Create the physics world object
+           
+
+            playerTexture = Content.Load<Texture2D>("PlayerSprite");
+            groundTexture = Content.Load<Texture2D>("GroundBlock");
+            selector = Content.Load<Texture2D>("Selector");
+
+            board = new Board(_spriteBatch, groundTexture, 19, 11);
+            pathfinding = new Astar();
+            pathfinding.board = board;
+
+            player = new Player(new RigidBody2D(new Vector2(100, 450), new Vector2(0, 0), 1, "player", false)
+                , new Vector2(100, 100), new Vector2(0, 0), 1, "player", false, 4f, playerTexture, _spriteBatch);
+
+            _physicsWorld = new World();
+
+            activeObjects.Add(player);//add the player to the list of active objects
+            _physicsWorld.PhysObjects.Add(player.ObjRB);//add the player's rigidbody to the world object
+            foreach (Tile tile in board.tiles)
+            {
+                activeTiles.Add(tile);//add each active tile to the list of active tiles
+
+                if (tile.IsRendered)
+                {
+                    //_physicsWorld.PhysObjects.Add(tile.ObjRB);
+                }
+            }
+
+            foreach (Platform platform in board.platforms)
+            {
+                _physicsWorld.PhysObjects.Add(platform.ObjRB);
+            }
+            // TODO: use this.Content to load your game content here
+        }
+
+        /// <summary>
+        /// UnloadContent will be called once per game and is the place to unload
+        /// game-specific content.
+        /// </summary>
+        protected override void UnloadContent()
+        {
+            // TODO: Unload any non ContentManager content here
+        }
+
+        /// <summary>
+        /// Allows the game to run logic such as updating the world,
+        /// checking for collisions, gathering input, and playing audio.
+        /// </summary>
+        /// <param name="gameTime">Provides a snapshot of timing values.</param>
+        //public List<Node> path;
+        protected override void Update(GameTime gameTime)
+        {
+            if (board.generationFinished)
+            {
+
+                CheckPauseKey(Keyboard.GetState());
+
+                if (!paused)
+                {
+
+                    _physicsWorld.Step(gameTime); //update the physics world once per frame
+
+                    if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+                        Exit();
+
+
+
+                    foreach (GameObject actObj in activeObjects)
+                        actObj.Update(gameTime);
+
+                    foreach (Tile tile in activeTiles)
+                        tile.Update(gameTime);
+                    base.Update(gameTime);
+
+
+                    player.PlayerNode = board.NodeFromWorldPoint(player.Center);
+                }
+                else
+                {
+                    //Open Selector Screen
+                    if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+                        Exit();
+                }
+                
+
+                
+                
+            }
+     
+            //Console.WriteLine("collider width: " + boxColl.width + " collider height: " + boxColl.height);
+        }
+
+        private void BeginPause(bool userInitiated)
+        {
+            paused = true;
+            pausedForGuide = !userInitiated;
+        }
+
+        private void EndPause()
+        {
+            pausedForGuide = false;
+            paused = false;
+        }
+
+        private void CheckPauseKey(KeyboardState keyboardState)
+        {
+            bool pauseKeyDownThisFrame = (keyboardState.IsKeyDown(Keys.Tab));
+
+            if (!pauseKeyDown && pauseKeyDownThisFrame)
+            {
+                if (!paused)
+                    BeginPause(true);
+                else
+                    EndPause();
+            }
+            pauseKeyDown = pauseKeyDownThisFrame;
+        }
+
+        /// <summary>
+        /// This is called when the game should draw itself.
+        /// </summary>
+        /// <param name="gameTime">Provides a snapshot of timing values.</param>
+        protected override void Draw(GameTime gameTime)
+        {
+            GraphicsDevice.Clear(Color.PaleVioletRed);
+
+            _spriteBatch.Begin();
+            // TODO: Add your drawing code here
+            base.Draw(gameTime);
+            board.Draw(_spriteBatch);
+            player.Draw(_spriteBatch);
+            foreach (RigidBody2D rb in _physicsWorld.PhysObjects)//draw bounding boxes
+            {
+                rb.Draw(_spriteBatch);
+            }
+            _spriteBatch.End();
+        }
+    }
+}

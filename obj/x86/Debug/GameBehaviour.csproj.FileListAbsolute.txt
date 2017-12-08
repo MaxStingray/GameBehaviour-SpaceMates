@@ -1,0 +1,53 @@
+c:\users\josh\documents\visual studio 2015\Projects\GameBehaviour\GameBehaviour\bin\Windows\x86\Debug\GameBehaviour.exe
+c:\users\josh\documents\visual studio 2015\Projects\GameBehaviour\GameBehaviour\bin\Windows\x86\Debug\GameBehaviour.pdb
+c:\users\josh\documents\visual studio 2015\Projects\GameBehaviour\GameBehaviour\bin\Windows\x86\Debug\MonoGame.Framework.dll
+c:\users\josh\documents\visual studio 2015\Projects\GameBehaviour\GameBehaviour\bin\Windows\x86\Debug\SharpDX.MediaFoundation.dll
+c:\users\josh\documents\visual studio 2015\Projects\GameBehaviour\GameBehaviour\bin\Windows\x86\Debug\SharpDX.dll
+c:\users\josh\documents\visual studio 2015\Projects\GameBehaviour\GameBehaviour\bin\Windows\x86\Debug\SharpDX.XAudio2.dll
+c:\users\josh\documents\visual studio 2015\Projects\GameBehaviour\GameBehaviour\bin\Windows\x86\Debug\SharpDX.DXGI.dll
+c:\users\josh\documents\visual studio 2015\Projects\GameBehaviour\GameBehaviour\bin\Windows\x86\Debug\SharpDX.Direct3D11.dll
+c:\users\josh\documents\visual studio 2015\Projects\GameBehaviour\GameBehaviour\bin\Windows\x86\Debug\SharpDX.Direct2D1.dll
+c:\users\josh\documents\visual studio 2015\Projects\GameBehaviour\GameBehaviour\bin\Windows\x86\Debug\SharpDX.XInput.dll
+c:\users\josh\documents\visual studio 2015\Projects\GameBehaviour\GameBehaviour\bin\Windows\x86\Debug\SharpDX.Direct3D9.dll
+c:\users\josh\documents\visual studio 2015\Projects\GameBehaviour\GameBehaviour\bin\Windows\x86\Debug\MonoGame.Framework.xml
+c:\users\josh\documents\visual studio 2015\Projects\GameBehaviour\GameBehaviour\bin\Windows\x86\Debug\SharpDX.MediaFoundation.xml
+c:\users\josh\documents\visual studio 2015\Projects\GameBehaviour\GameBehaviour\bin\Windows\x86\Debug\SharpDX.xml
+c:\users\josh\documents\visual studio 2015\Projects\GameBehaviour\GameBehaviour\bin\Windows\x86\Debug\SharpDX.XAudio2.xml
+c:\users\josh\documents\visual studio 2015\Projects\GameBehaviour\GameBehaviour\bin\Windows\x86\Debug\SharpDX.DXGI.xml
+c:\users\josh\documents\visual studio 2015\Projects\GameBehaviour\GameBehaviour\bin\Windows\x86\Debug\SharpDX.Direct3D11.xml
+c:\users\josh\documents\visual studio 2015\Projects\GameBehaviour\GameBehaviour\bin\Windows\x86\Debug\SharpDX.Direct2D1.xml
+c:\users\josh\documents\visual studio 2015\Projects\GameBehaviour\GameBehaviour\bin\Windows\x86\Debug\SharpDX.XInput.xml
+c:\users\josh\documents\visual studio 2015\Projects\GameBehaviour\GameBehaviour\bin\Windows\x86\Debug\SharpDX.Direct3D9.xml
+c:\users\josh\documents\visual studio 2015\Projects\GameBehaviour\GameBehaviour\obj\x86\Debug\GameBehaviour.csprojResolveAssemblyReference.cache
+c:\users\josh\documents\visual studio 2015\Projects\GameBehaviour\GameBehaviour\obj\x86\Debug\GameBehaviour.exe
+c:\users\josh\documents\visual studio 2015\Projects\GameBehaviour\GameBehaviour\obj\x86\Debug\GameBehaviour.pdb
+C:\Users\Josh\documents\visual studio 2015\Projects\GameBehaviour\GameBehaviour\bin\Windows\x86\Debug\Content\PlayerSprite.xnb
+C:\Users\Josh\documents\visual studio 2015\Projects\GameBehaviour\GameBehaviour\bin\Windows\x86\Debug\Content\GroundBlock.xnb
+C:\Users\Josh\documents\visual studio 2015\Projects\GameBehaviour\GameBehaviour\bin\Windows\x86\Debug\Content\pointmarker.xnb
+C:\Users\Josh\Downloads\GameBehaviour\GameBehaviour\obj\x86\Debug\GameBehaviour.exe
+C:\Users\Josh\Downloads\GameBehaviour\GameBehaviour\obj\x86\Debug\GameBehaviour.pdb
+C:\Users\Josh\Downloads\GameBehaviour\GameBehaviour\obj\x86\Debug\GameBehaviour.csprojResolveAssemblyReference.cache
+C:\Users\Josh\Downloads\GameBehaviour\GameBehaviour\bin\Windows\x86\Debug\Content\GroundBlock.xnb
+C:\Users\Josh\Downloads\GameBehaviour\GameBehaviour\bin\Windows\x86\Debug\Content\PlayerSprite.xnb
+C:\Users\Josh\Downloads\GameBehaviour\GameBehaviour\bin\Windows\x86\Debug\Content\pointmarker.xnb
+C:\Users\Josh\Downloads\GameBehaviour\GameBehaviour\bin\Windows\x86\Debug\GameBehaviour.exe
+C:\Users\Josh\Downloads\GameBehaviour\GameBehaviour\bin\Windows\x86\Debug\GameBehaviour.pdb
+C:\Users\Josh\Downloads\GameBehaviour\GameBehaviour\bin\Windows\x86\Debug\MonoGame.Framework.dll
+C:\Users\Josh\Downloads\GameBehaviour\GameBehaviour\bin\Windows\x86\Debug\SharpDX.MediaFoundation.dll
+C:\Users\Josh\Downloads\GameBehaviour\GameBehaviour\bin\Windows\x86\Debug\SharpDX.dll
+C:\Users\Josh\Downloads\GameBehaviour\GameBehaviour\bin\Windows\x86\Debug\SharpDX.XAudio2.dll
+C:\Users\Josh\Downloads\GameBehaviour\GameBehaviour\bin\Windows\x86\Debug\SharpDX.DXGI.dll
+C:\Users\Josh\Downloads\GameBehaviour\GameBehaviour\bin\Windows\x86\Debug\SharpDX.Direct3D11.dll
+C:\Users\Josh\Downloads\GameBehaviour\GameBehaviour\bin\Windows\x86\Debug\SharpDX.Direct2D1.dll
+C:\Users\Josh\Downloads\GameBehaviour\GameBehaviour\bin\Windows\x86\Debug\SharpDX.XInput.dll
+C:\Users\Josh\Downloads\GameBehaviour\GameBehaviour\bin\Windows\x86\Debug\SharpDX.Direct3D9.dll
+C:\Users\Josh\Downloads\GameBehaviour\GameBehaviour\bin\Windows\x86\Debug\MonoGame.Framework.xml
+C:\Users\Josh\Downloads\GameBehaviour\GameBehaviour\bin\Windows\x86\Debug\SharpDX.MediaFoundation.xml
+C:\Users\Josh\Downloads\GameBehaviour\GameBehaviour\bin\Windows\x86\Debug\SharpDX.xml
+C:\Users\Josh\Downloads\GameBehaviour\GameBehaviour\bin\Windows\x86\Debug\SharpDX.XAudio2.xml
+C:\Users\Josh\Downloads\GameBehaviour\GameBehaviour\bin\Windows\x86\Debug\SharpDX.DXGI.xml
+C:\Users\Josh\Downloads\GameBehaviour\GameBehaviour\bin\Windows\x86\Debug\SharpDX.Direct3D11.xml
+C:\Users\Josh\Downloads\GameBehaviour\GameBehaviour\bin\Windows\x86\Debug\SharpDX.Direct2D1.xml
+C:\Users\Josh\Downloads\GameBehaviour\GameBehaviour\bin\Windows\x86\Debug\SharpDX.XInput.xml
+C:\Users\Josh\Downloads\GameBehaviour\GameBehaviour\bin\Windows\x86\Debug\SharpDX.Direct3D9.xml
+C:\Users\Josh\Downloads\GameBehaviour\GameBehaviour\bin\Windows\x86\Debug\Content\Selector.xnb
