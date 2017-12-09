@@ -45,7 +45,8 @@ namespace GameBehaviour
                     //tiles[x, y].ObjRB.Mass = 4;
                     
                 }
-            }  
+            }
+            RandomiseBoard();
             CreateBorders();
             CreatePlatform();
             boardSize = new Vector2(tiles[0, 0].Texture.Width * numCols, tiles[0, 0].Texture.Height * numRows);//get the board's size
@@ -82,16 +83,25 @@ namespace GameBehaviour
                 }
             }
 
+            generationFinished = true;
+        }
+
+        void RandomiseBoard()
+        {
+            Random rnd = new Random();
+            //int randX = rnd.Next(0, cols);
+            //int randY = rnd.Next(0, rows);
             for (int x = 0; x < cols; x++)
             {
+                int randX = rnd.Next(0, cols);
                 for (int y = 0; y < rows; y++)
                 {
-                    if (x >= 5 && x <= 10 && y == (rows - 2))
+                    int randY = rnd.Next(0, rows);
+
+                    if (x == randX && x == randY)
                         tiles[x, y].IsRendered = true;
                 }
             }
-
-            generationFinished = true;
         }
 
         void CreatePlatform()

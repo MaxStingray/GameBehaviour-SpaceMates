@@ -23,8 +23,8 @@ namespace GameBehaviour
         public Vector2[] path;
         int targetIndex;
 
-        float maxVelocityX = 100;
-        float maxVelocityY = 80;
+        float maxVelocityX = 10;
+        float maxVelocityY = 100;
 
         public Drone(Selector selector, Astar pathFinder, RigidBody2D rb, SpriteBatch spr, Texture2D tex, Vector2 position, Vector2 rotation, float scale, string tag, bool isStatic) : 
             base(position, rotation, scale, tag, isStatic)
@@ -34,7 +34,7 @@ namespace GameBehaviour
             Texture = tex;
             Selector = selector;
             ObjRB.boxColl = new BoxCollider(Position, new Vector2(Position.X + Texture.Width), Texture.Width, Texture.Height);
-            ObjRB.Mass = 1;
+            ObjRB.Mass = 3;
             ObjRB.polygonColl = new PolygonCollider();
             SetPolygonPoints(ObjRB.polygonColl);
             
@@ -72,12 +72,13 @@ namespace GameBehaviour
                     if (Velocity.X < maxVelocityX)
                         ObjRB.Velocity.X += 1f;
                 }
-                else if (path[targetIndex].X < Position.X)
+
+                if (path[targetIndex].X < Position.X)
                 {
                     if (Velocity.X > -maxVelocityX)
                         ObjRB.Velocity.X -= 1f;
                 }
-                else
+                if(path[targetIndex].X == Position.X)
                 {
                     if (Velocity.X > 0)
                         ObjRB.Velocity.X -= 1f;
@@ -87,10 +88,10 @@ namespace GameBehaviour
                         ObjRB.Velocity.X = 0;
                 }
 
-                if (path[targetIndex].Y < Position.Y)
+                if (path[targetIndex].Y + 5 < Position.Y)
                 {
                     if (Velocity.Y >= -maxVelocityY)
-                        Velocity.Y += -10f;
+                        ObjRB.Velocity.Y += -5f;
                 }
 
             }
@@ -103,6 +104,7 @@ namespace GameBehaviour
                 manager.RequestPath(Position, target, OnPathFound);
                 //onlyOnce = true;
             }
+           
             Position = ObjRB.Position;
             SetPolygonPoints(ObjRB.polygonColl);
             //if(target != null && Selector != null)
