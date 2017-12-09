@@ -17,8 +17,6 @@ namespace GameBehaviour
         int cols { get; set; }
         int rows { get; set; }
 
-
-        public List<Node> path = new List<Node>();
         public bool generationFinished;
         int boardSizeX;
         int boardSizeY;

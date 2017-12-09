@@ -79,6 +79,7 @@ namespace GameBehaviour
             pathfinding = new Astar();
             pathfinding.board = board;
             manager = new AIManager(pathfinding);
+            pathfinding.Manager = manager;
 
             player = new Player(new RigidBody2D(new Vector2(100, 450), new Vector2(0, 0), 1, "player", false)
                 , new Vector2(100, 100), new Vector2(0, 0), 1, "player", false, 4f, playerTexture, _spriteBatch);
@@ -92,8 +93,8 @@ namespace GameBehaviour
 
             drone = new Drone(selector, pathfinding, new RigidBody2D(player.Position, new Vector2(0, 0), 1, "drone", false)
                 , _spriteBatch, droneTexture, player.Position, new Vector2(0, 0), 1, "drone", false);
-
-            drone.target = player.PlayerNode;
+            drone.manager = manager;
+            drone.target = player.ObjRB.Position;
 
             activeObjects.Add(drone);
             _physicsWorld.PhysObjects.Add(drone.ObjRB);
@@ -152,7 +153,8 @@ namespace GameBehaviour
                     foreach (Tile tile in activeTiles)
                         tile.Update(gameTime);
 
-                    drone.target = player.PlayerNode;
+                    
+                    drone.target = player.Position;
                     drone.Update(gameTime);
 
                     base.Update(gameTime);

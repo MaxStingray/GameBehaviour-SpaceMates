@@ -11,6 +11,8 @@ namespace GameBehaviour
 {
     public class Astar
     {
+
+        public AIManager Manager;
         public Board board;
        
         public Astar()
@@ -20,7 +22,7 @@ namespace GameBehaviour
 
         public void StartFindPath(Vector2 startPosition, Vector2 endPosition)
         {
-
+            FindPath(startPosition, endPosition);
         }
 
         public void FindPath(Vector2 startPos, Vector2 targetPos)
@@ -29,53 +31,58 @@ namespace GameBehaviour
             Node targetNode = board.NodeFromWorldPoint(targetPos);
             List<Node> openSet = new List<Node>();
             HashSet<Node> closedSet = new HashSet<Node>();
-
+            Vector2[] waypoints = new Vector2[0];
+            bool pathSuccess = false;
             openSet.Add(startNode);
-            
 
-            while(openSet.Count > 0)
+            if (startNode.isTraversible && targetNode.isTraversible)
             {
-                Node currentNode = openSet[0];
-                for (int i = 1; i < openSet.Count; i++)
+                while (openSet.Count > 0)
                 {
-                    if (openSet[i].fCost < currentNode.fCost || openSet[i].fCost == currentNode.fCost && openSet[i].hCost < currentNode.hCost)
+                    Node currentNode = openSet[0];
+                    for (int i = 1; i < openSet.Count; i++)
                     {
-                        currentNode = openSet[i];
+                        if (openSet[i].fCost < currentNode.fCost || openSet[i].fCost == currentNode.fCost && openSet[i].hCost < currentNode.hCost)
+                        {
+                            currentNode = openSet[i];
+                        }
+                    }
+
+                    openSet.Remove(currentNode);
+                    closedSet.Add(currentNode);
+
+                    if (currentNode == targetNode)
+                    {
+                        pathSuccess = true;
+                        break;
+                    }
+
+                    foreach (Node neighbor in board.GetNeighbors(currentNode))
+                    {
+                        if (!neighbor.isTraversible || closedSet.Contains(neighbor))
+                            continue;
+
+                        int newMovementCostToNeighbor = currentNode.gCost + GetDistance(currentNode, neighbor);
+
+                        if (newMovementCostToNeighbor < neighbor.gCost || !openSet.Contains(neighbor))
+                        {
+                            neighbor.gCost = newMovementCostToNeighbor;
+                            neighbor.hCost = GetDistance(neighbor, targetNode);
+                            neighbor.Parent = currentNode;
+
+                            if (!openSet.Contains(neighbor))
+                                openSet.Add(neighbor);
+                        }
                     }
                 }
-
-                openSet.Remove(currentNode);
-                closedSet.Add(currentNode);
-
-                if (currentNode == targetNode)
-                {
-                    RetracePath(startNode, targetNode);
-                    return;
-                }
-
-                foreach (Node neighbor in board.GetNeighbors(currentNode))
-                {
-                    if (!neighbor.isTraversible || closedSet.Contains(neighbor))
-                        continue;
-
-                    int newMovementCostToNeighbor = currentNode.gCost + GetDistance(currentNode, neighbor);
-
-                    if (newMovementCostToNeighbor < neighbor.gCost || !openSet.Contains(neighbor))
-                    {
-                        neighbor.gCost = newMovementCostToNeighbor;
-                        neighbor.hCost = GetDistance(neighbor, targetNode);
-                        neighbor.Parent = currentNode;
-
-                        if (!openSet.Contains(neighbor))
-                            openSet.Add(neighbor);
-                    }
-                }
-
-                
             }
+            if(pathSuccess)
+                waypoints = RetracePath(startNode, targetNode);
+
+            Manager.FinishedProcessingPath(waypoints, pathSuccess);
         }
 
-        void RetracePath(Node startNode, Node endNode)
+        Vector2[] RetracePath(Node startNode, Node endNode)
         {
             List<Node> path = new List<Node>();
             Node currentNode = endNode;
@@ -85,9 +92,27 @@ namespace GameBehaviour
                 path.Add(currentNode);
                 currentNode = currentNode.Parent;
             }
-            path.Reverse();
+            Vector2[] waypoints = SimplifyPath(path);
+            Array.Reverse(waypoints);
+            return waypoints;
+            
+        }
 
-            board.path = path;
+        Vector2[] SimplifyPath(List<Node> path)//possibly remove this if it seems too clever ;)
+        {
+            List<Vector2> waypoints = new List<Vector2>();
+            Vector2 directionOld = Vector2.Zero;
+            for (int i = 1; i < path.Count; i++)
+            {
+                Vector2 directionNew = new Vector2(path[i - 1].gridX - path[i].gridX,
+                                                   path[i - 1].gridY - path[i].gridY);
+                if (directionNew != directionOld)
+                {
+                    waypoints.Add(path[i].worldPosition);
+                }
+                directionOld = directionNew;
+            }
+            return waypoints.ToArray();
         }
 
         public int GetDistance(Node nodeA, Node nodeB)

@@ -15,7 +15,7 @@ namespace GameBehaviour
         PathRequest currentPathRequest;
 
         static AIManager instance;
-        Astar pathfinding;
+        Astar Pathfinding;
 
         bool isProcessingPath;
 
@@ -23,9 +23,10 @@ namespace GameBehaviour
         public AIManager(Astar pathFinding)
         {
             instance = this;
+            Pathfinding = pathFinding;
         }
 
-        public static void RequestPath(Vector2 pathStart, Vector2 pathEnd, Action<Vector2[], bool> callBack)
+        public void RequestPath(Vector2 pathStart, Vector2 pathEnd, Action<Vector2[], bool> callBack)
         {
             PathRequest newRequest = new PathRequest(pathStart, pathEnd, callBack);
             instance.PathRequestQueue.Enqueue(newRequest);
@@ -38,7 +39,7 @@ namespace GameBehaviour
             {
                 currentPathRequest = PathRequestQueue.Dequeue();
                 isProcessingPath = true;
-                pathfinding.StartFindPath(currentPathRequest.pathStart, currentPathRequest.pathEnd);
+                Pathfinding.StartFindPath(currentPathRequest.pathStart, currentPathRequest.pathEnd);
             }
         }
 

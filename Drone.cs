@@ -12,15 +12,19 @@ namespace GameBehaviour
     public class Drone : RigidBody2D
     {
         public RigidBody2D ObjRB;
-        public Node target;
+        //public Node target;
         SpriteBatch Spr;
-        Astar PathFinder;
+        //Astar PathFinder;
+        public AIManager manager;
         Texture2D Texture;
         public Selector Selector;
-        Board Board;
 
-        float maxVelocityX = 1000;
-        float maxVelocityY = 800;
+        public Vector2 target;
+        public Vector2[] path;
+        int targetIndex;
+
+        float maxVelocityX = 100;
+        float maxVelocityY = 80;
 
         public Drone(Selector selector, Astar pathFinder, RigidBody2D rb, SpriteBatch spr, Texture2D tex, Vector2 position, Vector2 rotation, float scale, string tag, bool isStatic) : 
             base(position, rotation, scale, tag, isStatic)
@@ -28,20 +32,81 @@ namespace GameBehaviour
             ObjRB = rb;
             Spr = spr;
             Texture = tex;
-            PathFinder = pathFinder;
             Selector = selector;
             ObjRB.boxColl = new BoxCollider(Position, new Vector2(Position.X + Texture.Width), Texture.Width, Texture.Height);
             ObjRB.Mass = 1;
             ObjRB.polygonColl = new PolygonCollider();
             SetPolygonPoints(ObjRB.polygonColl);
+            
         }
 
+        public void OnPathFound(Vector2[] newPath, bool pathSuccess)
+        {
+            if (pathSuccess)
+            {
+                path = newPath;
+                Console.WriteLine(path.Count());
+                FollowPath();
+            }
+        }
+
+        void FollowPath()
+        {
+            if (path.Count() > 0)
+            {
+                Vector2 currentWaypoint = path[0];
+
+                if (Position == currentWaypoint)
+                {
+                    targetIndex++;
+                    //if (targetIndex >= path.Length)
+                    //break;
+                    if (targetIndex <= path.Length)
+                    {
+                        currentWaypoint = path[targetIndex];
+                    }
+                }
+
+                if (path[targetIndex].X > Position.X)
+                {
+                    if (Velocity.X < maxVelocityX)
+                        ObjRB.Velocity.X += 1f;
+                }
+                else if (path[targetIndex].X < Position.X)
+                {
+                    if (Velocity.X > -maxVelocityX)
+                        ObjRB.Velocity.X -= 1f;
+                }
+                else
+                {
+                    if (Velocity.X > 0)
+                        ObjRB.Velocity.X -= 1f;
+                    else if (Velocity.X < 0)
+                        ObjRB.Velocity.X += 1f;
+                    else
+                        ObjRB.Velocity.X = 0;
+                }
+
+                if (path[targetIndex].Y < Position.Y)
+                {
+                    if (Velocity.Y >= -maxVelocityY)
+                        Velocity.Y += -10f;
+                }
+
+            }
+        }
+        bool onlyOnce = false;
         public override void Update(GameTime gameTime)
         {
+            if (target != null && !onlyOnce)
+            {
+                manager.RequestPath(Position, target, OnPathFound);
+                //onlyOnce = true;
+            }
             Position = ObjRB.Position;
             SetPolygonPoints(ObjRB.polygonColl);
-            if(target != null && Selector != null)
-                MoveTo(target);
+            //if(target != null && Selector != null)
+                //go there
 
         }
 
@@ -66,10 +131,6 @@ namespace GameBehaviour
             p.BuildEdges();
         }
 
-        public void MoveTo(Node targetNode)
-        {
-            //PathFinder.FindPath(Position, targetNode.worldPosition);//maybe adjust selector to return co-ordinate instead of node
-            
-        }
+        
     }
 }
