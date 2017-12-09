@@ -27,6 +27,7 @@ namespace GameBehaviour
             IsRendered = isRendered;
             Texture = texture;
             SpriteBatch = spriteBatch;
+            rb.Mass = 50;
             aStarNode = new Node();//give each tile a node
             if (isRendered)
             {

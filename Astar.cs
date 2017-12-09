@@ -12,16 +12,26 @@ namespace GameBehaviour
     public class Astar
     {
         public Board board;
+       
+        public Astar()
+        {
+            
+        }
+
+        public void StartFindPath(Vector2 startPosition, Vector2 endPosition)
+        {
+
+        }
 
         public void FindPath(Vector2 startPos, Vector2 targetPos)
         {
             Node startNode = board.NodeFromWorldPoint(startPos);
             Node targetNode = board.NodeFromWorldPoint(targetPos);
-
             List<Node> openSet = new List<Node>();
             HashSet<Node> closedSet = new HashSet<Node>();
 
             openSet.Add(startNode);
+            
 
             while(openSet.Count > 0)
             {

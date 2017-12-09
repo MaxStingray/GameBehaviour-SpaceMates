@@ -187,6 +187,7 @@ namespace GameBehaviour
 
             int x = (int)Math.Round((boardSizeX-1) * percentX);
             int y = (int)Math.Round((boardSizeY - 1) * percentY);
+
             return tiles[x - 1, y + 1].aStarNode;
         }
     }

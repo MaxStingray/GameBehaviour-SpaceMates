@@ -11,6 +11,7 @@ namespace GameBehaviour
     /// </summary>
     public class Game1 : Game // this is your game manager class you dork. Fix!
     {
+        private AIManager manager;
         //use underscores so we can differentiate between global and member variables
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
@@ -66,7 +67,6 @@ namespace GameBehaviour
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-
             //Create the physics world object
            
 
@@ -78,6 +78,7 @@ namespace GameBehaviour
             board = new Board(_spriteBatch, groundTexture, 19, 11);
             pathfinding = new Astar();
             pathfinding.board = board;
+            manager = new AIManager(pathfinding);
 
             player = new Player(new RigidBody2D(new Vector2(100, 450), new Vector2(0, 0), 1, "player", false)
                 , new Vector2(100, 100), new Vector2(0, 0), 1, "player", false, 4f, playerTexture, _spriteBatch);
@@ -89,8 +90,10 @@ namespace GameBehaviour
             activeObjects.Add(player);//add the player to the list of active objects
             _physicsWorld.PhysObjects.Add(player.ObjRB);//add the player's rigidbody to the world object
 
-            drone = new Drone(pathfinding, new RigidBody2D(player.Position, new Vector2(0, 0), 1, "drone", false)
+            drone = new Drone(selector, pathfinding, new RigidBody2D(player.Position, new Vector2(0, 0), 1, "drone", false)
                 , _spriteBatch, droneTexture, player.Position, new Vector2(0, 0), 1, "drone", false);
+
+            drone.target = player.PlayerNode;
 
             activeObjects.Add(drone);
             _physicsWorld.PhysObjects.Add(drone.ObjRB);
@@ -149,8 +152,12 @@ namespace GameBehaviour
                     foreach (Tile tile in activeTiles)
                         tile.Update(gameTime);
 
+                    drone.target = player.PlayerNode;
+                    drone.Update(gameTime);
+
                     base.Update(gameTime);
                     player.PlayerNode = board.NodeFromWorldPoint(player.Center);
+                    
                 }
                 else
                 {

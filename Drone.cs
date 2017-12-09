@@ -16,15 +16,22 @@ namespace GameBehaviour
         SpriteBatch Spr;
         Astar PathFinder;
         Texture2D Texture;
-        public Drone(Astar pathFinder, RigidBody2D rb, SpriteBatch spr, Texture2D tex, Vector2 position, Vector2 rotation, float scale, string tag, bool isStatic) : 
+        public Selector Selector;
+        Board Board;
+
+        float maxVelocityX = 1000;
+        float maxVelocityY = 800;
+
+        public Drone(Selector selector, Astar pathFinder, RigidBody2D rb, SpriteBatch spr, Texture2D tex, Vector2 position, Vector2 rotation, float scale, string tag, bool isStatic) : 
             base(position, rotation, scale, tag, isStatic)
         {
             ObjRB = rb;
             Spr = spr;
             Texture = tex;
             PathFinder = pathFinder;
+            Selector = selector;
             ObjRB.boxColl = new BoxCollider(Position, new Vector2(Position.X + Texture.Width), Texture.Width, Texture.Height);
-            ObjRB.Mass = 5;
+            ObjRB.Mass = 1;
             ObjRB.polygonColl = new PolygonCollider();
             SetPolygonPoints(ObjRB.polygonColl);
         }
@@ -33,8 +40,9 @@ namespace GameBehaviour
         {
             Position = ObjRB.Position;
             SetPolygonPoints(ObjRB.polygonColl);
-            if(target != null)
+            if(target != null && Selector != null)
                 MoveTo(target);
+
         }
 
         public override void Draw(SpriteBatch spriteBatch)
@@ -60,9 +68,8 @@ namespace GameBehaviour
 
         public void MoveTo(Node targetNode)
         {
-            PathFinder.FindPath(Position, targetNode.worldPosition);//maybe adjust selector to return co-ordinate instead of node
-            //TODO: everything else.
-            //if()
+            //PathFinder.FindPath(Position, targetNode.worldPosition);//maybe adjust selector to return co-ordinate instead of node
+            
         }
     }
 }
