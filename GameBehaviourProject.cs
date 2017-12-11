@@ -19,6 +19,9 @@ namespace GameBehaviour
         private Texture2D playerTexture;
         private Player player;
 
+        private Texture2D keyTexture;
+        private Key key;
+
         private Texture2D groundTexture;
         private Board board;
         private Astar pathfinding;
@@ -74,6 +77,7 @@ namespace GameBehaviour
             groundTexture = Content.Load<Texture2D>("GroundBlock");
             selectorTexture = Content.Load<Texture2D>("Selector");
             droneTexture = Content.Load<Texture2D>("pointmarker");
+            keyTexture = Content.Load<Texture2D>("Key");
 
             board = new Board(_spriteBatch, groundTexture, 19, 11);
             pathfinding = new Astar();
@@ -81,24 +85,27 @@ namespace GameBehaviour
             manager = new AIManager(pathfinding);
             pathfinding.Manager = manager;
 
-            player = new Player(new RigidBody2D(new Vector2(100, 450), new Vector2(0, 0), 1, "player", false)
-                , new Vector2(100, 100), new Vector2(0, 0), 1, "player", false, 4f, playerTexture, _spriteBatch);
+            player = new Player(new RigidBody2D(new Vector2(100, 450), new Vector2(0, 0), 1, "player", false, 5)
+                , new Vector2(100, 100), new Vector2(0, 0), 1, "player", false, 4f, playerTexture, _spriteBatch, 5);
 
             selector = new Selector(player.Position, new Vector2(0, 0), 1, "Selector", board, _spriteBatch, selectorTexture);
-
+            key = new Key(new RigidBody2D(new Vector2(1000, 500), new Vector2(0, 0), 1, "key", false, 5),
+                keyTexture, _spriteBatch, new Vector2(100, 100), new Vector2(0, 0), 1, "key", false, 5);
             _physicsWorld = new World();
 
             activeObjects.Add(player);//add the player to the list of active objects
+            activeObjects.Add(key);
             _physicsWorld.PhysObjects.Add(player.ObjRB);//add the player's rigidbody to the world object
+            _physicsWorld.PhysObjects.Add(key.ObjRB);
 
-            drone = new Drone(selector, pathfinding, new RigidBody2D(player.Position, new Vector2(0, 0), 1, "drone", false)
-                , _spriteBatch, droneTexture, player.Position, new Vector2(0, 0), 1, "drone", false);
-            drone.manager = manager;
-            drone.target = player.ObjRB.Position;
+            drone = new Drone(manager, player, selector, pathfinding, new RigidBody2D(player.ObjRB.Position, new Vector2(0, 0), 1, "drone", false, 1)
+                , _spriteBatch, droneTexture, player.ObjRB.Position, new Vector2(0, 0), 1, "drone", false, 1);
 
+            player.drone = drone;
+            
             activeObjects.Add(drone);
             _physicsWorld.PhysObjects.Add(drone.ObjRB);
-
+           
             foreach (Tile tile in board.tiles)
             {
                 activeTiles.Add(tile);//add each active tile to the list of active tiles
@@ -135,7 +142,7 @@ namespace GameBehaviour
         {
             if (board.generationFinished)
             {
-
+                
                 CheckPauseKey(Keyboard.GetState());
 
                 if (!paused)
@@ -147,15 +154,26 @@ namespace GameBehaviour
                     if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                         Exit();
 
+                    if (Keyboard.GetState().IsKeyDown(Keys.E))
+                    {
+                        selector.nodeSet = false;
+                    }
+
                     foreach (GameObject actObj in activeObjects)
                         actObj.Update(gameTime);
 
                     foreach (Tile tile in activeTiles)
                         tile.Update(gameTime);
 
-                    
-                    drone.target = player.Position;
+                    if(!selector.nodeSet)
+                        drone.target = player.Position;
                     drone.Update(gameTime);
+
+                    if (drone.path != null)
+                    {
+                       
+
+                    }
 
                     base.Update(gameTime);
                     player.PlayerNode = board.NodeFromWorldPoint(player.Center);
@@ -168,6 +186,8 @@ namespace GameBehaviour
                         Exit();
                     selector.isVisible = true;
                     selector.Update(gameTime);
+                    if (selector.nodeSet)
+                        drone.target = selector.targetNode.worldPosition;
                     base.Update(gameTime);                   
                 }         
             }
@@ -214,6 +234,7 @@ namespace GameBehaviour
             player.Draw(_spriteBatch);
             selector.Draw(_spriteBatch);
             drone.Draw(_spriteBatch);
+            key.Draw(_spriteBatch);
             foreach (RigidBody2D rb in _physicsWorld.PhysObjects)//draw bounding boxes
             {
                 rb.Draw(_spriteBatch);

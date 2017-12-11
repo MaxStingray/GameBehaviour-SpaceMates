@@ -78,3 +78,4 @@ C:\Users\Josh\Downloads\GameBehaviour\GameBehaviour\GameBehaviour-SpaceMates\bin
 C:\Users\Josh\Downloads\GameBehaviour\GameBehaviour\GameBehaviour-SpaceMates\bin\Windows\x86\Debug\SharpDX.XInput.xml
 C:\Users\Josh\Downloads\GameBehaviour\GameBehaviour\GameBehaviour-SpaceMates\bin\Windows\x86\Debug\SharpDX.Direct3D9.xml
 C:\Users\Josh\Downloads\GameBehaviour\GameBehaviour\GameBehaviour-SpaceMates\obj\x86\Debug\GameBehaviour.csprojResolveAssemblyReference.cache
+C:\Users\Josh\Downloads\GameBehaviour\GameBehaviour\GameBehaviour-SpaceMates\bin\Windows\x86\Debug\Content\Key.xnb

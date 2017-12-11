@@ -207,7 +207,11 @@ namespace GameBehaviour
 
         void SATResolve(Manifold manifold, GameTime gameTime)
         {
-
+            if (manifold.A.Tag == "key" && manifold.B.Tag == "drone" || manifold.B.Tag == "key" && manifold.A.Tag == "drone")
+            {
+                manifold.A.OnCollision(manifold);
+                manifold.B.OnCollision(manifold);
+            }
             Vector2 relativeVelocity = manifold.A.Velocity - manifold.B.Velocity;
             Vector2 relativeVelocityHack = manifold.B.Velocity - manifold.A.Velocity;
             
@@ -215,17 +219,17 @@ namespace GameBehaviour
             Vector2 normal = Vector2.Normalize(result.MinTranslation);
             if (!float.IsNaN(normal.X) || !float.IsNaN(normal.Y))
             {
-          
-                manifold.Penetration = result.penDepth;
-
-                //normal = new Vector2(0, -1);
-                //Console.WriteLine(result.MinTranslation);
                 float contactVelocity = Vector2.Dot(relativeVelocityHack, normal);
 
                 if (contactVelocity < 0)
                 {
                     return;
                 }
+
+             
+
+                //apply friction
+                float friction = ((manifold.A.Friction + manifold.B.Friction) / 2);
 
                 //will eventually be restitution, leave as 1 for now
                 float e = Math.Min(1, 1);
@@ -237,9 +241,27 @@ namespace GameBehaviour
 
                 //apply impulse
                 if (!manifold.A.IsStatic)
+                {
                     manifold.A.Velocity -= (1 / manifold.A.Mass) * (impulse);
+                    if (manifold.A.Tag != "drone")
+                    {
+                        if (manifold.A.Velocity.X > 0)
+                            manifold.A.Velocity.X -= (friction);
+                        else if (manifold.A.Velocity.X < 0)
+                            manifold.A.Velocity.X += friction;
+                    }
+                }
                 if (!manifold.B.IsStatic)
+                {
                     manifold.B.Velocity += (1 / manifold.B.Mass) * impulse;
+                    if (manifold.B.Tag != "drone")
+                    {
+                        if (manifold.B.Velocity.X > 0)
+                            manifold.B.Velocity.X -= (friction);
+                        else if (manifold.B.Velocity.X < 0)
+                            manifold.B.Velocity.X += friction;
+                    }
+                }
 
                 //normal = Vector2.Zero;
                 //correct position

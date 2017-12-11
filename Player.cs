@@ -17,12 +17,14 @@ namespace GameBehaviour
         public RigidBody2D ObjRB { get; set; }
         public Vector2 Center;
         public Node PlayerNode;
+        public Drone drone;
         public float maxVelocityX = 100f;
         public float maxVelocityY = 80f;
 
+        public bool hasKey = false;
 
         public Player(RigidBody2D rb, Vector2 position, Vector2 rotation, float scale, string tag, bool isStatic, float mass, Texture2D texture,
-            SpriteBatch spriteBatch) : base (position, rotation, scale, tag, isStatic)
+            SpriteBatch spriteBatch, float friction) : base (position, rotation, scale, tag, isStatic, friction)
         {
             
             Texture = texture;
@@ -33,6 +35,7 @@ namespace GameBehaviour
             ObjRB.boxColl = new BoxCollider(new Vector2(Position.X, Position.Y),
                new Vector2(Position.X + Texture.Width, Position.Y + Texture.Height), texture.Width, texture.Height);
             ObjRB.polygonColl = new PolygonCollider();
+            ObjRB.Friction = friction;
             SetPolygonPoints(ObjRB.polygonColl);
             PlayerNode = new Node();
         }
@@ -57,6 +60,30 @@ namespace GameBehaviour
 
             //create it
             p.BuildEdges();
+        }
+
+        public override void OnCollision(Manifold man)
+        {
+            RigidBody2D collisionObj = man.A == (RigidBody2D)this ? man.B : man.A;//check which object we are
+
+            if (collisionObj.Tag == "key")
+            {
+                hasKey = true;
+                Console.WriteLine("hit key");
+            }
+
+            if (collisionObj.Tag == "drone")
+            {
+                Console.WriteLine("hit drone");
+                if (!hasKey)
+                    return;
+                else
+                    if (!drone.hasKey)
+                {
+                    drone.hasKey = true;
+                    hasKey = false;
+                }
+            }
         }
 
         public override void Draw(SpriteBatch spr)

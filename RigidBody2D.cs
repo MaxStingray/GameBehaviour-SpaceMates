@@ -14,8 +14,8 @@ namespace GameBehaviour
         public Sprite[] pointMarkers;
         Texture2D colTex;
         Texture2D lineTex;
+        public float Friction;
         Vector2 RBCentre;
-        //public Vector2 Gravity = new Vector2(0, 100);// temporary vector for gravity
         public Vector2 Velocity;
         
         public float Mass {get; set;} //set mass from inherited objects, default is 1
@@ -25,14 +25,17 @@ namespace GameBehaviour
         public SpriteBatch spr;
         public PolygonCollider polygonColl;
 
+        public float LinearDrag = 0;
+
         const float minPosChange = 0.2f;
         //rigidbody class inherits from gameobject, all physics objects are rigidbody
 
-        public RigidBody2D(Vector2 position, Vector2 rotation, float scale, string tag, bool isStatic) 
+        public RigidBody2D(Vector2 position, Vector2 rotation, float scale, string tag, bool isStatic, float friction) 
             : base (position, rotation, scale, tag) 
         {
             IsStatic = isStatic;
             inverseMass = 1 / Mass;
+            Friction = friction;
         }
 
         public override void Update(GameTime gameTime)
@@ -41,19 +44,24 @@ namespace GameBehaviour
 
             if (!IsStatic)
             {
+
                 
-                //Position += Velocity * delta;
+                Velocity *= (1 - LinearDrag);
                 if (Math.Abs(Velocity.X) > minPosChange || Math.Abs(Velocity.Y) > minPosChange)
                 {
                     Position += (Velocity * delta);
                 }
-                Velocity += Gravity * 1 / Mass;
+                if (Tag != "drone")
+                    Velocity += Gravity * 1 / Mass;
+                //else
+                    //Velocity += (Gravity / 2) * 1 / Mass;
+                    //no gravity for drones until hovering logic is set
+
             }
             else
             {
                 Velocity.X = 0;
                 Velocity.Y = 0;
-                Position += Velocity * delta;
             }
             if (polygonColl != null)
             {
@@ -63,9 +71,13 @@ namespace GameBehaviour
             
         }
 
+        public virtual void OnCollision(Manifold man)
+        {
+            Console.WriteLine("you fucked up");
+        }
+
         public override void Draw(SpriteBatch spriteBatch)
         {
-
             if (polygonColl != null)
             {
                 Vector2 p1;

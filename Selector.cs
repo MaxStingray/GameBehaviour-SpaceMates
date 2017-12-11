@@ -17,7 +17,7 @@ namespace GameBehaviour
         public bool isVisible = false;
         private Vector2 center;
         public Node targetNode;
-        
+        public bool nodeSet;
         public Selector(Vector2 position, Vector2 rotation, float scale, string tag, Board board, SpriteBatch spr, Texture2D tex) : base (position, rotation, scale, tag)
         {
             Position = position;
@@ -62,6 +62,7 @@ namespace GameBehaviour
             else if (Keyboard.GetState().IsKeyDown(Keys.Enter))
             {
                 targetNode = Board.NodeFromWorldPoint(center);
+                nodeSet = true;
             }
         }
     }

@@ -18,16 +18,18 @@ namespace GameBehaviour
         public Vector2 center;
         //Node for A*
         public Node aStarNode;
+        RigidBody2D ObjRB;
         //public RigidBody2D ObjRB { get; set; }
 
         public Tile(RigidBody2D rb, bool isRendered, Vector2 position, Vector2 rotation,
-            float scale, string tag, bool isStatic, Texture2D texture, SpriteBatch spriteBatch) 
-            : base(position, rotation, scale, tag, isStatic)
+            float scale, string tag, bool isStatic, Texture2D texture, SpriteBatch spriteBatch, float friction) 
+            : base(position, rotation, scale, tag, isStatic, friction)
         {
             IsRendered = isRendered;
             Texture = texture;
             SpriteBatch = spriteBatch;
             rb.Mass = 50;
+            rb.Friction = friction;
             aStarNode = new Node();//give each tile a node
             if (isRendered)
             {
@@ -74,9 +76,7 @@ namespace GameBehaviour
 
         public override void Update(GameTime gameTime)
         {
-            //ObjRB.boxColl.topLeft = new Vector2(Position.X, Position.Y);
-            //ObjRB.boxColl.bottomRight = new Vector2(Position.X + Texture.Width, Position.Y + Texture.Height);
-            //SetPolygonPoints(ObjRB.polygonColl);
+           
         }
     }
 }

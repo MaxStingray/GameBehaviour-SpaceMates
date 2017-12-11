@@ -20,7 +20,7 @@ namespace GameBehaviour
         public float tileHeight;
 
         public Platform(int numTiles, RigidBody2D rb, Tile startPoint, Tile endPoint, Vector2 position, Vector2 rotation,
-            float scale, string tag, bool isStatic) : base(position, rotation, scale, tag, isStatic)
+            float scale, string tag, bool isStatic, float friction) : base(position, rotation, scale, tag, isStatic, friction)
         {
             NumTiles = numTiles;
             StartPoint = startPoint;
@@ -31,10 +31,16 @@ namespace GameBehaviour
             ObjRB.boxColl = new BoxCollider(new Vector2(StartPoint.Position.X, StartPoint.Position.Y), new Vector2(EndPoint.Position.X + tileWidth, EndPoint.Position.Y + tileHeight)
                 ,tileWidth * numTiles, tileHeight);
             ObjRB.polygonColl = new PolygonCollider();
+            ObjRB.Friction = friction;
             Console.WriteLine("start point: " + startPoint.Position);
             Console.WriteLine("end point: " + endPoint.Position);
             Console.WriteLine("number of tiles: " + numTiles);
             SetPolygonPoints(ObjRB.polygonColl);
+        }
+
+        public override void OnCollision(Manifold man)
+        {
+            
         }
 
         void SetPolygonPoints(PolygonCollider p)

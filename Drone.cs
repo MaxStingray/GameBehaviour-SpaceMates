@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,22 +13,28 @@ namespace GameBehaviour
     public class Drone : RigidBody2D
     {
         public RigidBody2D ObjRB;
-        //public Node target;
         SpriteBatch Spr;
-        //Astar PathFinder;
-        public AIManager manager;
+        public AIManager Manager;
         Texture2D Texture;
         public Selector Selector;
+        public Player Player;
 
+        float delta;
+
+        bool pathComplete;
         public Vector2 target;
         public Vector2[] path;
         int targetIndex;
 
-        float maxVelocityX = 10;
-        float maxVelocityY = 100;
+        public bool hasKey = false;
 
-        public Drone(Selector selector, Astar pathFinder, RigidBody2D rb, SpriteBatch spr, Texture2D tex, Vector2 position, Vector2 rotation, float scale, string tag, bool isStatic) : 
-            base(position, rotation, scale, tag, isStatic)
+        public float nextWaypointDistance = 3;
+
+        public float speed = 300f;
+        public float updateRate = 2f;
+
+        public Drone(AIManager manager, Player player, Selector selector, Astar pathFinder, RigidBody2D rb, SpriteBatch spr, Texture2D tex, Vector2 position, Vector2 rotation, float scale, string tag, bool isStatic, float friction) : 
+            base(position, rotation, scale, tag, isStatic, friction)
         {
             ObjRB = rb;
             Spr = spr;
@@ -35,9 +42,13 @@ namespace GameBehaviour
             Selector = selector;
             ObjRB.boxColl = new BoxCollider(Position, new Vector2(Position.X + Texture.Width), Texture.Width, Texture.Height);
             ObjRB.Mass = 3;
+            ObjRB.LinearDrag = 0.05f;
             ObjRB.polygonColl = new PolygonCollider();
+            ObjRB.Friction = friction;
             SetPolygonPoints(ObjRB.polygonColl);
-            
+            target = player.ObjRB.Position;
+            Manager = manager;
+            Manager.RequestPath(Position, target, OnPathFound);
         }
 
         public void OnPathFound(Vector2[] newPath, bool pathSuccess)
@@ -45,76 +56,90 @@ namespace GameBehaviour
             if (pathSuccess)
             {
                 path = newPath;
-                Console.WriteLine(path.Count());
-                FollowPath();
             }
+        }
+
+        void UpdatePath()
+        {
+            Manager.RequestPath(Position, target, OnPathFound);
+            FollowPath();
         }
 
         void FollowPath()
         {
-            if (path.Count() > 0)
+            if (target != null)
             {
-                Vector2 currentWaypoint = path[0];
-
-                if (Position == currentWaypoint)
-                {
-                    targetIndex++;
-                    //if (targetIndex >= path.Length)
-                    //break;
-                    if (targetIndex <= path.Length)
-                    {
-                        currentWaypoint = path[targetIndex];
-                    }
-                }
-
-                if (path[targetIndex].X > Position.X)
-                {
-                    if (Velocity.X < maxVelocityX)
-                        ObjRB.Velocity.X += 1f;
-                }
-
-                if (path[targetIndex].X < Position.X)
-                {
-                    if (Velocity.X > -maxVelocityX)
-                        ObjRB.Velocity.X -= 1f;
-                }
-                if(path[targetIndex].X == Position.X)
-                {
-                    if (Velocity.X > 0)
-                        ObjRB.Velocity.X -= 1f;
-                    else if (Velocity.X < 0)
-                        ObjRB.Velocity.X += 1f;
-                    else
-                        ObjRB.Velocity.X = 0;
-                }
-
-                if (path[targetIndex].Y + 5 < Position.Y)
-                {
-                    if (Velocity.Y >= -maxVelocityY)
-                        ObjRB.Velocity.Y += -5f;
-                }
-
+                //TODO: Always look at target
             }
+            if (path == null)
+                return;
+            if (targetIndex >= path.Length)
+            {
+                if (pathComplete)
+                    return;
+                targetIndex = 0;
+                //path = new Vector2[0];
+                pathComplete = true;
+                return;
+            }
+            pathComplete = false;
+
+            //Direction to next waypoint
+            Vector2 dir = Vector2.Normalize(path[targetIndex] - Position);//may need to reverse y axis
+            dir *= speed * delta;
+
+            ObjRB.Velocity += dir;
+            float dist = Vector2.Distance(Position, path[targetIndex]);
+            //may not need this
+            if (dist < nextWaypointDistance)
+            {
+                targetIndex++;
+                return;
+            }          
         }
-        bool onlyOnce = false;
+        
         public override void Update(GameTime gameTime)
         {
-            if (target != null && !onlyOnce)
+            if (hasKey)
+                Console.WriteLine("drone has key");
+
+            delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            
+            if (target != null)
             {
-                manager.RequestPath(Position, target, OnPathFound);
-                //onlyOnce = true;
+                UpdatePath();
             }
            
             Position = ObjRB.Position;
             SetPolygonPoints(ObjRB.polygonColl);
-            //if(target != null && Selector != null)
-                //go there
-
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
             Spr.Draw(Texture, Position, Color.White);
+        }
+
+        public override void OnCollision(Manifold man)
+        {
+            RigidBody2D collisionObj = man.A == (RigidBody2D)this ? man.B : man.A;//check which object we are
+
+            if (collisionObj.Tag == "key")
+            {
+                hasKey = true;
+            }
+
+            if (collisionObj.Tag == "player")
+            {
+                if (!hasKey)
+                    return;
+                else
+                    if (!Player.hasKey)
+                {
+                    Player.hasKey = true;
+                    hasKey = false;
+                }
+            }
+            base.OnCollision(man);
         }
 
         void SetPolygonPoints(PolygonCollider p)

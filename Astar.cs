@@ -85,6 +85,7 @@ namespace GameBehaviour
         Vector2[] RetracePath(Node startNode, Node endNode)
         {
             List<Node> path = new List<Node>();
+            
             Node currentNode = endNode;
 
             while (currentNode != startNode)
@@ -92,7 +93,10 @@ namespace GameBehaviour
                 path.Add(currentNode);
                 currentNode = currentNode.Parent;
             }
-            Vector2[] waypoints = SimplifyPath(path);
+
+            
+
+            Vector2[] waypoints = SimplifyPath(path);           
             Array.Reverse(waypoints);
             return waypoints;
             
