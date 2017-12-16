@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace GameBehaviour
 {
-    public class Player : RigidBody2D//player class will inherit from this with input handling etc
+    public class Player : GameObject
     {
         public Texture2D Texture { get; set; }
         public SpriteBatch SpriteBatch { get; set; }
@@ -23,19 +23,19 @@ namespace GameBehaviour
 
         public bool hasKey = false;
 
-        public Player(RigidBody2D rb, Vector2 position, Vector2 rotation, float scale, string tag, bool isStatic, float mass, Texture2D texture,
-            SpriteBatch spriteBatch, float friction) : base (position, rotation, scale, tag, isStatic, friction)
+        public Player(RigidBody2D rb, Texture2D texture,
+            SpriteBatch spriteBatch, float friction) : base (rb.Position, rb.Rotation, rb.Scale, rb.Tag)
         {
             
             Texture = texture;
             SpriteBatch = spriteBatch;
             ObjRB = rb;
-            ObjRB.Mass = mass;
             rb.spr = spriteBatch;
             ObjRB.boxColl = new BoxCollider(new Vector2(Position.X, Position.Y),
                new Vector2(Position.X + Texture.Width, Position.Y + Texture.Height), texture.Width, texture.Height);
             ObjRB.polygonColl = new PolygonCollider();
             ObjRB.Friction = friction;
+            ObjRB.parent = this;
             SetPolygonPoints(ObjRB.polygonColl);
             PlayerNode = new Node();
         }
@@ -64,7 +64,7 @@ namespace GameBehaviour
 
         public override void OnCollision(Manifold man)
         {
-            RigidBody2D collisionObj = man.A == (RigidBody2D)this ? man.B : man.A;//check which object we are
+            /*RigidBody2D collisionObj = man.A == (RigidBody2D)this ? man.B : man.A;//check which object we are
 
             if (collisionObj.Tag == "key")
             {
@@ -83,7 +83,7 @@ namespace GameBehaviour
                     drone.hasKey = true;
                     hasKey = false;
                 }
-            }
+            }*/
         }
 
         public override void Draw(SpriteBatch spr)

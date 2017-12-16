@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace GameBehaviour
@@ -38,7 +34,7 @@ namespace GameBehaviour
                 {
                     Vector2 blockPosition = new Vector2(x * blockTexture.Width, y * blockTexture.Height);
 
-                    tiles[x, y] = new Tile(new RigidBody2D(blockPosition, new Vector2(0, 0), 1, "obstacle" , true, 10), false, blockPosition, new Vector2(0, 0), 1, "obstacle", true,
+                    tiles[x, y] = new Tile(new RigidBody2D(blockPosition, new Vector2(0, 0), 1, "obstacle" , true, 10, 50), false,
                         blockTexture, spriteBatch, 10);
                     tiles[x, y].aStarNode.gridX = x;
                     tiles[x, y].aStarNode.gridY = y;
@@ -88,7 +84,7 @@ namespace GameBehaviour
                 for (int y = 0; y < rows; y++)
                 {
                     if (x >6 && x < 10 && y >= 6 && y < 10 || x > 8 && x <= 18 && y == 4
-                        || x == 18 && y >= 0 && y < 10)//cols and rows -1!!!
+                        || x == 18 && y >= 5 && y < 10 || x >= 18 && x <= 40 && y == 9)//TODO: figure out how to make this a bouncy boy
                     {
                         tiles[x, y].IsRendered = true;
                         tiles[x, y].aStarNode.isTraversible = false;
@@ -98,24 +94,6 @@ namespace GameBehaviour
             }
 
             generationFinished = true;
-        }
-
-        void RandomiseBoard()
-        {
-            Random rnd = new Random();
-            //int randX = rnd.Next(0, cols);
-            //int randY = rnd.Next(0, rows);
-            for (int x = 0; x < cols; x++)
-            {
-                int randX = rnd.Next(0, cols);
-                for (int y = 0; y < rows; y++)
-                {
-                    int randY = rnd.Next(0, rows);
-
-                    if (x == randX && x == randY)
-                        tiles[x, y].IsRendered = true;
-                }
-            }
         }
 
         void CreatePlatform()
@@ -140,8 +118,7 @@ namespace GameBehaviour
                                 endPoint = tiles[c - 1, y];//set the previous as the end point
                                 x = c - 1;//set the original counter to this one
                                 Platform platform = new Platform((c), new RigidBody2D(startPoint.Position, startPoint.Rotation,
-                                startPoint.Scale, startPoint.Tag, true, 4), startPoint, endPoint, startPoint.Position, startPoint.Rotation, startPoint.Scale, startPoint.Tag, true, 4);
-                                platform.ObjRB.Mass = 4;
+                                startPoint.Scale, startPoint.Tag, true, 4, 4), startPoint, endPoint, false);
                                 platforms.Add(platform);
                                 break;//exit the loop
                                 }
@@ -151,8 +128,7 @@ namespace GameBehaviour
                                     {
                                         endPoint = tiles[c, y];
                                         Platform platform = new Platform((c), new RigidBody2D(startPoint.Position, startPoint.Rotation,
-                                        startPoint.Scale, startPoint.Tag, true, 4), startPoint, endPoint, startPoint.Position, startPoint.Rotation, startPoint.Scale, startPoint.Tag, true, 4);
-                                        platform.ObjRB.Mass = 4;
+                                        startPoint.Scale, startPoint.Tag, true, 4, 4), startPoint, endPoint, false);
                                         platforms.Add(platform);
                                         x = c;
                                         break;//exit the loop
@@ -174,6 +150,11 @@ namespace GameBehaviour
                     x++;                           
             }
             
+            /*startPoint = tiles[20, 9];
+            endPoint = tiles[30, 9];
+            Platform bounce = new Platform(10, new RigidBody2D(startPoint.Position, startPoint.Rotation,
+                                        startPoint.Scale, startPoint.Tag, true, 4, 4), startPoint, endPoint, true);*/
+
         }
 
         public List<Node> GetNeighbors(Node node)
@@ -202,28 +183,28 @@ namespace GameBehaviour
         //returns a node from a point on the grid
         public Node NodeFromWorldPoint(Vector2 worldPos)
         {
-            float percentX = (worldPos.X + boardSize.X / 16) / boardSize.X;
-            float percentY = (worldPos.Y - boardSize.Y / 16) / boardSize.Y;
-            percentX = HandyMath.Clamp01(percentX);
-            percentY = HandyMath.Clamp01(percentY);
-
-            int x = (int)Math.Round((boardSizeX - 1) * percentX, MidpointRounding.AwayFromZero);
-            int y = (int)Math.Round((boardSizeY - 1) * percentY, MidpointRounding.AwayFromZero);
-
-            return tiles[x - 1, y + 1].aStarNode;
-        }
-
-        public Tile TileFromWorldPoint(Vector2 worldPos)
-        {
-            float percentX = (worldPos.X + boardSize.X / 16) / boardSize.X;
+            float percentX = (worldPos.X + boardSize.X / 32) / boardSize.X;
             float percentY = (worldPos.Y - boardSize.Y / 16) / boardSize.Y;
             percentX = HandyMath.Clamp01(percentX);
             percentY = HandyMath.Clamp01(percentY);
 
             int x = (int)Math.Round((boardSizeX + 1) * percentX, MidpointRounding.AwayFromZero);
-            int y = (int)Math.Round((boardSizeY - 1) * percentY, MidpointRounding.AwayFromZero);
+            int y = (int)Math.Round((boardSizeY) * percentY, MidpointRounding.AwayFromZero);
 
-            return tiles[x - 1, y + 1];
+            return tiles[x - 2, y].aStarNode;
+        }
+
+        public Tile TileFromWorldPoint(Vector2 worldPos)
+        {
+            float percentX = (worldPos.X + boardSize.X / 32) / boardSize.X;
+            float percentY = (worldPos.Y - boardSize.Y / 16) / boardSize.Y;
+            percentX = HandyMath.Clamp01(percentX);
+            percentY = HandyMath.Clamp01(percentY);
+
+            int x = (int)Math.Round((boardSizeX + 1) * percentX, MidpointRounding.AwayFromZero);
+            int y = (int)Math.Round((boardSizeY) * percentY, MidpointRounding.AwayFromZero);
+
+            return tiles[x - 2, y];
         }
     }
 }

@@ -30,6 +30,11 @@ namespace GameBehaviour
         public virtual void Draw(SpriteBatch spriteBatch) {
             //empty
         }
+
+        public virtual void OnCollision(Manifold man)
+        {
+
+        }
         
     }
 }

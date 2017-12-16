@@ -1,16 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace GameBehaviour
 {
-    public class Drone : RigidBody2D
+    public class Drone : GameObject
     {
         public RigidBody2D ObjRB;
         SpriteBatch Spr;
@@ -33,18 +27,16 @@ namespace GameBehaviour
         public float speed = 300f;
         public float updateRate = 2f;
 
-        public Drone(AIManager manager, Player player, Selector selector, Astar pathFinder, RigidBody2D rb, SpriteBatch spr, Texture2D tex, Vector2 position, Vector2 rotation, float scale, string tag, bool isStatic, float friction) : 
-            base(position, rotation, scale, tag, isStatic, friction)
+        public Drone(AIManager manager, Player player, Selector selector, Astar pathFinder, RigidBody2D rb, SpriteBatch spr, Texture2D tex) : 
+            base(rb.Position, rb.Rotation, rb.Scale, rb.Tag)
         {
             ObjRB = rb;
             Spr = spr;
             Texture = tex;
             Selector = selector;
             ObjRB.boxColl = new BoxCollider(Position, new Vector2(Position.X + Texture.Width), Texture.Width, Texture.Height);
-            ObjRB.Mass = 3;
             ObjRB.LinearDrag = 0.05f;
             ObjRB.polygonColl = new PolygonCollider();
-            ObjRB.Friction = friction;
             SetPolygonPoints(ObjRB.polygonColl);
             target = player.ObjRB.Position;
             Manager = manager;
@@ -121,7 +113,7 @@ namespace GameBehaviour
 
         public override void OnCollision(Manifold man)
         {
-            RigidBody2D collisionObj = man.A == (RigidBody2D)this ? man.B : man.A;//check which object we are
+            /*RigidBody2D collisionObj = man.A == (RigidBody2D)this ? man.B : man.A;//check which object we are
 
             if (collisionObj.Tag == "key")
             {
@@ -139,7 +131,7 @@ namespace GameBehaviour
                     hasKey = false;
                 }
             }
-            base.OnCollision(man);
+            base.OnCollision(man);*/
         }
 
         void SetPolygonPoints(PolygonCollider p)

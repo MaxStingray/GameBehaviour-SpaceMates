@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <SourceFile>C:/Users/Josh/Desktop/GameBehaviour-SpaceMates-master (2)/GameBehaviour-SpaceMates-master/Content/GroundBlock.png</SourceFile>
-  <SourceTime>2017-12-11T19:25:45+00:00</SourceTime>
-  <DestFile>C:/Users/Josh/Desktop/GameBehaviour-SpaceMates-master (2)/GameBehaviour-SpaceMates-master/Content/bin/Windows/GroundBlock.xnb</DestFile>
-  <DestTime>2017-12-16T10:44:23.9911448+00:00</DestTime>
+  <SourceFile>C:/Users/Josh/Desktop/GameBehaviour-SpaceMates-master (2)/GameBehaviour-SpaceMates-master/Content/MenuBG.png</SourceFile>
+  <SourceTime>2017-12-16T15:29:35.0754602+00:00</SourceTime>
+  <DestFile>C:/Users/Josh/Desktop/GameBehaviour-SpaceMates-master (2)/GameBehaviour-SpaceMates-master/Content/bin/Windows/MenuBG.xnb</DestFile>
+  <DestTime>2017-12-16T15:29:46.3249171+00:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2017-03-01T15:05:36+00:00</ImporterTime>
   <Processor>TextureProcessor</Processor>

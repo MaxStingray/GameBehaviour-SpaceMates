@@ -4,6 +4,15 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
 
+public enum GameState
+{
+    Menu,
+    lvl1,
+    lvl2,
+    lvl3,
+    End,
+}
+
 namespace GameBehaviour
 {
     /// <summary>
@@ -11,16 +20,19 @@ namespace GameBehaviour
     /// </summary>
     public class Game1 : Game // this is your game manager class you dork. Fix!
     {
+        GameState _state = GameState.Menu;
         private AIManager manager;
         //use underscores so we can differentiate between global and member variables
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-
         private Texture2D playerTexture;
         private Player player;
 
         private Texture2D keyTexture;
         private Key key;
+
+        private Menu menu;
+        private Texture2D menuTexture;
 
         private Texture2D groundTexture;
         private Board board;
@@ -33,6 +45,7 @@ namespace GameBehaviour
         private Texture2D selectorTexture;
 
         private World _physicsWorld;
+        private Camera camera;
 
         List<GameObject> activeObjects = new List<GameObject>();
         List<Tile> activeTiles = new List<Tile>();
@@ -59,6 +72,7 @@ namespace GameBehaviour
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            camera = new Camera(GraphicsDevice.Viewport);
             base.Initialize();
         }
 
@@ -78,19 +92,22 @@ namespace GameBehaviour
             selectorTexture = Content.Load<Texture2D>("Selector");
             droneTexture = Content.Load<Texture2D>("pointmarker");
             keyTexture = Content.Load<Texture2D>("Key");
+            menuTexture = Content.Load<Texture2D>("MenuBG");
 
-            board = new Board(_spriteBatch, groundTexture, 19, 11);
+            menu = new Menu(_spriteBatch, menuTexture, new Vector2(0, 0), new Vector2(0, 0), 1, "mainMenu");
+            board = new Board(_spriteBatch, groundTexture, 38, 11);
             pathfinding = new Astar();
             pathfinding.board = board;
             manager = new AIManager(pathfinding);
             pathfinding.Manager = manager;
 
-            player = new Player(new RigidBody2D(new Vector2(100, 450), new Vector2(0, 0), 1, "player", false, 5)
-                , new Vector2(100, 100), new Vector2(0, 0), 1, "player", false, 4f, playerTexture, _spriteBatch, 5);
+            player = new Player(new RigidBody2D(new Vector2(100, 560), new Vector2(0, 0), 1, "player", false, 5, 4)
+                , playerTexture, _spriteBatch, 5);
 
             selector = new Selector(player.Position, new Vector2(0, 0), 1, "Selector", board, _spriteBatch, selectorTexture);
-            key = new Key(new RigidBody2D(new Vector2(1000, 500), new Vector2(0, 0), 1, "key", false, 5),
-                keyTexture, _spriteBatch, new Vector2(100, 100), new Vector2(0, 0), 1, "key", false, 5);
+            key = new Key(new RigidBody2D(new Vector2(1000, 500), new Vector2(0, 0), 1, "key", false, 5, 1),
+                keyTexture, _spriteBatch);
+            
             _physicsWorld = new World();
 
             activeObjects.Add(player);//add the player to the list of active objects
@@ -98,8 +115,8 @@ namespace GameBehaviour
             _physicsWorld.PhysObjects.Add(player.ObjRB);//add the player's rigidbody to the world object
             _physicsWorld.PhysObjects.Add(key.ObjRB);
 
-            drone = new Drone(manager, player, selector, pathfinding, new RigidBody2D(player.ObjRB.Position, new Vector2(0, 0), 1, "drone", false, 1)
-                , _spriteBatch, droneTexture, player.ObjRB.Position, new Vector2(0, 0), 1, "drone", false, 1);
+            drone = new Drone(manager, player, selector, pathfinding, new RigidBody2D(player.ObjRB.Position, new Vector2(0, 0), 1, "drone", false, 1, 3)
+                , _spriteBatch, droneTexture);
 
             player.drone = drone;
             
@@ -120,7 +137,6 @@ namespace GameBehaviour
             {
                 _physicsWorld.PhysObjects.Add(platform.ObjRB);
             }
-            // TODO: use this.Content to load your game content here
         }
 
         /// <summary>
@@ -140,13 +156,31 @@ namespace GameBehaviour
         //public List<Node> path;
         protected override void Update(GameTime gameTime)
         {
+            switch (_state)
+            {
+                case GameState.Menu:
+                    UpdateMenu(gameTime);
+                    break;
+                case GameState.lvl1:
+                    UpdateLvl1(gameTime);
+                    break;
+                case GameState.End:
+                    UpdateEnd(gameTime);
+                    break;
+            }
+            
+        }
+
+         void UpdateLvl1(GameTime gameTime)
+        {
             if (board.generationFinished)
             {
-                
+
                 CheckPauseKey(Keyboard.GetState());
 
                 if (!paused)
                 {
+                    base.Update(gameTime);
                     selector.isVisible = false;
                     selector.Position = player.Position;
                     _physicsWorld.Step(gameTime); //update the physics world once per frame
@@ -165,22 +199,21 @@ namespace GameBehaviour
                     foreach (Tile tile in activeTiles)
                         tile.Update(gameTime);
 
-                    if(!selector.nodeSet)
-                        drone.target = player.Position;
-                    drone.Update(gameTime);
-
-                    if (drone.path != null)
-                    {
-                       
-
-                    }
-
-                    base.Update(gameTime);
                     player.PlayerNode = board.NodeFromWorldPoint(player.Center);
-                    
+
+                    if (!selector.nodeSet)
+                    {
+                        drone.target = player.Position;
+                        player.PlayerNode.isTraversible = true;
+                    }
+                    else
+                    {
+                        player.PlayerNode.isTraversible = false;
+                    }
                 }
                 else
                 {
+                    base.Update(gameTime);
                     //Open Selector Screen
                     if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                         Exit();
@@ -188,9 +221,20 @@ namespace GameBehaviour
                     selector.Update(gameTime);
                     if (selector.nodeSet)
                         drone.target = selector.targetNode.worldPosition;
-                    base.Update(gameTime);                   
-                }         
+                }
             }
+            camera.Update(gameTime, player);
+        }
+
+        void UpdateMenu(GameTime gameTime)
+        {
+            if (Keyboard.GetState().IsKeyDown(Keys.Enter))
+                _state = GameState.lvl1;
+        }
+
+        void UpdateEnd(GameTime gameTime)
+        {
+
         }
 
         private void BeginPause(bool userInitiated)
@@ -225,11 +269,34 @@ namespace GameBehaviour
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
+            base.Draw(gameTime);
+            switch (_state)
+            {
+                case GameState.Menu:
+                    DrawMenu();
+                    break;
+                case GameState.lvl1:
+                    DrawLvl1();
+                    break;
+            }
+        }
+
+        void DrawMenu()
+        {
+            GraphicsDevice.Clear(Color.PaleVioletRed);
+            _spriteBatch.Begin();
+            menu.Draw(_spriteBatch);
+            _spriteBatch.End();
+        }
+
+        void DrawLvl1()
+        {
             GraphicsDevice.Clear(Color.PaleVioletRed);
 
-            _spriteBatch.Begin();
+            _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null,
+                camera.transform);
             // TODO: Add your drawing code here
-            base.Draw(gameTime);
+            
             board.Draw(_spriteBatch);
             player.Draw(_spriteBatch);
             selector.Draw(_spriteBatch);

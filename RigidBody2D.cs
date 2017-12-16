@@ -17,7 +17,8 @@ namespace GameBehaviour
         public float Friction;
         Vector2 RBCentre;
         public Vector2 Velocity;
-        
+
+        public GameObject parent;
         public float Mass {get; set;} //set mass from inherited objects, default is 1
         public Vector2 Gravity = new Vector2(0, 1) * 9.81f;//more accurate, won't work without coefficients
         public BoxCollider boxColl;
@@ -27,13 +28,15 @@ namespace GameBehaviour
 
         public float LinearDrag = 0;
 
+        Vector2 lastPosition;
         const float minPosChange = 0.2f;
         //rigidbody class inherits from gameobject, all physics objects are rigidbody
 
-        public RigidBody2D(Vector2 position, Vector2 rotation, float scale, string tag, bool isStatic, float friction) 
+        public RigidBody2D(Vector2 position, Vector2 rotation, float scale, string tag, bool isStatic, float friction, float mass) 
             : base (position, rotation, scale, tag) 
         {
             IsStatic = isStatic;
+            Mass = mass;
             inverseMass = 1 / Mass;
             Friction = friction;
         }
@@ -47,15 +50,15 @@ namespace GameBehaviour
 
                 
                 Velocity *= (1 - LinearDrag);
-                if (Math.Abs(Velocity.X) > minPosChange || Math.Abs(Velocity.Y) > minPosChange)
-                {
+                Vector2 newPos = Position += (Velocity * delta);
+                Console.WriteLine(Math.Abs(newPos.X - lastPosition.X));
+                if (Math.Abs(newPos.X - lastPosition.X) > minPosChange || Math.Abs(newPos.Y - lastPosition.Y) > minPosChange && Tag != "drone")
                     Position += (Velocity * delta);
-                }
+                else
+                    Position = lastPosition;
                 if (Tag != "drone")
                     Velocity += Gravity * 1 / Mass;
-                //else
-                    //Velocity += (Gravity / 2) * 1 / Mass;
-                    //no gravity for drones until hovering logic is set
+                //no gravity for drones until hovering logic is set
 
             }
             else
@@ -67,13 +70,9 @@ namespace GameBehaviour
             {
                 polygonColl.pos = Position;
             }
+            lastPosition = Position;
             //Draw();
             
-        }
-
-        public virtual void OnCollision(Manifold man)
-        {
-            Console.WriteLine("you fucked up");
         }
 
         public override void Draw(SpriteBatch spriteBatch)

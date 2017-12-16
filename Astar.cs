@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 
 
 namespace GameBehaviour
@@ -85,7 +81,7 @@ namespace GameBehaviour
         Vector2[] RetracePath(Node startNode, Node endNode)
         {
             List<Node> path = new List<Node>();
-            
+            List<Vector2> pathCoOrds = new List<Vector2>();
             Node currentNode = endNode;
 
             while (currentNode != startNode)
@@ -94,29 +90,15 @@ namespace GameBehaviour
                 currentNode = currentNode.Parent;
             }
 
-            
-
-            Vector2[] waypoints = SimplifyPath(path);           
+            for (int i = 0; i < path.Count; i++)
+            {
+                pathCoOrds.Add(path[i].worldPosition);
+                
+            }
+            Vector2[] waypoints = pathCoOrds.ToArray();     
             Array.Reverse(waypoints);
             return waypoints;
             
-        }
-
-        Vector2[] SimplifyPath(List<Node> path)//possibly remove this if it seems too clever ;)
-        {
-            List<Vector2> waypoints = new List<Vector2>();
-            Vector2 directionOld = Vector2.Zero;
-            for (int i = 1; i < path.Count; i++)
-            {
-                Vector2 directionNew = new Vector2(path[i - 1].gridX - path[i].gridX,
-                                                   path[i - 1].gridY - path[i].gridY);
-                if (directionNew != directionOld)
-                {
-                    waypoints.Add(path[i].worldPosition);
-                }
-                directionOld = directionNew;
-            }
-            return waypoints.ToArray();
         }
 
         public int GetDistance(Node nodeA, Node nodeB)

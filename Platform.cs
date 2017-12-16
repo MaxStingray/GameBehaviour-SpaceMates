@@ -8,30 +8,35 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 namespace GameBehaviour
 {
-    public class Platform : RigidBody2D
+    public class Platform : GameObject
     {
         public int NumTiles { get; set; }
         public Tile[] TileArray { get; set; }
         public Tile StartPoint { get; set; }
         public Tile EndPoint { get; set; }
         public RigidBody2D ObjRB { get; set; }
+        public bool IsBouncy = false;
 
         public float tileWidth;
         public float tileHeight;
 
-        public Platform(int numTiles, RigidBody2D rb, Tile startPoint, Tile endPoint, Vector2 position, Vector2 rotation,
-            float scale, string tag, bool isStatic, float friction) : base(position, rotation, scale, tag, isStatic, friction)
+        public Platform(int numTiles, RigidBody2D rb, Tile startPoint, Tile endPoint, bool isBouncy) : base(rb.Position, rb.Rotation, rb.Scale, rb.Tag)
         {
             NumTiles = numTiles;
             StartPoint = startPoint;
             EndPoint = endPoint;
             tileWidth = startPoint.Texture.Width;
             tileHeight = startPoint.Texture.Height;
+            IsBouncy = isBouncy;
             ObjRB = rb;
+            if (isBouncy)
+                ObjRB.Mass = 500f;
+            else
+                ObjRB.Mass = rb.Mass;
             ObjRB.boxColl = new BoxCollider(new Vector2(StartPoint.Position.X, StartPoint.Position.Y), new Vector2(EndPoint.Position.X + tileWidth, EndPoint.Position.Y + tileHeight)
                 ,tileWidth * numTiles, tileHeight);
             ObjRB.polygonColl = new PolygonCollider();
-            ObjRB.Friction = friction;
+            ObjRB.parent = this;
             Console.WriteLine("start point: " + startPoint.Position);
             Console.WriteLine("end point: " + endPoint.Position);
             Console.WriteLine("number of tiles: " + numTiles);

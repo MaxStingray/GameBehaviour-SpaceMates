@@ -45,12 +45,14 @@
     <Compile Include="Astar.cs" />
     <Compile Include="Board.cs" />
     <Compile Include="BoxCollider.cs" />
+    <Compile Include="Camera.cs" />
     <Compile Include="Drone.cs" />
     <Compile Include="ExtraMath.cs" />
     <Compile Include="GameBehaviourProject.cs" />
     <Compile Include="GameObject.cs" />
     <Compile Include="Key.cs" />
     <Compile Include="Manifold.cs" />
+    <Compile Include="Menu.cs" />
     <Compile Include="Node.cs" />
     <Compile Include="Platform.cs" />
     <Compile Include="PolygonCollider.cs" />

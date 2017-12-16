@@ -1,9 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using Microsoft.Xna.Framework;
 
 namespace GameBehaviour
@@ -226,8 +222,6 @@ namespace GameBehaviour
                     return;
                 }
 
-             
-
                 //apply friction
                 float friction = ((manifold.A.Friction + manifold.B.Friction) / 2);
 
@@ -262,14 +256,6 @@ namespace GameBehaviour
                             manifold.B.Velocity.X += friction;
                     }
                 }
-
-                //normal = Vector2.Zero;
-                //correct position
-                const float k_slop = 0.01f;
-                const float percent = 0.1f;
-                Vector2 correction = (Math.Max(manifold.Penetration - k_slop, 0.0f) / ((1 / manifold.A.Mass) + (1 / manifold.B.Mass))) * percent * manifold.Normal;
-                manifold.A.Position += (1 / manifold.A.Mass) * correction;
-                manifold.B.Position -= (1 / manifold.B.Mass) * correction;
             }
         }
 

@@ -21,15 +21,12 @@ namespace GameBehaviour
         RigidBody2D ObjRB;
         //public RigidBody2D ObjRB { get; set; }
 
-        public Tile(RigidBody2D rb, bool isRendered, Vector2 position, Vector2 rotation,
-            float scale, string tag, bool isStatic, Texture2D texture, SpriteBatch spriteBatch, float friction) 
-            : base(position, rotation, scale, tag, isStatic, friction)
+        public Tile(RigidBody2D rb, bool isRendered, Texture2D texture, SpriteBatch spriteBatch, float friction) 
+            : base(rb.Position, rb.Rotation, rb.Scale, rb.Tag, rb.IsStatic, rb.Friction, rb.Mass)
         {
             IsRendered = isRendered;
             Texture = texture;
             SpriteBatch = spriteBatch;
-            rb.Mass = 50;
-            rb.Friction = friction;
             aStarNode = new Node();//give each tile a node
             if (isRendered)
             {
@@ -41,10 +38,11 @@ namespace GameBehaviour
             }
             //tell it whether we can traverse it (for now if it is rendered we can traverse it)
             //set the node's worldPosition to be the centre of the tile as opposed to the top left
-            aStarNode.worldPosition = new Vector2(position.X + (Texture.Width / 2), position.Y + (Texture.Height / 2));
+            //maybe set back to the top left for consistency
+            aStarNode.worldPosition = new Vector2(Position.X + (Texture.Width / 2), Position.Y + (Texture.Height / 2));
             //ObjRB = rb;
             rb.spr = spriteBatch;
-            center = new Vector2(position.X + (Texture.Width / 2), position.X + (texture.Height / 2));
+            center = new Vector2(Position.X + (Texture.Width / 2), Position.X + (texture.Height / 2));
             //ObjRB.boxColl = new BoxCollider(new Vector2(Position.X, Position.Y),
                //new Vector2(Position.X + Texture.Width, Position.Y + Texture.Height), texture.Width, texture.Height);
             //ObjRB.polygonColl = new PolygonCollider();
