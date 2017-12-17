@@ -47,7 +47,11 @@ namespace GameBehaviour
         {
             
         }
-
+        public void SetBouncy()
+        {
+            ObjRB.Mass = 1000;
+            IsBouncy = true;
+        }
         void SetPolygonPoints(PolygonCollider p)
         {
             p.points.Clear();
@@ -68,6 +72,7 @@ namespace GameBehaviour
             ObjRB.boxColl.topLeft = new Vector2(StartPoint.Position.X, StartPoint.Position.Y);
             ObjRB.boxColl.bottomRight = new Vector2(EndPoint.Position.X + tileWidth, EndPoint.Position.Y + tileHeight);
             SetPolygonPoints(ObjRB.polygonColl);
+            
         }
 
     }

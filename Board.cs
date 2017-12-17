@@ -18,13 +18,15 @@ namespace GameBehaviour
         int boardSizeY;
         Vector2 boardSize;
         Texture2D BlockTexture;
+        Texture2D BounceTexture;
         SpriteBatch SpriteBatch;
 
-        public Board(SpriteBatch spriteBatch, Texture2D blockTexture, int numCols, int numRows)
+        public Board(SpriteBatch spriteBatch, Texture2D blockTexture, Texture2D bounceTexture, int numCols, int numRows)
         {
             tiles = new Tile[numCols, numRows];
             SpriteBatch = spriteBatch;
             BlockTexture = blockTexture;
+            BounceTexture = bounceTexture;
             cols = numCols;
             rows = numRows;
 
@@ -84,10 +86,17 @@ namespace GameBehaviour
                 for (int y = 0; y < rows; y++)
                 {
                     if (x >6 && x < 10 && y >= 6 && y < 10 || x > 8 && x <= 18 && y == 4
-                        || x == 18 && y >= 5 && y < 10 || x >= 18 && x <= 40 && y == 9)//TODO: figure out how to make this a bouncy boy
+                        || x == 18 && y >= 6 && y < 10)
                     {
                         tiles[x, y].IsRendered = true;
                         tiles[x, y].aStarNode.isTraversible = false;
+                    }
+
+                    if (x >= 18 && x <= 40 && y == 9 || x == 18 && y >= 6 && y <= 9 || x == 18 && y == 4)
+                    {
+                        tiles[x, y].Texture = BounceTexture;
+                        tiles[x, y].IsRendered = true;
+                        Console.WriteLine("tiles: " + x + y);
                     }
 
                 }
@@ -119,6 +128,10 @@ namespace GameBehaviour
                                 x = c - 1;//set the original counter to this one
                                 Platform platform = new Platform((c), new RigidBody2D(startPoint.Position, startPoint.Rotation,
                                 startPoint.Scale, startPoint.Tag, true, 4, 4), startPoint, endPoint, false);
+                                if (platform.StartPoint == tiles[18, 9])
+                                {
+                                    platform.SetBouncy();
+                                }
                                 platforms.Add(platform);
                                 break;//exit the loop
                                 }
@@ -129,6 +142,11 @@ namespace GameBehaviour
                                         endPoint = tiles[c, y];
                                         Platform platform = new Platform((c), new RigidBody2D(startPoint.Position, startPoint.Rotation,
                                         startPoint.Scale, startPoint.Tag, true, 4, 4), startPoint, endPoint, false);
+                                        if (platform.StartPoint == tiles[18, 9])
+                                        {
+                                            platform.SetBouncy();
+                                        }
+                                
                                         platforms.Add(platform);
                                         x = c;
                                         break;//exit the loop
@@ -147,7 +165,27 @@ namespace GameBehaviour
                     x = 0;
                 }
                 else
-                    x++;                           
+                    x++;
+
+                foreach (Platform p in platforms)
+                {
+                    for (int i = 0; i < cols; i++)
+                    {
+                        for (int j = 0; j < rows; j++)
+                        {
+                            if (i == 37 && j <= 9 || i == 18 && j >= 6 && j <= 9
+                                || i >=0 && j == 0)
+                            {                             
+                                if (p.StartPoint == tiles[i, j] || p.EndPoint == tiles[i,j])
+                                {
+                                    tiles[i, j].IsRendered = true;
+                                    tiles[i, j].Texture = BounceTexture;
+                                    p.SetBouncy();
+                                }
+                            }
+                        }
+                    }
+                }                        
             }
             
             /*startPoint = tiles[20, 9];

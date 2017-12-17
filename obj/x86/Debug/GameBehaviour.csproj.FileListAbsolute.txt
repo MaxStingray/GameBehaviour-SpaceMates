@@ -108,3 +108,6 @@ C:\Users\Josh\Desktop\GameBehaviour-SpaceMates-master (2)\GameBehaviour-SpaceMat
 C:\Users\Josh\Desktop\GameBehaviour-SpaceMates-master (2)\GameBehaviour-SpaceMates-master\bin\Windows\x86\Debug\SharpDX.Direct3D9.xml
 C:\Users\Josh\Desktop\GameBehaviour-SpaceMates-master (2)\GameBehaviour-SpaceMates-master\obj\x86\Debug\GameBehaviour.csprojResolveAssemblyReference.cache
 C:\Users\Josh\Desktop\GameBehaviour-SpaceMates-master (2)\GameBehaviour-SpaceMates-master\bin\Windows\x86\Debug\Content\MenuBG.xnb
+C:\Users\Josh\Downloads\GameBehaviour\GameBehaviour\GameBehaviour-SpaceMates\bin\Windows\x86\Debug\Content\MenuBG.xnb
+C:\Users\Josh\Downloads\GameBehaviour\GameBehaviour\GameBehaviour-SpaceMates\bin\Windows\x86\Debug\Content\BouncyBlock.xnb
+C:\Users\Josh\Downloads\GameBehaviour\GameBehaviour\GameBehaviour-SpaceMates\bin\Windows\x86\Debug\Content\Crate.xnb

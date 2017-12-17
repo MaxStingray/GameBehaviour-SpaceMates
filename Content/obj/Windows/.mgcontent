@@ -4,11 +4,13 @@
   <Platform>Windows</Platform>
   <Config />
   <SourceFiles>
-    <File>C:/Users/Josh/Desktop/GameBehaviour-SpaceMates-master (2)/GameBehaviour-SpaceMates-master/Content/PlayerSprite.png</File>
-    <File>C:/Users/Josh/Desktop/GameBehaviour-SpaceMates-master (2)/GameBehaviour-SpaceMates-master/Content/GroundBlock.png</File>
-    <File>C:/Users/Josh/Desktop/GameBehaviour-SpaceMates-master (2)/GameBehaviour-SpaceMates-master/Content/pointmarker.png</File>
-    <File>C:/Users/Josh/Desktop/GameBehaviour-SpaceMates-master (2)/GameBehaviour-SpaceMates-master/Content/Selector.png</File>
-    <File>C:/Users/Josh/Desktop/GameBehaviour-SpaceMates-master (2)/GameBehaviour-SpaceMates-master/Content/Key.png</File>
-    <File>C:/Users/Josh/Desktop/GameBehaviour-SpaceMates-master (2)/GameBehaviour-SpaceMates-master/Content/MenuBG.png</File>
+    <File>C:/Users/Josh/Downloads/GameBehaviour/GameBehaviour/GameBehaviour-SpaceMates/Content/PlayerSprite.png</File>
+    <File>C:/Users/Josh/Downloads/GameBehaviour/GameBehaviour/GameBehaviour-SpaceMates/Content/GroundBlock.png</File>
+    <File>C:/Users/Josh/Downloads/GameBehaviour/GameBehaviour/GameBehaviour-SpaceMates/Content/pointmarker.png</File>
+    <File>C:/Users/Josh/Downloads/GameBehaviour/GameBehaviour/GameBehaviour-SpaceMates/Content/Selector.png</File>
+    <File>C:/Users/Josh/Downloads/GameBehaviour/GameBehaviour/GameBehaviour-SpaceMates/Content/Key.png</File>
+    <File>C:/Users/Josh/Downloads/GameBehaviour/GameBehaviour/GameBehaviour-SpaceMates/Content/MenuBG.png</File>
+    <File>C:/Users/Josh/Downloads/GameBehaviour/GameBehaviour/GameBehaviour-SpaceMates/Content/BouncyBlock.png</File>
+    <File>C:/Users/Josh/Downloads/GameBehaviour/GameBehaviour/GameBehaviour-SpaceMates/Content/Crate.png</File>
   </SourceFiles>
 </SourceFileCollection>

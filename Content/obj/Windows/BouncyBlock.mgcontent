@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <SourceFile>C:/Users/Josh/Downloads/GameBehaviour/GameBehaviour/GameBehaviour-SpaceMates/Content/Selector.png</SourceFile>
-  <SourceTime>2017-12-11T19:25:45+00:00</SourceTime>
-  <DestFile>C:/Users/Josh/Downloads/GameBehaviour/GameBehaviour/GameBehaviour-SpaceMates/Content/bin/Windows/Selector.xnb</DestFile>
-  <DestTime>2017-12-16T17:26:52.4311904+00:00</DestTime>
+  <SourceFile>C:/Users/Josh/Downloads/GameBehaviour/GameBehaviour/GameBehaviour-SpaceMates/Content/BouncyBlock.png</SourceFile>
+  <SourceTime>2017-12-17T10:56:00.5132486+00:00</SourceTime>
+  <DestFile>C:/Users/Josh/Downloads/GameBehaviour/GameBehaviour/GameBehaviour-SpaceMates/Content/bin/Windows/BouncyBlock.xnb</DestFile>
+  <DestTime>2017-12-17T10:59:12.480484+00:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2017-03-01T15:05:36+00:00</ImporterTime>
   <Processor>TextureProcessor</Processor>

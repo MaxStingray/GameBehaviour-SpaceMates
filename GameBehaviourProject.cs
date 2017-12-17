@@ -35,6 +35,7 @@ namespace GameBehaviour
         private Texture2D menuTexture;
 
         private Texture2D groundTexture;
+        private Texture2D bounceTexture;
         private Board board;
         private Astar pathfinding;
 
@@ -43,6 +44,9 @@ namespace GameBehaviour
 
         private Selector selector;
         private Texture2D selectorTexture;
+
+        private Crate testCrate;
+        private Texture2D crateTexture;
 
         private World _physicsWorld;
         private Camera camera;
@@ -89,13 +93,15 @@ namespace GameBehaviour
 
             playerTexture = Content.Load<Texture2D>("PlayerSprite");
             groundTexture = Content.Load<Texture2D>("GroundBlock");
+            bounceTexture = Content.Load<Texture2D>("BouncyBlock");
+            crateTexture = Content.Load<Texture2D>("Crate");
             selectorTexture = Content.Load<Texture2D>("Selector");
             droneTexture = Content.Load<Texture2D>("pointmarker");
             keyTexture = Content.Load<Texture2D>("Key");
             menuTexture = Content.Load<Texture2D>("MenuBG");
 
             menu = new Menu(_spriteBatch, menuTexture, new Vector2(0, 0), new Vector2(0, 0), 1, "mainMenu");
-            board = new Board(_spriteBatch, groundTexture, 38, 11);
+            board = new Board(_spriteBatch, groundTexture, bounceTexture, 38, 11);
             pathfinding = new Astar();
             pathfinding.board = board;
             manager = new AIManager(pathfinding);
@@ -105,15 +111,21 @@ namespace GameBehaviour
                 , playerTexture, _spriteBatch, 5);
 
             selector = new Selector(player.Position, new Vector2(0, 0), 1, "Selector", board, _spriteBatch, selectorTexture);
-            key = new Key(new RigidBody2D(new Vector2(1000, 500), new Vector2(0, 0), 1, "key", false, 5, 1),
+
+            key = new Key(new RigidBody2D(new Vector2(1000, 200), new Vector2(0, 0), 1, "key", false, 0, 1),
                 keyTexture, _spriteBatch);
+
+            testCrate = new Crate(new RigidBody2D(new Vector2(2000, 100), new Vector2(0, 0), 1, "crate", false, 1, 4),
+                _spriteBatch, crateTexture);
             
             _physicsWorld = new World();
 
             activeObjects.Add(player);//add the player to the list of active objects
             activeObjects.Add(key);
+            activeObjects.Add(testCrate);
             _physicsWorld.PhysObjects.Add(player.ObjRB);//add the player's rigidbody to the world object
             _physicsWorld.PhysObjects.Add(key.ObjRB);
+            _physicsWorld.PhysObjects.Add(testCrate.ObjRB);
 
             drone = new Drone(manager, player, selector, pathfinding, new RigidBody2D(player.ObjRB.Position, new Vector2(0, 0), 1, "drone", false, 1, 3)
                 , _spriteBatch, droneTexture);
@@ -182,7 +194,7 @@ namespace GameBehaviour
                 {
                     base.Update(gameTime);
                     selector.isVisible = false;
-                    selector.Position = player.Position;
+                    selector.Position = drone.Position;
                     _physicsWorld.Step(gameTime); //update the physics world once per frame
 
                     if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
@@ -302,6 +314,7 @@ namespace GameBehaviour
             selector.Draw(_spriteBatch);
             drone.Draw(_spriteBatch);
             key.Draw(_spriteBatch);
+            testCrate.Draw(_spriteBatch);
             foreach (RigidBody2D rb in _physicsWorld.PhysObjects)//draw bounding boxes
             {
                 rb.Draw(_spriteBatch);

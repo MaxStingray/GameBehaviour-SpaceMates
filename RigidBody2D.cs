@@ -51,7 +51,6 @@ namespace GameBehaviour
                 
                 Velocity *= (1 - LinearDrag);
                 Vector2 newPos = Position += (Velocity * delta);
-                Console.WriteLine(Math.Abs(newPos.X - lastPosition.X));
                 if (Math.Abs(newPos.X - lastPosition.X) > minPosChange || Math.Abs(newPos.Y - lastPosition.Y) > minPosChange && Tag != "drone")
                     Position += (Velocity * delta);
                 else

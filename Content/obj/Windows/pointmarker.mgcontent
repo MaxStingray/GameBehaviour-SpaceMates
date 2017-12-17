@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <SourceFile>C:/Users/Josh/Desktop/GameBehaviour-SpaceMates-master (2)/GameBehaviour-SpaceMates-master/Content/pointmarker.png</SourceFile>
+  <SourceFile>C:/Users/Josh/Downloads/GameBehaviour/GameBehaviour/GameBehaviour-SpaceMates/Content/pointmarker.png</SourceFile>
   <SourceTime>2017-12-11T19:25:45+00:00</SourceTime>
-  <DestFile>C:/Users/Josh/Desktop/GameBehaviour-SpaceMates-master (2)/GameBehaviour-SpaceMates-master/Content/bin/Windows/pointmarker.xnb</DestFile>
-  <DestTime>2017-12-16T10:44:23.9988965+00:00</DestTime>
+  <DestFile>C:/Users/Josh/Downloads/GameBehaviour/GameBehaviour/GameBehaviour-SpaceMates/Content/bin/Windows/pointmarker.xnb</DestFile>
+  <DestTime>2017-12-16T17:26:52.4201265+00:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2017-03-01T15:05:36+00:00</ImporterTime>
   <Processor>TextureProcessor</Processor>
