@@ -112,7 +112,7 @@ namespace GameBehaviour
 
             selector = new Selector(player.Position, new Vector2(0, 0), 1, "Selector", board, _spriteBatch, selectorTexture);
 
-            key = new Key(new RigidBody2D(new Vector2(1000, 200), new Vector2(0, 0), 1, "key", false, 0, 1),
+            key = new Key(new RigidBody2D(new Vector2(1000, 300), new Vector2(0, 0), 1, "key", false, 0, 1),
                 keyTexture, _spriteBatch);
 
             testCrate = new Crate(new RigidBody2D(new Vector2(2000, 100), new Vector2(0, 0), 1, "crate", false, 1, 4),
@@ -192,6 +192,7 @@ namespace GameBehaviour
 
                 if (!paused)
                 {
+                    camera.Update(gameTime, player);
                     base.Update(gameTime);
                     selector.isVisible = false;
                     selector.Position = drone.Position;
@@ -231,11 +232,12 @@ namespace GameBehaviour
                         Exit();
                     selector.isVisible = true;
                     selector.Update(gameTime);
+                    camera.Update(gameTime, selector);
                     if (selector.nodeSet)
                         drone.target = selector.targetNode.worldPosition;
                 }
             }
-            camera.Update(gameTime, player);
+           
         }
 
         void UpdateMenu(GameTime gameTime)

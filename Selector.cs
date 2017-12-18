@@ -27,6 +27,7 @@ namespace GameBehaviour
             {
                 HandleInput(gameTime);
                 center = new Vector2((Position.X + Texture.Width / 2), (Position.Y + Texture.Height / 2));
+                Centre = new Vector2(Position.X + (Texture.Width / 2), Position.Y + (Texture.Height / 2));
             }
         }
 

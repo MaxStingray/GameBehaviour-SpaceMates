@@ -85,7 +85,7 @@ namespace GameBehaviour
             {
                 for (int y = 0; y < rows; y++)
                 {
-                    if (x >6 && x < 10 && y >= 6 && y < 10 || x > 8 && x <= 18 && y == 4
+                    if (x >8 && x < 18 && y >= 6 && y < 10 || x > 8 && x <= 18 && y == 4
                         || x == 18 && y >= 6 && y < 10)
                     {
                         tiles[x, y].IsRendered = true;

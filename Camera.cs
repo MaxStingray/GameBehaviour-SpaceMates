@@ -18,9 +18,9 @@ namespace GameBehaviour
             view = newView;
         }
 
-        public void Update(GameTime gameTime, Player player)
+        public void Update(GameTime gameTime, GameObject obj)
         {
-            centre = new Vector2(player.Center.X - 665, 0);
+            centre = new Vector2(obj.Centre.X - 665, 0);
             transform = Matrix.CreateScale(new Vector3(1, 1, 0)) *
                 Matrix.CreateTranslation(new Vector3(-centre.X, -centre.Y, 0));
         }
