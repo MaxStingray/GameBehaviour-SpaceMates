@@ -96,11 +96,22 @@ namespace GameBehaviour
                     {
                         tiles[x, y].Texture = BounceTexture;
                         tiles[x, y].IsRendered = true;
-                        Console.WriteLine("tiles: " + x + y);
+                        
                     }
 
+                    if (x == 40 && y > 0 && y <= 5)
+                    {
+                        tiles[x, y].IsRendered = true;
+                        
+                    }
+
+                    if (x > 41 && x < cols - 1 && y == 9)
+                    {
+                        tiles[x, y].IsRendered = true;
+                    }
                 }
             }
+            
 
             generationFinished = true;
         }
@@ -128,7 +139,7 @@ namespace GameBehaviour
                                 x = c - 1;//set the original counter to this one
                                 Platform platform = new Platform((c), new RigidBody2D(startPoint.Position, startPoint.Rotation,
                                 startPoint.Scale, startPoint.Tag, true, 4, 4), startPoint, endPoint, false);
-                                if (platform.StartPoint == tiles[18, 9])
+                                if (platform.StartPoint == tiles[9, 9])
                                 {
                                     platform.SetBouncy();
                                 }
@@ -142,7 +153,7 @@ namespace GameBehaviour
                                         endPoint = tiles[c, y];
                                         Platform platform = new Platform((c), new RigidBody2D(startPoint.Position, startPoint.Rotation,
                                         startPoint.Scale, startPoint.Tag, true, 4, 4), startPoint, endPoint, false);
-                                        if (platform.StartPoint == tiles[18, 9])
+                                        if (platform.StartPoint == tiles[9, 9])
                                         {
                                             platform.SetBouncy();
                                         }
@@ -221,7 +232,7 @@ namespace GameBehaviour
         //returns a node from a point on the grid
         public Node NodeFromWorldPoint(Vector2 worldPos)
         {
-            float percentX = (worldPos.X + boardSize.X / 32) / boardSize.X;
+            float percentX = (worldPos.X + boardSize.X / 54) / boardSize.X;
             float percentY = (worldPos.Y - boardSize.Y / 16) / boardSize.Y;
             percentX = HandyMath.Clamp01(percentX);
             percentY = HandyMath.Clamp01(percentY);
@@ -234,7 +245,7 @@ namespace GameBehaviour
 
         public Tile TileFromWorldPoint(Vector2 worldPos)
         {
-            float percentX = (worldPos.X + boardSize.X / 32) / boardSize.X;
+            float percentX = (worldPos.X + boardSize.X / 54) / boardSize.X;
             float percentY = (worldPos.Y - boardSize.Y / 16) / boardSize.Y;
             percentX = HandyMath.Clamp01(percentX);
             percentY = HandyMath.Clamp01(percentY);

@@ -47,6 +47,7 @@
     <Compile Include="BoxCollider.cs" />
     <Compile Include="Camera.cs" />
     <Compile Include="Crate.cs" />
+    <Compile Include="CrateSpawn.cs" />
     <Compile Include="Drone.cs" />
     <Compile Include="ExtraMath.cs" />
     <Compile Include="GameBehaviourProject.cs" />
