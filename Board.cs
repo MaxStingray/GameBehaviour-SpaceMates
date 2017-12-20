@@ -92,7 +92,7 @@ namespace GameBehaviour
                         tiles[x, y].aStarNode.isTraversible = false;
                     }
 
-                    if (x >= 18 && x <= 40 && y == 9 || x == 18 && y >= 6 && y <= 9 || x == 18 && y == 4)
+                    if (x >= 18 && x <= cols - 1 && y == 9 || x == 18 && y >= 6 && y <= 9 || x == 18 && y == 4)
                     {
                         tiles[x, y].Texture = BounceTexture;
                         tiles[x, y].IsRendered = true;
@@ -105,7 +105,7 @@ namespace GameBehaviour
                         
                     }
 
-                    if (x > 41 && x < cols - 1 && y == 9)
+                    if (x > 41 && x < cols - 1 && y == 8)
                     {
                         tiles[x, y].IsRendered = true;
                     }
