@@ -78,6 +78,12 @@ namespace GameBehaviour
                     ObjRB.Position.Y = other.Position.Y - 50;
             }
 
+            if (other.Tag == "key")
+            {
+                hasKey = true;
+                other.Position = Position;
+            }
+
             base.OnCollision(man);
         }
 
@@ -97,7 +103,7 @@ namespace GameBehaviour
             PlayerNode.worldPosition = Center;
             if (!usingJetPack && currentJetPackFuel < maxJetPackFuel)
             {
-                currentJetPackFuel += 2f;
+                currentJetPackFuel += 1f;
             }
             HandleInput(gameTime);
             
@@ -127,7 +133,7 @@ namespace GameBehaviour
                     {
                         usingJetPack = true;
                         ObjRB.Velocity.Y += -10f;
-                        currentJetPackFuel -= 4f;//* (float)gameTime.ElapsedGameTime.TotalSeconds;
+                        currentJetPackFuel -= 4f;
                     }
                 }
             }
