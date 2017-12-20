@@ -11,7 +11,7 @@ namespace GameBehaviour
     {
         public Matrix transform;
         Viewport view;
-        Vector2 centre;
+        public Vector2 centre;
 
         public Camera(Viewport newView)
         {

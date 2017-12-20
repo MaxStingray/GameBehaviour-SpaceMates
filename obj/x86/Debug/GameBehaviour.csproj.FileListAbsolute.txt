@@ -111,3 +111,6 @@ C:\Users\Josh\Desktop\GameBehaviour-SpaceMates-master (2)\GameBehaviour-SpaceMat
 C:\Users\Josh\Downloads\GameBehaviour\GameBehaviour\GameBehaviour-SpaceMates\bin\Windows\x86\Debug\Content\MenuBG.xnb
 C:\Users\Josh\Downloads\GameBehaviour\GameBehaviour\GameBehaviour-SpaceMates\bin\Windows\x86\Debug\Content\BouncyBlock.xnb
 C:\Users\Josh\Downloads\GameBehaviour\GameBehaviour\GameBehaviour-SpaceMates\bin\Windows\x86\Debug\Content\Crate.xnb
+C:\Users\Josh\Downloads\GameBehaviour\GameBehaviour\GameBehaviour-SpaceMates\bin\Windows\x86\Debug\Content\ExitDoor.xnb
+C:\Users\Josh\Downloads\GameBehaviour\GameBehaviour\GameBehaviour-SpaceMates\bin\Windows\x86\Debug\Content\Fuel.xnb
+C:\Users\Josh\Downloads\GameBehaviour\GameBehaviour\GameBehaviour-SpaceMates\bin\Windows\x86\Debug\Content\MovingPlatform.xnb

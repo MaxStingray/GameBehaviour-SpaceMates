@@ -25,6 +25,7 @@ namespace GameBehaviour
         //use underscores so we can differentiate between global and member variables
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+        private SpriteFont font;
         private Texture2D playerTexture;
         private Player player;
 
@@ -100,6 +101,8 @@ namespace GameBehaviour
             droneTexture = Content.Load<Texture2D>("pointmarker");
             keyTexture = Content.Load<Texture2D>("Key");
             menuTexture = Content.Load<Texture2D>("MenuBG");
+
+            font = Content.Load<SpriteFont>("Fuel");
 
             menu = new Menu(_spriteBatch, menuTexture, new Vector2(0, 0), new Vector2(0, 0), 1, "mainMenu");
             board = new Board(_spriteBatch, groundTexture, bounceTexture, 57, 11);
@@ -336,6 +339,7 @@ namespace GameBehaviour
             {
                 rb.Draw(_spriteBatch);
             }
+            _spriteBatch.DrawString(font, "Fuel: " + player.currentJetPackFuel, new Vector2(camera.centre.X + 50, camera.centre.Y + 700), Color.Black);
             _spriteBatch.End();
         }
     }

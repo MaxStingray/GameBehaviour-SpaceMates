@@ -92,22 +92,23 @@ namespace GameBehaviour
                         tiles[x, y].aStarNode.isTraversible = false;
                     }
 
-                    if (x >= 18 && x <= cols - 1 && y == 9 || x == 18 && y >= 6 && y <= 9 || x == 18 && y == 4)
+                    if (x >= 18 && x < 47 && y == 9 || x == 18 && y >= 6 && y <= 10 || x == 18 && y == 4)
                     {
                         tiles[x, y].Texture = BounceTexture;
                         tiles[x, y].IsRendered = true;
-                        
+                        tiles[x, y].aStarNode.isTraversible = false;
                     }
 
                     if (x == 40 && y > 0 && y <= 5)
                     {
                         tiles[x, y].IsRendered = true;
-                        
+                        tiles[x, y].aStarNode.isTraversible = false;
                     }
 
-                    if (x > 41 && x < cols - 1 && y == 8)
+                    if (x > 41 && x < 47 && y == 8 || x > 49 && x < cols - 1 && y > 2 && y <= 9)
                     {
                         tiles[x, y].IsRendered = true;
+                        tiles[x, y].aStarNode.isTraversible = false;
                     }
                 }
             }

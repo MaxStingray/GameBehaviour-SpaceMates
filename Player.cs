@@ -23,6 +23,9 @@ namespace GameBehaviour
 
         public bool hasKey = false;
 
+        public float currentJetPackFuel;
+        private float maxJetPackFuel = 100;
+
         public Player(RigidBody2D rb, Texture2D texture,
             SpriteBatch spriteBatch, float friction) : base (rb.Position, rb.Rotation, rb.Scale, rb.Tag)
         {
@@ -37,6 +40,7 @@ namespace GameBehaviour
             ObjRB.Friction = friction;
             ObjRB.parent = this;
             SetPolygonPoints(ObjRB.polygonColl);
+            currentJetPackFuel = maxJetPackFuel;
             PlayerNode = new Node();
         }
 
@@ -64,26 +68,7 @@ namespace GameBehaviour
 
         public override void OnCollision(Manifold man)
         {
-            /*RigidBody2D collisionObj = man.A == (RigidBody2D)this ? man.B : man.A;//check which object we are
-
-            if (collisionObj.Tag == "key")
-            {
-                hasKey = true;
-                Console.WriteLine("hit key");
-            }
-
-            if (collisionObj.Tag == "drone")
-            {
-                Console.WriteLine("hit drone");
-                if (!hasKey)
-                    return;
-                else
-                    if (!drone.hasKey)
-                {
-                    drone.hasKey = true;
-                    hasKey = false;
-                }
-            }*/
+            
         }
 
         public override void Draw(SpriteBatch spr)
@@ -93,6 +78,7 @@ namespace GameBehaviour
 
         public override void Update(GameTime gameTime)
         {
+            
             ObjRB.boxColl.topLeft = new Vector2(Position.X, Position.Y);
             ObjRB.boxColl.bottomRight = new Vector2(Position.X + Texture.Width, Position.Y + Texture.Height);
             SetPolygonPoints(ObjRB.polygonColl);
@@ -100,11 +86,11 @@ namespace GameBehaviour
             Center = new Vector2(Position.X + (Texture.Width / 2), Position.Y + (Texture.Height / 2));
             Centre = new Vector2(Position.X + (Texture.Width / 2), Position.Y + (Texture.Height / 2));
             PlayerNode.worldPosition = Center;
-            HandleInput();
+            HandleInput(gameTime);
             
         }
 
-        public void HandleInput()
+        public void HandleInput(GameTime gameTime)
         {
             if (Keyboard.GetState().IsKeyDown(Keys.D))//temporary. Eventually we will use resistance etc
             {
@@ -124,7 +110,18 @@ namespace GameBehaviour
             {
                 if (ObjRB.Velocity.Y >= -maxVelocityY)
                 {
-                    ObjRB.Velocity.Y += -10f;
+                    if (currentJetPackFuel > 0)
+                    {
+                        ObjRB.Velocity.Y += -10f;
+                        currentJetPackFuel -= 2f;//* (float)gameTime.ElapsedGameTime.TotalSeconds;
+                    }
+                }
+            }
+            else
+            {
+                if (currentJetPackFuel < maxJetPackFuel)
+                {
+                    currentJetPackFuel += 1f;
                 }
             }
             //else
