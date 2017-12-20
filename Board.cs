@@ -85,7 +85,7 @@ namespace GameBehaviour
             {
                 for (int y = 0; y < rows; y++)
                 {
-                    if (x >8 && x < 18 && y >= 6 && y < 10 || x > 8 && x <= 18 && y == 4
+                    if (x >9 && x < 18 && y >= 6 && y < 10 || x > 9 && x <= 18 && y == 4
                         || x == 18 && y >= 6 && y < 10)
                     {
                         tiles[x, y].IsRendered = true;
@@ -121,62 +121,58 @@ namespace GameBehaviour
             Tile startPoint;//first tile in platform (from the left)
             Tile endPoint;
             int y = 0;
-
-            for (int x = 0; x < cols;)
-            {  
-                    if (!tiles[x, y].IsRendered)//if we find an unrendered tile
-                    {
-                        x++;//skip it
-                    }
-                    else
-                    {
-                        startPoint = tiles[x, y];//stop incrementing x and set start point
-                        for (int c = x; c < cols;)//start new counter 
-                        {
-                            if (!tiles[c, y].IsRendered)//if we hit an unrendered tile
-                            {
-                                endPoint = tiles[c - 1, y];//set the previous as the end point
-                                x = c - 1;//set the original counter to this one
-                                Platform platform = new Platform((c), new RigidBody2D(startPoint.Position, startPoint.Rotation,
-                                startPoint.Scale, startPoint.Tag, true, 4, 4), startPoint, endPoint, false);
-                                if (platform.StartPoint == tiles[9, 9])
-                                {
-                                    platform.SetBouncy();
-                                }
-                                platforms.Add(platform);
-                                break;//exit the loop
-                                }
-                                else
-                                {
-                                    if (c + 1 == cols)
-                                    {
-                                        endPoint = tiles[c, y];
-                                        Platform platform = new Platform((c), new RigidBody2D(startPoint.Position, startPoint.Rotation,
-                                        startPoint.Scale, startPoint.Tag, true, 4, 4), startPoint, endPoint, false);
-                                        if (platform.StartPoint == tiles[9, 9])
-                                        {
-                                            platform.SetBouncy();
-                                        }
-                                
-                                        platforms.Add(platform);
-                                        x = c;
-                                        break;//exit the loop
-                                    }
-                                    else
-                                    {
-                                        c++;//check the next tile
-                                    }
-                                    
-                                }
-                        }
-                    }
-                if (y + 1 != rows && x + 1 == cols)
+            
+            for (int x = 0; x < cols;)//loop through each tile in the row indicated by y
+            {
+                if (!tiles[x, y].IsRendered)//if we find an unrendered tile
+                    x++;//skip it
+                else//otherwise
                 {
-                    y++;//go to the next row
+                    startPoint = tiles[x, y];//set this as the start point
+                    for (int c = x; c < cols;)//start a new counter
+                    {
+                        if (!tiles[c, y].IsRendered)//when we hit the next unrendered tile
+                        {
+                            endPoint = tiles[c - 1, y];//set the previous tile as the end point
+                            x = c;//set the previous counter to this one
+                            //c = 0;//reset c
+                            Platform platform = new Platform((c), new RigidBody2D(startPoint.Position, startPoint.Rotation,
+                                                startPoint.Scale, startPoint.Tag, true, 4, 4), startPoint, endPoint, false);
+                            if (platform.StartPoint == tiles[10, 9])
+                            {
+                                platform.SetBouncy();
+                            }
+                            platforms.Add(platform);//add the platform to the collection
+                            break;//exit the loop (CONTINUE?)
+                        }
+                        else if (c + 1 == cols)
+                        {
+                            endPoint = tiles[c, y];
+                            Platform platform = new Platform((c), new RigidBody2D(startPoint.Position, startPoint.Rotation,
+                            startPoint.Scale, startPoint.Tag, true, 4, 4), startPoint, endPoint, false);
+                            if (platform.StartPoint == tiles[10, 9])
+                            {
+                                platform.SetBouncy();
+                            }
+
+                            platforms.Add(platform);
+                            x = c;
+                            //c = 0;
+                            break;//exit the loop
+                        }
+                        else
+                            c++;//increment and check the next tile
+                    }
+                }
+                if (y + 1 != rows && x + 1 == cols)//if we reach the end of a row
+                {
                     x = 0;
+                    y++;//reset x and go to the next line
                 }
                 else
-                    x++;
+                    x++;//otherwise, check the next in the row
+
+            }
 
                 foreach (Platform p in platforms)
                 {
@@ -197,7 +193,7 @@ namespace GameBehaviour
                         }
                     }
                 }                        
-            }
+            
             
             /*startPoint = tiles[20, 9];
             endPoint = tiles[30, 9];
