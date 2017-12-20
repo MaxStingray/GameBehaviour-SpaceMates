@@ -113,25 +113,7 @@ namespace GameBehaviour
 
         public override void OnCollision(Manifold man)
         {
-            /*RigidBody2D collisionObj = man.A == (RigidBody2D)this ? man.B : man.A;//check which object we are
-
-            if (collisionObj.Tag == "key")
-            {
-                hasKey = true;
-            }
-
-            if (collisionObj.Tag == "player")
-            {
-                if (!hasKey)
-                    return;
-                else
-                    if (!Player.hasKey)
-                {
-                    Player.hasKey = true;
-                    hasKey = false;
-                }
-            }
-            base.OnCollision(man);*/
+            
         }
 
         void SetPolygonPoints(PolygonCollider p)

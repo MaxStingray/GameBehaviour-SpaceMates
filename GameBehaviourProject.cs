@@ -50,6 +50,9 @@ namespace GameBehaviour
         private CrateSpawn crateSpawn;
         private Texture2D crateTexture;
 
+        private MovingPlatform mPlatform;
+        private Texture2D mPlatformTexture;
+
         private World _physicsWorld;
         private Camera camera;
 
@@ -101,6 +104,7 @@ namespace GameBehaviour
             droneTexture = Content.Load<Texture2D>("pointmarker");
             keyTexture = Content.Load<Texture2D>("Key");
             menuTexture = Content.Load<Texture2D>("MenuBG");
+            mPlatformTexture = Content.Load<Texture2D>("MovingPlatform");
 
             font = Content.Load<SpriteFont>("Fuel");
 
@@ -111,13 +115,16 @@ namespace GameBehaviour
             manager = new AIManager(pathfinding);
             pathfinding.Manager = manager;
 
-            player = new Player(new RigidBody2D(new Vector2(100, 560), new Vector2(0, 0), 1, "player", false, 5, 4)
+            player = new Player(new RigidBody2D(new Vector2(3000, 400), new Vector2(0, 0), 1, "player", false, 5, 4)
                 , playerTexture, _spriteBatch, 5);
 
             selector = new Selector(player.Position, new Vector2(0, 0), 1, "Selector", board, _spriteBatch, selectorTexture);
 
             key = new Key(new RigidBody2D(new Vector2(1000, 300), new Vector2(0, 0), 1, "key", false, 0, 1),
                 keyTexture, _spriteBatch);
+
+            mPlatform = new MovingPlatform(new RigidBody2D(new Vector2(3290, 495), new Vector2(0, 0), 1, "movingPlatform", true, 4, 10),
+                _spriteBatch, mPlatformTexture, 145);
 
             crateSpawn = new CrateSpawn(_spriteBatch, crateTexture);
 
@@ -128,9 +135,11 @@ namespace GameBehaviour
 
             activeObjects.Add(player);//add the player to the list of active objects
             activeObjects.Add(key);
+            activeObjects.Add(mPlatform);
             //activeObjects.Add(testCrate);
             _physicsWorld.PhysObjects.Add(player.ObjRB);//add the player's rigidbody to the world object
             _physicsWorld.PhysObjects.Add(key.ObjRB);
+            _physicsWorld.PhysObjects.Add(mPlatform.ObjRB);
             //_physicsWorld.PhysObjects.Add(testCrate.ObjRB);
 
             drone = new Drone(manager, player, selector, pathfinding, new RigidBody2D(player.ObjRB.Position, new Vector2(0, 0), 1, "drone", false, 1, 3)
@@ -333,6 +342,7 @@ namespace GameBehaviour
             selector.Draw(_spriteBatch);
             drone.Draw(_spriteBatch);
             key.Draw(_spriteBatch);
+            mPlatform.Draw(_spriteBatch);
             crateSpawn.Draw(_spriteBatch);
             //testCrate.Draw(_spriteBatch);
             foreach (RigidBody2D rb in _physicsWorld.PhysObjects)//draw bounding boxes

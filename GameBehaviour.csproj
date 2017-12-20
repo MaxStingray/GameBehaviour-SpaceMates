@@ -55,6 +55,7 @@
     <Compile Include="Key.cs" />
     <Compile Include="Manifold.cs" />
     <Compile Include="Menu.cs" />
+    <Compile Include="MovingPlatform.cs" />
     <Compile Include="Node.cs" />
     <Compile Include="Platform.cs" />
     <Compile Include="PolygonCollider.cs" />

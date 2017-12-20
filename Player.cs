@@ -124,13 +124,6 @@ namespace GameBehaviour
                     currentJetPackFuel += 1f;
                 }
             }
-            //else
-            //{
-                //ObjRB.Velocity.X = 0f;//not accurate, needs a calculation to slow velocity
-                                      //in real life velocity does not stop on a dime
-            //}
-
-            //input handling logic goes here
         }
     }
 }

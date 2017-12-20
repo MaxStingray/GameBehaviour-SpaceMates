@@ -46,9 +46,7 @@ namespace GameBehaviour
             float delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             if (!IsStatic)
-            {
-
-                
+            {       
                 Velocity *= (1 - LinearDrag);
                 Vector2 newPos = Position += (Velocity * delta);
                 if (Math.Abs(newPos.X - lastPosition.X) > minPosChange || Math.Abs(newPos.Y - lastPosition.Y) > minPosChange && Tag != "drone")
@@ -56,7 +54,8 @@ namespace GameBehaviour
                 else
                     Position = lastPosition;
                 if (Tag != "drone")
-                    Velocity += Gravity * 1 / Mass;
+                    if(Tag != "movingPlatform")
+                        Velocity += Gravity * 1 / Mass;
                 //no gravity for drones until hovering logic is set
 
             }
