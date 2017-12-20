@@ -360,19 +360,19 @@ namespace GameBehaviour
             // TODO: Add your drawing code here
             
             board.Draw(_spriteBatch);
-            player.Draw(_spriteBatch);
-            selector.Draw(_spriteBatch);
             drone.Draw(_spriteBatch);
             if(key != null)
                 key.Draw(_spriteBatch);
             mPlatform.Draw(_spriteBatch);
             exit.Draw(_spriteBatch);
+            player.Draw(_spriteBatch);
+            selector.Draw(_spriteBatch);
             crateSpawn.Draw(_spriteBatch);
             //testCrate.Draw(_spriteBatch);
-            foreach (RigidBody2D rb in _physicsWorld.PhysObjects)//draw bounding boxes
-            {
-                rb.Draw(_spriteBatch);
-            }
+            //foreach (RigidBody2D rb in _physicsWorld.PhysObjects)//draw bounding boxes
+            //{
+                //rb.Draw(_spriteBatch);
+            //}
             _spriteBatch.DrawString(font, "Fuel: " + player.currentJetPackFuel, new Vector2(camera.centre.X + 50, camera.centre.Y + 700), Color.Black);
             _spriteBatch.End();
         }
