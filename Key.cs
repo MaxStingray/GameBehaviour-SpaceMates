@@ -18,6 +18,8 @@ namespace GameBehaviour
         Texture2D Texture;
         SpriteBatch SpriteBatch;
 
+        public bool reachedDestination = false;
+
         public Key(RigidBody2D rb, Texture2D tex, SpriteBatch spriteBatch) :
             base(rb.Position, rb.Rotation, rb.Scale, rb.Tag)
         {
@@ -34,19 +36,7 @@ namespace GameBehaviour
 
         public override void OnCollision(Manifold man)
         {
-            /*RigidBody2D collisionObj = man.A == (RigidBody2D) ? man.B : man.A;//check which object we are
-
-            if (collisionObj.Tag == "player")
-            {
-                heldByPlayer = true;
-            }
-
-            if (collisionObj.Tag == "drone")
-            {
-                heldByDrone = true;
-            }
-
-            base.OnCollision(man);*/
+            reachedDestination = true;
         }
 
         void SetPolygonPoints(PolygonCollider p)

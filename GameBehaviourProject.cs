@@ -115,16 +115,16 @@ namespace GameBehaviour
             manager = new AIManager(pathfinding);
             pathfinding.Manager = manager;
 
-            player = new Player(new RigidBody2D(new Vector2(3000, 400), new Vector2(0, 0), 1, "player", false, 5, 4)
+            player = new Player(new RigidBody2D(new Vector2(3000, 200), new Vector2(0, 0), 1, "player", false, 5, 4)
                 , playerTexture, _spriteBatch, 5);
 
             selector = new Selector(player.Position, new Vector2(0, 0), 1, "Selector", board, _spriteBatch, selectorTexture);
 
-            key = new Key(new RigidBody2D(new Vector2(1000, 300), new Vector2(0, 0), 1, "key", false, 0, 1),
+            key = new Key(new RigidBody2D(new Vector2(3020, 500), new Vector2(0, 0), 1, "key", false, 0, 1),
                 keyTexture, _spriteBatch);
 
-            mPlatform = new MovingPlatform(new RigidBody2D(new Vector2(3290, 495), new Vector2(0, 0), 1, "movingPlatform", true, 4, 10),
-                _spriteBatch, mPlatformTexture, 145);
+            mPlatform = new MovingPlatform(new RigidBody2D(new Vector2(3290, 495), new Vector2(0, 0), 1, "movingPlatform", true, 4, 5),
+                _spriteBatch, mPlatformTexture, 130);
 
             crateSpawn = new CrateSpawn(_spriteBatch, crateTexture);
 
@@ -247,6 +247,14 @@ namespace GameBehaviour
 
                     if (player.Position.X > 1300)
                         crateSpawn.timeToSpawn = true;
+                    //delete the key if it reaches the elevator
+                    if (key != null)
+                        if (key.reachedDestination)
+                        {
+                            activeObjects.Remove(key);
+                            _physicsWorld.PhysObjects.Remove(key.ObjRB);
+                            key = null;
+                        }
                     
                 }
                 else
@@ -341,7 +349,8 @@ namespace GameBehaviour
             player.Draw(_spriteBatch);
             selector.Draw(_spriteBatch);
             drone.Draw(_spriteBatch);
-            key.Draw(_spriteBatch);
+            if(key != null)
+                key.Draw(_spriteBatch);
             mPlatform.Draw(_spriteBatch);
             crateSpawn.Draw(_spriteBatch);
             //testCrate.Draw(_spriteBatch);

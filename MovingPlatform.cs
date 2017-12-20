@@ -17,9 +17,13 @@ namespace GameBehaviour
         float startYpos;
         float targetYpos;
 
-        float speed = 100f;
+        float speed = 50f;
         Vector2 target;
+        Vector2 ogTarget;
         Vector2 start;
+        bool flipTarget = false;
+        bool timeToMove = false;
+        float delta;
         public MovingPlatform(RigidBody2D rb, SpriteBatch spr, Texture2D tex, float targetY) : base(rb.Position, rb.Rotation, rb.Scale, rb.Tag)
         {
             Texture = tex;
@@ -33,6 +37,7 @@ namespace GameBehaviour
             startYpos = Position.Y;
             targetYpos = targetY;
             target = new Vector2(Position.X, targetYpos);
+            ogTarget = target;
             start = Position;
         }
 
@@ -52,31 +57,46 @@ namespace GameBehaviour
         }
         public override void Update(GameTime gameTime)
         {
-            if (target.Y - Position.Y <= 0)
+            Vector2 distanceFromTarget = new Vector2(Math.Abs(target.X - Position.X), Math.Abs(target.Y - Position.Y));
+            delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+            if (timeToMove)
             {
-                Vector2 dir = Vector2.Normalize(target - Position);
-                dir *= speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
-                Console.WriteLine(target.Y - Position.Y);
-                ObjRB.Position += dir;
-            }
-            else
-            {
-                target = start;
-                Vector2 dir = Vector2.Normalize(target - Position);
-                dir *= speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
-                Console.WriteLine(target.Y - Position.Y);
-                ObjRB.Position += dir;
+                if (distanceFromTarget.Y <= 10)
+                {
+                    if (flipTarget)
+                        flipTarget = false;
+                    else
+                        flipTarget = true;
+                }
+                if (!flipTarget)
+                {
+                    target = ogTarget;
+                }
+                else
+                {
+                    target = start;
+                }
+                Move(target);
             }
 
+            Console.WriteLine(target);
             ObjRB.boxColl.topLeft = new Vector2(Position.X, Position.Y);
             ObjRB.boxColl.bottomRight = new Vector2(Position.X + Texture.Width, Position.Y + Texture.Height);
             SetPolygonPoints(ObjRB.polygonColl);
-            Position = ObjRB.Position;
+            Position = new Vector2(start.X, ObjRB.Position.Y);
+        }
+
+        void Move(Vector2 target)
+        {
+            Vector2 dir = Vector2.Normalize(target - Position);
+            dir *= speed * delta;
+            ObjRB.Position += dir;
         }
 
         public override void OnCollision(Manifold man)
         {
-            //base.OnCollision(man);
+            timeToMove = true;
         }
 
         public override void Draw(SpriteBatch spriteBatch)

@@ -203,11 +203,6 @@ namespace GameBehaviour
 
         void SATResolve(Manifold manifold, GameTime gameTime)
         {
-            if (manifold.A.Tag == "key" && manifold.B.Tag == "drone" || manifold.B.Tag == "key" && manifold.A.Tag == "drone")
-            {
-                manifold.A.OnCollision(manifold);
-                manifold.B.OnCollision(manifold);
-            }
             Vector2 relativeVelocity = manifold.A.Velocity - manifold.B.Velocity;
             Vector2 relativeVelocityHack = manifold.B.Velocity - manifold.A.Velocity;
             
@@ -215,6 +210,19 @@ namespace GameBehaviour
             Vector2 normal = Vector2.Normalize(result.MinTranslation);
             if (!float.IsNaN(normal.X) || !float.IsNaN(normal.Y))
             {
+                if (manifold.A.Tag == "player" && manifold.B.Tag == "movingPlatform" 
+                    && manifold.Normal.Y <= 0 || manifold.A.Tag == "key" && manifold.B.Tag == "movingPlatform" 
+                    && manifold.Normal.Y <=0 || manifold.A.Tag == "movingPlatform" && manifold.B.Tag == "key" 
+                    && manifold.Normal.Y <=0)
+                {
+                    manifold.A.Position.Y = manifold.B.Position.Y - 50;
+
+                    if (manifold.A.Tag == "key" || manifold.B.Tag == "key")
+                    {
+                        manifold.A.parent.OnCollision(manifold);
+                        manifold.B.parent.OnCollision(manifold);
+                    }
+                }
                 float contactVelocity = Vector2.Dot(relativeVelocityHack, normal);
 
                 if (contactVelocity < 0)
