@@ -161,11 +161,6 @@ namespace GameBehaviour
             foreach (Tile tile in board.tiles)
             {
                 activeTiles.Add(tile);//add each active tile to the list of active tiles
-
-                if (tile.IsRendered)
-                {
-                    //_physicsWorld.PhysObjects.Add(tile.ObjRB);
-                }
             }
 
             foreach (Crate crate in crateSpawn.crates)

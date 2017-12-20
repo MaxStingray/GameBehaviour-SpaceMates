@@ -58,7 +58,6 @@ namespace GameBehaviour
             else if (Keyboard.GetState().IsKeyDown(Keys.Enter))
             {
                 targetNode = Board.NodeFromWorldPoint(center);
-                Board.TileFromWorldPoint(center).IsRendered = true;
                 nodeSet = true;
             }
         }
