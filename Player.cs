@@ -97,7 +97,7 @@ namespace GameBehaviour
             PlayerNode.worldPosition = Center;
             if (!usingJetPack && currentJetPackFuel < maxJetPackFuel)
             {
-                currentJetPackFuel += 1f;
+                currentJetPackFuel += 2f;
             }
             HandleInput(gameTime);
             
@@ -127,7 +127,7 @@ namespace GameBehaviour
                     {
                         usingJetPack = true;
                         ObjRB.Velocity.Y += -10f;
-                        currentJetPackFuel -= 2f;//* (float)gameTime.ElapsedGameTime.TotalSeconds;
+                        currentJetPackFuel -= 4f;//* (float)gameTime.ElapsedGameTime.TotalSeconds;
                     }
                 }
             }

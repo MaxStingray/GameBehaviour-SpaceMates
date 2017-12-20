@@ -110,6 +110,12 @@ namespace GameBehaviour
                         tiles[x, y].IsRendered = true;
                         tiles[x, y].aStarNode.isTraversible = false;
                     }
+
+                    if (x >= 6 && x <= 8 && y == 7)
+                    {
+                        tiles[x, y].IsRendered = true;
+                        tiles[x, y].aStarNode.isTraversible = false;
+                    }
                 }
             }
             
@@ -194,13 +200,6 @@ namespace GameBehaviour
                         }
                     }
                 }                        
-            
-            
-            /*startPoint = tiles[20, 9];
-            endPoint = tiles[30, 9];
-            Platform bounce = new Platform(10, new RigidBody2D(startPoint.Position, startPoint.Rotation,
-                                        startPoint.Scale, startPoint.Tag, true, 4, 4), startPoint, endPoint, true);*/
-
         }
 
         public List<Node> GetNeighbors(Node node)
