@@ -114,3 +114,4 @@ C:\Users\Josh\Downloads\GameBehaviour\GameBehaviour\GameBehaviour-SpaceMates\bin
 C:\Users\Josh\Downloads\GameBehaviour\GameBehaviour\GameBehaviour-SpaceMates\bin\Windows\x86\Debug\Content\ExitDoor.xnb
 C:\Users\Josh\Downloads\GameBehaviour\GameBehaviour\GameBehaviour-SpaceMates\bin\Windows\x86\Debug\Content\Fuel.xnb
 C:\Users\Josh\Downloads\GameBehaviour\GameBehaviour\GameBehaviour-SpaceMates\bin\Windows\x86\Debug\Content\MovingPlatform.xnb
+C:\Users\Josh\Downloads\GameBehaviour\GameBehaviour\GameBehaviour-SpaceMates\bin\Windows\x86\Debug\Content\EndBG.xnb

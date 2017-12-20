@@ -35,6 +35,9 @@ namespace GameBehaviour
         private Menu menu;
         private Texture2D menuTexture;
 
+        private Menu exitMenu;
+        private Texture2D exitMenuTexture;
+
         private Texture2D groundTexture;
         private Texture2D bounceTexture;
         private Board board;
@@ -52,6 +55,9 @@ namespace GameBehaviour
 
         private MovingPlatform mPlatform;
         private Texture2D mPlatformTexture;
+
+        private Exit exit;
+        private Texture2D exitTexture;
 
         private World _physicsWorld;
         private Camera camera;
@@ -104,23 +110,26 @@ namespace GameBehaviour
             droneTexture = Content.Load<Texture2D>("pointmarker");
             keyTexture = Content.Load<Texture2D>("Key");
             menuTexture = Content.Load<Texture2D>("MenuBG");
+            exitMenuTexture = Content.Load<Texture2D>("EndBG");
             mPlatformTexture = Content.Load<Texture2D>("MovingPlatform");
+            exitTexture = Content.Load<Texture2D>("ExitDoor");
 
             font = Content.Load<SpriteFont>("Fuel");
 
             menu = new Menu(_spriteBatch, menuTexture, new Vector2(0, 0), new Vector2(0, 0), 1, "mainMenu");
+            exitMenu = new Menu(_spriteBatch, exitMenuTexture, new Vector2(0, 0), new Vector2(0, 0), 1, "exitMenu");
             board = new Board(_spriteBatch, groundTexture, bounceTexture, 57, 11);
             pathfinding = new Astar();
             pathfinding.board = board;
             manager = new AIManager(pathfinding);
             pathfinding.Manager = manager;
 
-            player = new Player(new RigidBody2D(new Vector2(3000, 200), new Vector2(0, 0), 1, "player", false, 5, 4)
+            player = new Player(new RigidBody2D(new Vector2(100, 460), new Vector2(0, 0), 1, "player", false, 5, 4)
                 , playerTexture, _spriteBatch, 5);
 
             selector = new Selector(player.Position, new Vector2(0, 0), 1, "Selector", board, _spriteBatch, selectorTexture);
 
-            key = new Key(new RigidBody2D(new Vector2(3020, 450), new Vector2(0, 0), 1, "key", false, 0, 1),
+            key = new Key(new RigidBody2D(new Vector2(1000, 350), new Vector2(0, 0), 1, "key", false, 0, 1),
                 keyTexture, _spriteBatch);
 
             mPlatform = new MovingPlatform(new RigidBody2D(new Vector2(3290, 495), new Vector2(0, 0), 1, "movingPlatform", true, 4, 5),
@@ -128,15 +137,14 @@ namespace GameBehaviour
 
             crateSpawn = new CrateSpawn(_spriteBatch, crateTexture);
 
-            //testCrate = new Crate(new RigidBody2D(new Vector2(2000, 100), new Vector2(0, 0), 1, "crate", false, 1, 4),
-                //_spriteBatch, crateTexture);
-            
+            exit = new Exit(_spriteBatch, exitTexture, player, new Vector2(3750, 70), new Vector2(0, 0), 1, "Exit");
+
             _physicsWorld = new World();
 
             activeObjects.Add(player);//add the player to the list of active objects
             activeObjects.Add(key);
             activeObjects.Add(mPlatform);
-            //activeObjects.Add(testCrate);
+            activeObjects.Add(exit);
             _physicsWorld.PhysObjects.Add(player.ObjRB);//add the player's rigidbody to the world object
             _physicsWorld.PhysObjects.Add(key.ObjRB);
             _physicsWorld.PhysObjects.Add(mPlatform.ObjRB);
@@ -255,7 +263,9 @@ namespace GameBehaviour
                             _physicsWorld.PhysObjects.Remove(key.ObjRB);
                             key = null;
                         }
-                    
+
+                    if (exit.levelOver)
+                        _state = GameState.End;
                 }
                 else
                 {
@@ -282,7 +292,8 @@ namespace GameBehaviour
 
         void UpdateEnd(GameTime gameTime)
         {
-
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+                Exit();
         }
 
         private void BeginPause(bool userInitiated)
@@ -326,6 +337,9 @@ namespace GameBehaviour
                 case GameState.lvl1:
                     DrawLvl1();
                     break;
+                case GameState.End:
+                    DrawEnd();
+                    break;
             }
         }
 
@@ -352,6 +366,7 @@ namespace GameBehaviour
             if(key != null)
                 key.Draw(_spriteBatch);
             mPlatform.Draw(_spriteBatch);
+            exit.Draw(_spriteBatch);
             crateSpawn.Draw(_spriteBatch);
             //testCrate.Draw(_spriteBatch);
             foreach (RigidBody2D rb in _physicsWorld.PhysObjects)//draw bounding boxes
@@ -359,6 +374,14 @@ namespace GameBehaviour
                 rb.Draw(_spriteBatch);
             }
             _spriteBatch.DrawString(font, "Fuel: " + player.currentJetPackFuel, new Vector2(camera.centre.X + 50, camera.centre.Y + 700), Color.Black);
+            _spriteBatch.End();
+        }
+
+        void DrawEnd()
+        {
+            GraphicsDevice.Clear(Color.PaleVioletRed);
+            _spriteBatch.Begin();
+            exitMenu.Draw(_spriteBatch);
             _spriteBatch.End();
         }
     }

@@ -49,6 +49,7 @@
     <Compile Include="Crate.cs" />
     <Compile Include="CrateSpawn.cs" />
     <Compile Include="Drone.cs" />
+    <Compile Include="Exit.cs" />
     <Compile Include="ExtraMath.cs" />
     <Compile Include="GameBehaviourProject.cs" />
     <Compile Include="GameObject.cs" />
