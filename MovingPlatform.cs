@@ -23,6 +23,8 @@ namespace GameBehaviour
         Vector2 start;
         bool flipTarget = false;
         bool timeToMove = false;
+
+        //TODO: set a list of nodes on each part of this sprite and set them to be intraversible
         float delta;
         public MovingPlatform(RigidBody2D rb, SpriteBatch spr, Texture2D tex, float targetY) : base(rb.Position, rb.Rotation, rb.Scale, rb.Tag)
         {
@@ -79,8 +81,6 @@ namespace GameBehaviour
                 }
                 Move(target);
             }
-
-            Console.WriteLine(target);
             ObjRB.boxColl.topLeft = new Vector2(Position.X, Position.Y);
             ObjRB.boxColl.bottomRight = new Vector2(Position.X + Texture.Width, Position.Y + Texture.Height);
             SetPolygonPoints(ObjRB.polygonColl);
@@ -96,12 +96,17 @@ namespace GameBehaviour
 
         public override void OnCollision(Manifold man)
         {
-            timeToMove = true;
+            RigidBody2D other = man.B == this.ObjRB ? man.A : man.B;
+            if(other.Tag == "key")
+                timeToMove = true;
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            SpriteBatch.Draw(Texture, Position, Color.White);
+            if (!timeToMove)
+                SpriteBatch.Draw(Texture, Position, Color.Red);
+            else
+                SpriteBatch.Draw(Texture, Position, Color.White);
         }
 
     }

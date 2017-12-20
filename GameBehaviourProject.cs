@@ -120,7 +120,7 @@ namespace GameBehaviour
 
             selector = new Selector(player.Position, new Vector2(0, 0), 1, "Selector", board, _spriteBatch, selectorTexture);
 
-            key = new Key(new RigidBody2D(new Vector2(3020, 500), new Vector2(0, 0), 1, "key", false, 0, 1),
+            key = new Key(new RigidBody2D(new Vector2(3020, 450), new Vector2(0, 0), 1, "key", false, 0, 1),
                 keyTexture, _spriteBatch);
 
             mPlatform = new MovingPlatform(new RigidBody2D(new Vector2(3290, 495), new Vector2(0, 0), 1, "movingPlatform", true, 4, 5),

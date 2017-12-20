@@ -36,7 +36,14 @@ namespace GameBehaviour
 
         public override void OnCollision(Manifold man)
         {
-            reachedDestination = true;
+            //check which object we are within the manifold
+            RigidBody2D other = man.B == this.ObjRB ? man.A : man.B;
+            
+            if (other.Tag == "movingPlatform")
+                reachedDestination = true;
+
+            base.OnCollision(man);
+           
         }
 
         void SetPolygonPoints(PolygonCollider p)

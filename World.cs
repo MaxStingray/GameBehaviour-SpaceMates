@@ -210,19 +210,12 @@ namespace GameBehaviour
             Vector2 normal = Vector2.Normalize(result.MinTranslation);
             if (!float.IsNaN(normal.X) || !float.IsNaN(normal.Y))
             {
-                if (manifold.A.Tag == "player" && manifold.B.Tag == "movingPlatform" 
-                    && manifold.Normal.Y <= 0 || manifold.A.Tag == "key" && manifold.B.Tag == "movingPlatform" 
-                    && manifold.Normal.Y <=0 || manifold.A.Tag == "movingPlatform" && manifold.B.Tag == "key" 
-                    && manifold.Normal.Y <=0)
+                if (manifold.A.parent != null && manifold.B.parent != null)
                 {
-                    manifold.A.Position.Y = manifold.B.Position.Y - 50;
-
-                    if (manifold.A.Tag == "key" || manifold.B.Tag == "key")
-                    {
-                        manifold.A.parent.OnCollision(manifold);
-                        manifold.B.parent.OnCollision(manifold);
-                    }
+                    manifold.A.parent.OnCollision(manifold);
+                    manifold.B.parent.OnCollision(manifold);
                 }
+                
                 float contactVelocity = Vector2.Dot(relativeVelocityHack, normal);
 
                 if (contactVelocity < 0)

@@ -21,6 +21,7 @@ namespace GameBehaviour
         public float maxVelocityX = 100f;
         public float maxVelocityY = 80f;
 
+        bool usingJetPack;
         public bool hasKey = false;
 
         public float currentJetPackFuel;
@@ -68,7 +69,16 @@ namespace GameBehaviour
 
         public override void OnCollision(Manifold man)
         {
-            
+            //check which object we are
+            RigidBody2D other = man.B == this.ObjRB ? man.A : man.B;
+
+            if (man.Normal.Y <= 0 && !usingJetPack)
+            {
+                if (other.Tag == "movingPlatform")
+                    ObjRB.Position.Y = other.Position.Y - 50;
+            }
+
+            base.OnCollision(man);
         }
 
         public override void Draw(SpriteBatch spr)
@@ -77,8 +87,7 @@ namespace GameBehaviour
         }
 
         public override void Update(GameTime gameTime)
-        {
-            
+        {         
             ObjRB.boxColl.topLeft = new Vector2(Position.X, Position.Y);
             ObjRB.boxColl.bottomRight = new Vector2(Position.X + Texture.Width, Position.Y + Texture.Height);
             SetPolygonPoints(ObjRB.polygonColl);
@@ -86,6 +95,10 @@ namespace GameBehaviour
             Center = new Vector2(Position.X + (Texture.Width / 2), Position.Y + (Texture.Height / 2));
             Centre = new Vector2(Position.X + (Texture.Width / 2), Position.Y + (Texture.Height / 2));
             PlayerNode.worldPosition = Center;
+            if (!usingJetPack && currentJetPackFuel < maxJetPackFuel)
+            {
+                currentJetPackFuel += 1f;
+            }
             HandleInput(gameTime);
             
         }
@@ -112,17 +125,15 @@ namespace GameBehaviour
                 {
                     if (currentJetPackFuel > 0)
                     {
+                        usingJetPack = true;
                         ObjRB.Velocity.Y += -10f;
                         currentJetPackFuel -= 2f;//* (float)gameTime.ElapsedGameTime.TotalSeconds;
                     }
                 }
             }
-            else
+            else if (Keyboard.GetState().IsKeyUp(Keys.W))
             {
-                if (currentJetPackFuel < maxJetPackFuel)
-                {
-                    currentJetPackFuel += 1f;
-                }
+                usingJetPack = false;
             }
         }
     }
