@@ -61,7 +61,6 @@ namespace GameBehaviour
         private Camera camera;
 
         List<GameObject> activeObjects = new List<GameObject>();
-        List<Tile> activeTiles = new List<Tile>();
 
         private bool paused = false;
         private bool pauseKeyDown = false;
@@ -119,45 +118,33 @@ namespace GameBehaviour
             board = new Board(_spriteBatch, groundTexture, bounceTexture, 57, 11);
             pathfinding = new Astar();
             pathfinding.board = board;
-
             player = new Player(new RigidBody2D(new Vector2(200, 460), "player", false, 5, 4)
                 , playerTexture, _spriteBatch, 5);
-
             selector = new Selector(player.Position, new Vector2(0, 0), 1, "Selector", board, _spriteBatch, selectorTexture);
-
             key = new Key(new RigidBody2D(new Vector2(1000, 350), "key", false, 0, 0),
                 keyTexture, _spriteBatch);
-
             mPlatform = new MovingPlatform(player, new RigidBody2D(new Vector2(3290, 495), "movingPlatform", true, 4, 5),
                 _spriteBatch, mPlatformTexture, 130);
-
             crateSpawn = new CrateSpawn(_spriteBatch, crateTexture);
-
             exit = new Exit(_spriteBatch, exitTexture, player, new Vector2(3750, 70), "Exit");
-
             drone = new Drone(player, selector, pathfinding, new RigidBody2D(player.ObjRB.Position, "drone", false, 1, 3)
                 , _spriteBatch, droneTexture);
 
             player.drone = drone;
 
             _physicsWorld = new World();
-
+            //add objects to the active objects list
             activeObjects.Add(player);//add the player to the list of active objects
             activeObjects.Add(drone);
             activeObjects.Add(key);
             activeObjects.Add(mPlatform);
             activeObjects.Add(exit);
-            _physicsWorld.PhysObjects.Add(player.ObjRB);//add the player's rigidbody to the world object
+            //add rigidbodies to the physics object collection
+            _physicsWorld.PhysObjects.Add(player.ObjRB);
             _physicsWorld.PhysObjects.Add(key.ObjRB);
             _physicsWorld.PhysObjects.Add(mPlatform.ObjRB);
-            //_physicsWorld.PhysObjects.Add(testCrate.ObjRB);
-           
             _physicsWorld.PhysObjects.Add(drone.ObjRB);
            
-            foreach (Tile tile in board.tiles)
-            {
-                activeTiles.Add(tile);//add each active tile to the list of active tiles
-            }
 
             foreach (Crate crate in crateSpawn.crates)
             {
@@ -218,9 +205,6 @@ namespace GameBehaviour
 
                     foreach (GameObject actObj in activeObjects)
                         actObj.Update(gameTime);
-
-                    foreach (Tile tile in activeTiles)
-                        tile.Update(gameTime);
 
                     player.PlayerNode = board.NodeFromWorldPoint(player.Center);
 
