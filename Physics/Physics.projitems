@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>0196e3e1-f55c-4688-ae1e-34e970e84409</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Physics</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)BoxCollider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ExtraMath.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Manifold.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PolygonCollider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RigidBody2D.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)World.cs" />
+  </ItemGroup>
+</Project>

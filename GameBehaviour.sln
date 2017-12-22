@@ -5,7 +5,21 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameBehaviour", "GameBehaviour.csproj", "{9A04B721-17A1-480D-9443-71435A17BA27}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Physics", "Physics\Physics.shproj", "{0196E3E1-F55C-4688-AE1E-34E970E84409}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "General", "General\General.shproj", "{59B676DE-B351-4196-B352-0FF56C65ED63}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "AI", "AI\AI.shproj", "{409AF28D-BCAE-461A-AB16-644AA9484D36}"
+EndProject
 Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Physics\Physics.projitems*{0196e3e1-f55c-4688-ae1e-34e970e84409}*SharedItemsImports = 13
+		AI\AI.projitems*{409af28d-bcae-461a-ab16-644aa9484d36}*SharedItemsImports = 13
+		General\General.projitems*{59b676de-b351-4196-b352-0ff56c65ed63}*SharedItemsImports = 13
+		AI\AI.projitems*{9a04b721-17a1-480d-9443-71435a17ba27}*SharedItemsImports = 4
+		General\General.projitems*{9a04b721-17a1-480d-9443-71435a17ba27}*SharedItemsImports = 4
+		Physics\Physics.projitems*{9a04b721-17a1-480d-9443-71435a17ba27}*SharedItemsImports = 4
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
 		Release|x86 = Release|x86

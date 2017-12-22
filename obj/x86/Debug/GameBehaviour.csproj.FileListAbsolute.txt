@@ -51,34 +51,6 @@ C:\Users\Josh\Downloads\GameBehaviour\GameBehaviour\bin\Windows\x86\Debug\SharpD
 C:\Users\Josh\Downloads\GameBehaviour\GameBehaviour\bin\Windows\x86\Debug\SharpDX.XInput.xml
 C:\Users\Josh\Downloads\GameBehaviour\GameBehaviour\bin\Windows\x86\Debug\SharpDX.Direct3D9.xml
 C:\Users\Josh\Downloads\GameBehaviour\GameBehaviour\bin\Windows\x86\Debug\Content\Selector.xnb
-C:\Users\Josh\Downloads\GameBehaviour\GameBehaviour\GameBehaviour-SpaceMates\obj\x86\Debug\GameBehaviour.exe
-C:\Users\Josh\Downloads\GameBehaviour\GameBehaviour\GameBehaviour-SpaceMates\obj\x86\Debug\GameBehaviour.pdb
-C:\Users\Josh\Downloads\GameBehaviour\GameBehaviour\GameBehaviour-SpaceMates\bin\Windows\x86\Debug\Content\GroundBlock.xnb
-C:\Users\Josh\Downloads\GameBehaviour\GameBehaviour\GameBehaviour-SpaceMates\bin\Windows\x86\Debug\Content\PlayerSprite.xnb
-C:\Users\Josh\Downloads\GameBehaviour\GameBehaviour\GameBehaviour-SpaceMates\bin\Windows\x86\Debug\Content\pointmarker.xnb
-C:\Users\Josh\Downloads\GameBehaviour\GameBehaviour\GameBehaviour-SpaceMates\bin\Windows\x86\Debug\Content\Selector.xnb
-C:\Users\Josh\Downloads\GameBehaviour\GameBehaviour\GameBehaviour-SpaceMates\bin\Windows\x86\Debug\GameBehaviour.exe
-C:\Users\Josh\Downloads\GameBehaviour\GameBehaviour\GameBehaviour-SpaceMates\bin\Windows\x86\Debug\GameBehaviour.pdb
-C:\Users\Josh\Downloads\GameBehaviour\GameBehaviour\GameBehaviour-SpaceMates\bin\Windows\x86\Debug\MonoGame.Framework.dll
-C:\Users\Josh\Downloads\GameBehaviour\GameBehaviour\GameBehaviour-SpaceMates\bin\Windows\x86\Debug\SharpDX.MediaFoundation.dll
-C:\Users\Josh\Downloads\GameBehaviour\GameBehaviour\GameBehaviour-SpaceMates\bin\Windows\x86\Debug\SharpDX.dll
-C:\Users\Josh\Downloads\GameBehaviour\GameBehaviour\GameBehaviour-SpaceMates\bin\Windows\x86\Debug\SharpDX.XAudio2.dll
-C:\Users\Josh\Downloads\GameBehaviour\GameBehaviour\GameBehaviour-SpaceMates\bin\Windows\x86\Debug\SharpDX.DXGI.dll
-C:\Users\Josh\Downloads\GameBehaviour\GameBehaviour\GameBehaviour-SpaceMates\bin\Windows\x86\Debug\SharpDX.Direct3D11.dll
-C:\Users\Josh\Downloads\GameBehaviour\GameBehaviour\GameBehaviour-SpaceMates\bin\Windows\x86\Debug\SharpDX.Direct2D1.dll
-C:\Users\Josh\Downloads\GameBehaviour\GameBehaviour\GameBehaviour-SpaceMates\bin\Windows\x86\Debug\SharpDX.XInput.dll
-C:\Users\Josh\Downloads\GameBehaviour\GameBehaviour\GameBehaviour-SpaceMates\bin\Windows\x86\Debug\SharpDX.Direct3D9.dll
-C:\Users\Josh\Downloads\GameBehaviour\GameBehaviour\GameBehaviour-SpaceMates\bin\Windows\x86\Debug\MonoGame.Framework.xml
-C:\Users\Josh\Downloads\GameBehaviour\GameBehaviour\GameBehaviour-SpaceMates\bin\Windows\x86\Debug\SharpDX.MediaFoundation.xml
-C:\Users\Josh\Downloads\GameBehaviour\GameBehaviour\GameBehaviour-SpaceMates\bin\Windows\x86\Debug\SharpDX.xml
-C:\Users\Josh\Downloads\GameBehaviour\GameBehaviour\GameBehaviour-SpaceMates\bin\Windows\x86\Debug\SharpDX.XAudio2.xml
-C:\Users\Josh\Downloads\GameBehaviour\GameBehaviour\GameBehaviour-SpaceMates\bin\Windows\x86\Debug\SharpDX.DXGI.xml
-C:\Users\Josh\Downloads\GameBehaviour\GameBehaviour\GameBehaviour-SpaceMates\bin\Windows\x86\Debug\SharpDX.Direct3D11.xml
-C:\Users\Josh\Downloads\GameBehaviour\GameBehaviour\GameBehaviour-SpaceMates\bin\Windows\x86\Debug\SharpDX.Direct2D1.xml
-C:\Users\Josh\Downloads\GameBehaviour\GameBehaviour\GameBehaviour-SpaceMates\bin\Windows\x86\Debug\SharpDX.XInput.xml
-C:\Users\Josh\Downloads\GameBehaviour\GameBehaviour\GameBehaviour-SpaceMates\bin\Windows\x86\Debug\SharpDX.Direct3D9.xml
-C:\Users\Josh\Downloads\GameBehaviour\GameBehaviour\GameBehaviour-SpaceMates\obj\x86\Debug\GameBehaviour.csprojResolveAssemblyReference.cache
-C:\Users\Josh\Downloads\GameBehaviour\GameBehaviour\GameBehaviour-SpaceMates\bin\Windows\x86\Debug\Content\Key.xnb
 C:\Users\Josh\Desktop\GameBehaviour-SpaceMates-master (2)\GameBehaviour-SpaceMates-master\obj\x86\Debug\GameBehaviour.exe
 C:\Users\Josh\Desktop\GameBehaviour-SpaceMates-master (2)\GameBehaviour-SpaceMates-master\obj\x86\Debug\GameBehaviour.pdb
 C:\Users\Josh\Desktop\GameBehaviour-SpaceMates-master (2)\GameBehaviour-SpaceMates-master\bin\Windows\x86\Debug\Content\GroundBlock.xnb
@@ -108,10 +80,3 @@ C:\Users\Josh\Desktop\GameBehaviour-SpaceMates-master (2)\GameBehaviour-SpaceMat
 C:\Users\Josh\Desktop\GameBehaviour-SpaceMates-master (2)\GameBehaviour-SpaceMates-master\bin\Windows\x86\Debug\SharpDX.Direct3D9.xml
 C:\Users\Josh\Desktop\GameBehaviour-SpaceMates-master (2)\GameBehaviour-SpaceMates-master\obj\x86\Debug\GameBehaviour.csprojResolveAssemblyReference.cache
 C:\Users\Josh\Desktop\GameBehaviour-SpaceMates-master (2)\GameBehaviour-SpaceMates-master\bin\Windows\x86\Debug\Content\MenuBG.xnb
-C:\Users\Josh\Downloads\GameBehaviour\GameBehaviour\GameBehaviour-SpaceMates\bin\Windows\x86\Debug\Content\MenuBG.xnb
-C:\Users\Josh\Downloads\GameBehaviour\GameBehaviour\GameBehaviour-SpaceMates\bin\Windows\x86\Debug\Content\BouncyBlock.xnb
-C:\Users\Josh\Downloads\GameBehaviour\GameBehaviour\GameBehaviour-SpaceMates\bin\Windows\x86\Debug\Content\Crate.xnb
-C:\Users\Josh\Downloads\GameBehaviour\GameBehaviour\GameBehaviour-SpaceMates\bin\Windows\x86\Debug\Content\ExitDoor.xnb
-C:\Users\Josh\Downloads\GameBehaviour\GameBehaviour\GameBehaviour-SpaceMates\bin\Windows\x86\Debug\Content\Fuel.xnb
-C:\Users\Josh\Downloads\GameBehaviour\GameBehaviour\GameBehaviour-SpaceMates\bin\Windows\x86\Debug\Content\MovingPlatform.xnb
-C:\Users\Josh\Downloads\GameBehaviour\GameBehaviour\GameBehaviour-SpaceMates\bin\Windows\x86\Debug\Content\EndBG.xnb
