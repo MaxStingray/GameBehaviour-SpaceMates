@@ -4,13 +4,6 @@ using Microsoft.Xna.Framework;
 
 namespace GameBehaviour
 {
-    public struct PolygonCollisionResult
-    {
-        public bool WillIntersect;
-        public bool Intersect;
-        public Vector2 MinTranslation;
-        public float penDepth;
-    }
     //class for managing physics objects
     public class World
     {
@@ -30,7 +23,7 @@ namespace GameBehaviour
             {
                 rb.Update(time);
             }
-            //broad phase baby
+            //check each physics object for potential collisions using AABB
             for (int i = 0; i < PhysObjects.Count; i++)
             {
                 for (int j = i + 1; j < PhysObjects.Count; j++)
@@ -46,21 +39,25 @@ namespace GameBehaviour
                 }
             }
 
-            for (int i = 0; i < potentialCollisions.Count; i++)//loop through potential collisions
-            {               
-                SATResolve(potentialCollisions[i], time); //resolve using SAT              
+            // loop through potential collisions we found in broad phase
+            for (int i = 0; i < potentialCollisions.Count; i++)
+            {
+                //resolve them with SAT
+                SATResolve(potentialCollisions[i], time);             
             }
+            //clear the list at the end of each frame
             potentialCollisions.Clear();
         }
         //method for testing collision pairs
         private static bool AABBvsAABB(RigidBody2D a, RigidBody2D b, Manifold manifold)
         {
-          
+            //quick AABB check to find potential collisions
             if(a.Position.X < b.Position.X + b.boxColl.width
             && a.Position.X + a.boxColl.width > b.Position.X
             && a.Position.Y < b.Position.Y + b.boxColl.height
             && a.boxColl.height + a.Position.Y > b.Position.Y)
                 {
+                    //add each object to a "manifold"
                     manifold.A = a;
                     manifold.B = b;
                     return true;
@@ -108,15 +105,17 @@ namespace GameBehaviour
         // Check if polygon A is going to collide with polygon B.
         // The last parameter is the *relative* velocity 
         // of the polygons (i.e. velocityA - velocityB)
-        public PolygonCollisionResult PolygonCollision(PolygonCollider polygonA,
-                                      PolygonCollider polygonB, Vector2 velocity, GameTime gameTime)
+        public Manifold PolygonCollision(Manifold man, Vector2 velocity, GameTime gameTime)
         {
-            PolygonCollisionResult result = new PolygonCollisionResult();
+            Manifold result = new Manifold();
             result.Intersect = true;
             result.WillIntersect = true;
 
-            int edgeCountA = polygonA.edges.Count;
-            int edgeCountB = polygonB.edges.Count;
+            PolygonCollider polyA = man.A.polygonColl;
+            PolygonCollider polyB = man.B.polygonColl;
+
+            int edgeCountA = polyA.edges.Count;
+            int edgeCountB = polyB.edges.Count;
             float minIntervalDistance = float.PositiveInfinity;
             Vector2 translationAxis = new Vector2();
             Vector2 edge;
@@ -126,11 +125,11 @@ namespace GameBehaviour
             {
                 if (edgeIndex < edgeCountA)
                 {
-                    edge = polygonA.edges[edgeIndex];
+                    edge = polyA.edges[edgeIndex];
                 }
                 else
                 {
-                    edge = polygonB.edges[edgeIndex - edgeCountA];
+                    edge = polyB.edges[edgeIndex - edgeCountA];
                 }
 
                 // ===== 1. Find if the polygons are currently intersecting =====
@@ -141,8 +140,8 @@ namespace GameBehaviour
 
                 // Find the projection of the polygon on the current axis
                 float minA = 0; float minB = 0; float maxA = 0; float maxB = 0;
-                ProjectPolygon(axis, polygonA, ref minA, ref maxA);
-                ProjectPolygon(axis, polygonB, ref minB, ref maxB);
+                ProjectPolygon(axis, polyA, ref minA, ref maxA);
+                ProjectPolygon(axis, polyB, ref minB, ref maxB);
 
                 // Check if the polygon projections are currentlty intersecting
                 if (IntervalDistance(minA, maxA, minB, maxB) > 0)
@@ -179,7 +178,7 @@ namespace GameBehaviour
                     minIntervalDistance = intervalDistance;
                     translationAxis = axis;
 
-                    Vector2 d = polygonA.centre() - polygonB.centre();
+                    Vector2 d = polyA.centre() - polyB.centre();
                     
                     if (Vector2.Dot(d, translationAxis) < 0)
                         translationAxis = -translationAxis;
@@ -188,12 +187,11 @@ namespace GameBehaviour
 
             // The minimum translation vector
             // can be used to push the polygons appart.
-            if (result.WillIntersect || result.Intersect)
+            if (result.WillIntersect && result.Intersect)
             {
                 result.MinTranslation = 
                        translationAxis * minIntervalDistance;
-                //Console.WriteLine(result.MinTranslation);
-                result.penDepth = minIntervalDistance;
+                result.Penetration = minIntervalDistance;
             }
 
 
@@ -203,19 +201,23 @@ namespace GameBehaviour
 
         void SATResolve(Manifold manifold, GameTime gameTime)
         {
+            //find the relative velocity
             Vector2 relativeVelocity = manifold.A.Velocity - manifold.B.Velocity;
+            //dotProduct requires that these values be reversed, hence the second variable
             Vector2 relativeVelocityHack = manifold.B.Velocity - manifold.A.Velocity;
-            
-            PolygonCollisionResult result = PolygonCollision(manifold.A.polygonColl, manifold.B.polygonColl, relativeVelocity, gameTime);
+
+            Manifold result = PolygonCollision(manifold, relativeVelocity, gameTime);
+            //get the normal
             Vector2 normal = Vector2.Normalize(result.MinTranslation);
             if (!float.IsNaN(normal.X) || !float.IsNaN(normal.Y))
             {
+                //call the OnCollision method of both manifolds
                 if (manifold.A.parent != null && manifold.B.parent != null)
                 {
                     manifold.A.parent.OnCollision(manifold);
                     manifold.B.parent.OnCollision(manifold);
                 }
-                
+                //find the contact velocity
                 float contactVelocity = Vector2.Dot(relativeVelocityHack, normal);
 
                 if (contactVelocity < 0)
@@ -226,10 +228,11 @@ namespace GameBehaviour
                 //apply friction
                 float friction = ((manifold.A.Friction + manifold.B.Friction) / 2);
 
-                //will eventually be restitution, leave as 1 for now
-                float e = Math.Min(1, 1);
+                //will eventually be restitution of both objects, leave as 1 for now
+                float restitution = Math.Min(1, 1);
 
-                float j = -(1.0f + e) * contactVelocity;
+                //calculate the impulse
+                float j = -(1.0f + restitution) * contactVelocity;
                 j /= (1 / manifold.A.Mass) + (1 / manifold.B.Mass);
 
                 Vector2 impulse = j * normal;
@@ -237,6 +240,7 @@ namespace GameBehaviour
                 //apply impulse
                 if (!manifold.A.IsStatic)
                 {
+                    //do not apply friction to drone so it can easily pass walls
                     manifold.A.Velocity -= (1 / manifold.A.Mass) * (impulse);
                     if (manifold.A.Tag != "drone")
                     {
@@ -248,6 +252,7 @@ namespace GameBehaviour
                 }
                 if (!manifold.B.IsStatic)
                 {
+                    //do not apply friction to drone so it can easily pass walls
                     manifold.B.Velocity += (1 / manifold.B.Mass) * impulse;
                     if (manifold.B.Tag != "drone")
                     {
