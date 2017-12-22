@@ -121,7 +121,7 @@ namespace GameBehaviour
             pathfinding = new Astar();
             pathfinding.board = board;
 
-            player = new Player(new RigidBody2D(new Vector2(100, 460), new Vector2(0, 0), 1, "player", false, 5, 4)
+            player = new Player(new RigidBody2D(new Vector2(200, 460), new Vector2(0, 0), 1, "player", false, 5, 4)
                 , playerTexture, _spriteBatch, 5);
 
             selector = new Selector(player.Position, new Vector2(0, 0), 1, "Selector", board, _spriteBatch, selectorTexture);
@@ -136,9 +136,15 @@ namespace GameBehaviour
 
             exit = new Exit(_spriteBatch, exitTexture, player, new Vector2(3750, 70), new Vector2(0, 0), 1, "Exit");
 
+            drone = new Drone(player, selector, pathfinding, new RigidBody2D(player.ObjRB.Position, new Vector2(0, 0), 1, "drone", false, 1, 3)
+                , _spriteBatch, droneTexture);
+
+            player.drone = drone;
+
             _physicsWorld = new World();
 
             activeObjects.Add(player);//add the player to the list of active objects
+            activeObjects.Add(drone);
             activeObjects.Add(key);
             activeObjects.Add(mPlatform);
             activeObjects.Add(exit);
@@ -146,13 +152,7 @@ namespace GameBehaviour
             _physicsWorld.PhysObjects.Add(key.ObjRB);
             _physicsWorld.PhysObjects.Add(mPlatform.ObjRB);
             //_physicsWorld.PhysObjects.Add(testCrate.ObjRB);
-
-            drone = new Drone(player, selector, pathfinding, new RigidBody2D(player.ObjRB.Position, new Vector2(0, 0), 1, "drone", false, 1, 3)
-                , _spriteBatch, droneTexture);
-
-            player.drone = drone;
-            
-            activeObjects.Add(drone);
+           
             _physicsWorld.PhysObjects.Add(drone.ObjRB);
            
             foreach (Tile tile in board.tiles)
@@ -268,9 +268,12 @@ namespace GameBehaviour
                     selector.isVisible = true;
                     selector.Update(gameTime);
                     camera.Update(gameTime, selector);
-                    //Console.WriteLine(player.Position.X);
                     if (selector.nodeSet)
+                    {
                         drone.target = selector.targetNode.worldPosition;
+                        paused = false;
+                    }
+                       
                 }
             }
            

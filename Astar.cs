@@ -15,7 +15,7 @@ namespace GameBehaviour
         {
            
         }
-
+        //return a path as an array of coordinates
         public Vector2[] getPath(Vector2 start, Vector2 end)
         {
             if (start != null && end != null && board != null)
@@ -25,14 +25,13 @@ namespace GameBehaviour
             }
             return null;
         }
-
+        //find the path
         public void FindPath(Vector2 startPos, Vector2 targetPos)
         {
             Node startNode = board.NodeFromWorldPoint(startPos);
             Node targetNode = board.NodeFromWorldPoint(targetPos);
             List<Node> openSet = new List<Node>();
             HashSet<Node> closedSet = new HashSet<Node>();
-            //Vector2[] waypoints = new Vector2[0];
             bool pathSuccess = false;
             openSet.Add(startNode);
             Node currentNode;

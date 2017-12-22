@@ -48,14 +48,9 @@ namespace GameBehaviour
             CreatePlatform();
             boardSize = new Vector2(tiles[0, 0].Texture.Width * numCols, tiles[0, 0].Texture.Height * numRows);//get the board's size
             Console.WriteLine(boardSize);
-            //boardSizeX = (int)Math.Round((boardSize.X / nodeDiameter));
-            boardSizeX = numCols;
-            Console.WriteLine(boardSizeX);
-            //boardSizeY = (int)Math.Round((boardSize.Y / nodeDiameter));
+            boardSizeX = numCols;           
             boardSizeY = numRows;
             Console.WriteLine(boardSizeY);
-            //our tiles array will also serve as our node graph for A*
-            //it is fully set up by this stage
         }
 
         public void Draw(SpriteBatch spr)
@@ -77,15 +72,8 @@ namespace GameBehaviour
                         tiles[x, y].IsRendered = true;
                         tiles[x, y].aStarNode.isTraversible = false;
                     }
-                    
-                }
-            }
 
-            for (int x = 0; x < cols; x++)
-            {
-                for (int y = 0; y < rows; y++)
-                {
-                    if (x >9 && x < 18 && y >= 6 && y < 10 || x > 9 && x <= 18 && y == 4
+                    if (x > 9 && x < 18 && y >= 6 && y < 10 || x > 9 && x <= 18 && y == 4
                         || x == 18 && y >= 6 && y < 10)
                     {
                         tiles[x, y].IsRendered = true;
@@ -116,9 +104,9 @@ namespace GameBehaviour
                         tiles[x, y].IsRendered = true;
                         tiles[x, y].aStarNode.isTraversible = false;
                     }
+
                 }
-            }
-            
+            } 
 
             generationFinished = true;
         }
@@ -228,28 +216,28 @@ namespace GameBehaviour
         //returns a node from a point on the grid
         public Node NodeFromWorldPoint(Vector2 worldPos)
         {
-            float percentX = (worldPos.X + boardSize.X / 54) / boardSize.X;
-            float percentY = (worldPos.Y - boardSize.Y / 16) / boardSize.Y;
+            //find where we are on the grid in %
+            float percentX = (worldPos.X + 1) / boardSize.X;
+            float percentY = (worldPos.Y - 1) / boardSize.Y;
             percentX = HandyMath.Clamp01(percentX);
             percentY = HandyMath.Clamp01(percentY);
-
-            int x = (int)Math.Round((boardSizeX + 1) * percentX, MidpointRounding.AwayFromZero);
+            //round the closest integer
+            int x = (int)Math.Round((boardSizeX) * percentX, MidpointRounding.AwayFromZero);
             int y = (int)Math.Round((boardSizeY) * percentY, MidpointRounding.AwayFromZero);
 
-            return tiles[x - 2, y].aStarNode;
+            return tiles[x - 1, y].aStarNode;
         }
-
+        //just for debug purposes, returns a tile instead of a node
         public Tile TileFromWorldPoint(Vector2 worldPos)
         {
-            float percentX = (worldPos.X + boardSize.X / 54) / boardSize.X;
-            float percentY = (worldPos.Y - boardSize.Y / 16) / boardSize.Y;
+            float percentX = (worldPos.X + 1) / boardSize.X;
+            float percentY = (worldPos.Y - 1) / boardSize.Y;
             percentX = HandyMath.Clamp01(percentX);
             percentY = HandyMath.Clamp01(percentY);
 
-            int x = (int)Math.Round((boardSizeX + 1) * percentX, MidpointRounding.AwayFromZero);
+            int x = (int)Math.Round((boardSizeX) * percentX, MidpointRounding.AwayFromZero);
             int y = (int)Math.Round((boardSizeY) * percentY, MidpointRounding.AwayFromZero);
-
-            return tiles[x - 2, y];
+            return tiles[x - 1, y];
         }
     }
 }

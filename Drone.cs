@@ -39,8 +39,8 @@ namespace GameBehaviour
             SetPolygonPoints(ObjRB.polygonColl);
             target = player.ObjRB.Position;
             pFinder = pathFinder;
-            //Manager.RequestPath(Position, target, OnPathFound);
             path = pFinder.getPath(Position, target);
+            UpdatePath();
         }
 
         public void OnPathFound(Vector2[] newPath, bool pathSuccess)
@@ -53,7 +53,6 @@ namespace GameBehaviour
 
         void UpdatePath()
         {
-            //Manager.RequestPath(Position, target, OnPathFound);
             path = pFinder.getPath(Position, target);
             FollowPath();
         }
