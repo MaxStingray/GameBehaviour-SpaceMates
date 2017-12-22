@@ -59,10 +59,6 @@ namespace GameBehaviour
 
         void FollowPath()
         {
-            if (target != null)
-            {
-                //TODO: Always look at target
-            }
             if (path == null)
                 return;
             if (targetIndex >= path.Length)
@@ -70,7 +66,6 @@ namespace GameBehaviour
                 if (pathComplete)
                     return;
                 targetIndex = 0;
-                //path = new Vector2[0];
                 pathComplete = true;
                 return;
             }
@@ -82,7 +77,7 @@ namespace GameBehaviour
 
             ObjRB.Velocity += dir;
             float dist = Vector2.Distance(Position, path[targetIndex]);
-            //may not need this
+
             if (dist < nextWaypointDistance)
             {
                 targetIndex++;

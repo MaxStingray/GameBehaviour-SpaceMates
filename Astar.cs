@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 
@@ -13,12 +14,7 @@ namespace GameBehaviour
        
         public Astar()
         {
-            
-        }
-
-        public void StartFindPath(Vector2 startPosition, Vector2 endPosition)
-        {
-            FindPath(startPosition, endPosition);
+           
         }
 
         public void FindPath(Vector2 startPos, Vector2 targetPos)
@@ -30,40 +26,44 @@ namespace GameBehaviour
             Vector2[] waypoints = new Vector2[0];
             bool pathSuccess = false;
             openSet.Add(startNode);
-
+            Node currentNode;
             if (startNode.isTraversible && targetNode.isTraversible)
             {
                 while (openSet.Count > 0)
                 {
-                    Node currentNode = openSet[0];
-                    for (int i = 1; i < openSet.Count; i++)
+                    currentNode = openSet[0];
+                    //find the node with the lowest f cost
+                    float lowestFCost = openSet.Min(node => node.fCost);
+                    foreach (Node n in openSet)
                     {
-                        if (openSet[i].fCost < currentNode.fCost || openSet[i].fCost == currentNode.fCost && openSet[i].hCost < currentNode.hCost)
-                        {
-                            currentNode = openSet[i];
-                        }
+                        if (n.fCost <= lowestFCost)
+                            currentNode = n;
                     }
-
+                    //remove current node from the open list
                     openSet.Remove(currentNode);
+                    //add it to the closed list
                     closedSet.Add(currentNode);
 
+                    //if the current node is the target node, we have found a path
                     if (currentNode == targetNode)
                     {
                         pathSuccess = true;
                         break;
                     }
 
-                    foreach (Node neighbor in board.GetNeighbors(currentNode))
+                    List<Node> neighbors = board.GetNeighbors(currentNode);
+                    foreach (Node neighbor in neighbors)
                     {
                         if (!neighbor.isTraversible || closedSet.Contains(neighbor))
                             continue;
+                        //calculate the new G cost to neighbor
+                        int movementCost = CalculateGcost(currentNode, neighbor);
 
-                        int newMovementCostToNeighbor = currentNode.gCost + GetDistance(currentNode, neighbor);
-
-                        if (newMovementCostToNeighbor < neighbor.gCost || !openSet.Contains(neighbor))
+                        if (movementCost < neighbor.gCost || !openSet.Contains(neighbor))
                         {
-                            neighbor.gCost = newMovementCostToNeighbor;
-                            neighbor.hCost = GetDistance(neighbor, targetNode);
+                            //find heuristics and set parents
+                            neighbor.gCost = movementCost;
+                            neighbor.hCost = CalculateHcost(neighbor, targetNode);
                             neighbor.Parent = currentNode;
 
                             if (!openSet.Contains(neighbor))
@@ -72,44 +72,43 @@ namespace GameBehaviour
                     }
                 }
             }
-            if(pathSuccess)
-                waypoints = RetracePath(startNode, targetNode);
+            if (pathSuccess)
+            {
+                //retrace the path
+                List<Node> path = new List<Node>();
+                List<Vector2> pathCoOrds = new List<Vector2>();
+
+                while (targetNode != startNode && targetNode != null)//while the path has not been retraced
+                {
+                    path.Add(targetNode);//add target node to the new path
+                    targetNode = targetNode.Parent;//set its parent as the new target
+                }
+
+                for (int i = 0; i < path.Count; i++)
+                {
+                    pathCoOrds.Add(path[i].worldPosition);
+
+                }
+                waypoints = pathCoOrds.ToArray();
+                waypoints.Reverse();
+            }
 
             Manager.FinishedProcessingPath(waypoints, pathSuccess);
         }
 
-        Vector2[] RetracePath(Node startNode, Node endNode)
+        public int CalculateHcost(Node A, Node B)
         {
-            List<Node> path = new List<Node>();
-            List<Vector2> pathCoOrds = new List<Vector2>();
-            Node currentNode = endNode;
+            Vector2 dist = new Vector2(Math.Abs(A.gridX - B.gridX), Math.Abs(A.gridY - B.gridY));
 
-            while (currentNode != startNode)
-            {
-                path.Add(currentNode);
-                currentNode = currentNode.Parent;
-            }
-
-            for (int i = 0; i < path.Count; i++)
-            {
-                pathCoOrds.Add(path[i].worldPosition);
-                
-            }
-            Vector2[] waypoints = pathCoOrds.ToArray();     
-            Array.Reverse(waypoints);
-            return waypoints;
-            
+            if (dist.X > dist.Y)
+                return (int)Math.Round(14 * dist.Y + 10 * (dist.X - dist.Y));
+            return (int)Math.Round(14 * dist.X + 10 * (dist.X - dist.Y));
         }
 
-        public int GetDistance(Node nodeA, Node nodeB)
+        public int CalculateGcost(Node A, Node B)
         {
-            int distX = Math.Abs(nodeA.gridX - nodeB.gridX);
-            int distY = Math.Abs(nodeA.gridY - nodeB.gridY);// +- may need reversing
-
-            if (distX > distY)
-                return 14 * distY + 10 * (distX - distY);
-            return 14 * distX + 10 * (distX - distY);
-
+            int Hcost = CalculateHcost(A, B);
+            return Hcost + A.gCost;            
         }
     }
 }

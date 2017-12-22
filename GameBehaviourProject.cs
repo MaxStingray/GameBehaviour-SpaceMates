@@ -123,6 +123,7 @@ namespace GameBehaviour
             pathfinding.board = board;
             manager = new AIManager(pathfinding);
             pathfinding.Manager = manager;
+            pathfinding = new Astar();
 
             player = new Player(new RigidBody2D(new Vector2(100, 460), new Vector2(0, 0), 1, "player", false, 5, 4)
                 , playerTexture, _spriteBatch, 5);

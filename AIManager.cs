@@ -39,7 +39,7 @@ namespace GameBehaviour
             {
                 currentPathRequest = PathRequestQueue.Dequeue();
                 isProcessingPath = true;
-                Pathfinding.StartFindPath(currentPathRequest.pathStart, currentPathRequest.pathEnd);
+                Pathfinding.FindPath(currentPathRequest.pathStart, currentPathRequest.pathEnd);
             }
         }
 
