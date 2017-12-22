@@ -342,7 +342,7 @@ namespace GameBehaviour
             //{
                 //rb.Draw(_spriteBatch);
             //}
-            _spriteBatch.DrawString(font, "Fuel: " + player.currentJetPackFuel, new Vector2(camera.centre.X + 50, camera.centre.Y + 700), Color.Black);
+            _spriteBatch.DrawString(font, "Fuel: " + player.fuelInt, new Vector2(camera.centre.X + 50, camera.centre.Y + 700), Color.Black);
             _spriteBatch.End();
         }
 

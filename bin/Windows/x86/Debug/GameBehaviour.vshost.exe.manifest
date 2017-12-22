@@ -38,7 +38,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>B9BCJgx5yHdIdPN5EVSoIGXEeS2ULYKaWsS2Ctrn8fI=</dsig:DigestValue>
+        <dsig:DigestValue>/MZF3uhMtszeExSevKci4a7uRf0YnJgG3WNuEdnQHLY=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -186,13 +186,13 @@
       <dsig:DigestValue>6UR9RTB4rn5Hiv/+3XOPT+GdvghhHu1i2682xH2EbO8=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="Content\Fuel.xnb" size="136212">
+  <file name="Content\Fuel.xnb" size="267284">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>G+kB8dUW51zISrQZQ3SewX/t7RqgciKNTXi+jECcYKM=</dsig:DigestValue>
+      <dsig:DigestValue>+iHI6I+Y46rCrteybsxGnPrzbfvubhYgWJAXu2zCaa8=</dsig:DigestValue>
     </hash>
   </file>
   <file name="Content\GroundBlock.xnb" size="19685">

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <SourceFile>C:/Users/Josh/Downloads/GameBehaviour/GameBehaviour/GameBehaviour-SpaceMates/Content/Fuel.spritefont</SourceFile>
-  <SourceTime>2017-12-20T12:15:19.9613502+00:00</SourceTime>
+  <SourceTime>2017-12-22T18:11:48.1905181+00:00</SourceTime>
   <DestFile>C:/Users/Josh/Downloads/GameBehaviour/GameBehaviour/GameBehaviour-SpaceMates/Content/bin/Windows/Fuel.xnb</DestFile>
-  <DestTime>2017-12-20T12:15:23.9957075+00:00</DestTime>
+  <DestTime>2017-12-22T18:28:45.2837451+00:00</DestTime>
   <Importer>FontDescriptionImporter</Importer>
   <ImporterTime>2017-03-01T15:05:36+00:00</ImporterTime>
   <Processor>FontDescriptionProcessor</Processor>

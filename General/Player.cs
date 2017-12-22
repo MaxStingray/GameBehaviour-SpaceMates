@@ -25,6 +25,7 @@ namespace GameBehaviour
         public bool hasKey = false;
 
         public float currentJetPackFuel;
+        public int fuelInt;
         private float maxJetPackFuel = 100;
 
         public Player(RigidBody2D rb, Texture2D texture,
@@ -105,6 +106,8 @@ namespace GameBehaviour
             {
                 currentJetPackFuel += 1f;
             }
+            HandyMath.Clamp(currentJetPackFuel, 0, 100);
+            fuelInt = (int)Math.Round(currentJetPackFuel);
             HandleInput(gameTime);
             
         }
@@ -133,7 +136,7 @@ namespace GameBehaviour
                     {
                         usingJetPack = true;
                         ObjRB.Velocity.Y += -10f;
-                        currentJetPackFuel -= 4f;
+                        currentJetPackFuel -= 3.5f;
                     }
                 }
             }
