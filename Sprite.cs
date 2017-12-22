@@ -16,7 +16,7 @@ namespace GameBehaviour
 
 
         public Sprite(Vector2 position, Vector2 rotation, float scale, string tag, Texture2D texture, SpriteBatch spriteBatch)
-            :base (position, rotation, scale, tag)
+            :base (position, tag)
         {
             tex = texture;
             spr = spriteBatch;

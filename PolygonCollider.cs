@@ -9,6 +9,16 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace GameBehaviour
 {
+    /***************************************************************************************
+    *   Some of the following code for building a polygon collider was adapted from code
+    *   found here:
+    *   
+    *    Title: 2D Polygon Collision Detection
+    *    Author: Laurent Cozic
+    *    Date: 20 September 2006
+    *    Availability: https://www.codeproject.com/Articles/15573/D-Polygon-Collision-Detection
+    *
+    ***************************************************************************************/
     public class PolygonCollider
     {
         public Vector2 pos = new Vector2();
@@ -47,7 +57,6 @@ namespace GameBehaviour
                 totalY += points[i].Y;
             }
 
-            //return ObjectCentre;
             Vector2 logicalCentre = new Vector2(totalX / (float)points.Count, totalY / (float)points.Count);
             return pos + logicalCentre;
         }

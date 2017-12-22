@@ -15,7 +15,7 @@ namespace GameBehaviour
         public Texture2D Texture;
         public RigidBody2D ObjRB;
 
-        public Crate(RigidBody2D rb, SpriteBatch spriteBatch, Texture2D texture) : base(rb.Position, rb.Rotation, rb.Scale, rb.Tag)
+        public Crate(RigidBody2D rb, SpriteBatch spriteBatch, Texture2D texture) : base(rb.Position, rb.Tag)
         {
             ObjRB = rb;
             SpriteBatch = spriteBatch;

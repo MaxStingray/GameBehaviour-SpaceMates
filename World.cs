@@ -66,6 +66,17 @@ namespace GameBehaviour
             
         }
 
+        /***************************************************************************************
+        *   The following code for projecting polygons and finding SAT collisions was adapted
+        *   from code found here:
+        * 
+        *    Title: 2D Polygon Collision Detection
+        *    Author: Laurent Cozic
+        *    Date: 20 September 2006
+        *    Availability: https://www.codeproject.com/Articles/15573/D-Polygon-Collision-Detection
+        *
+        ***************************************************************************************/
+
         public void ProjectPolygon(Vector2 axis, PolygonCollider polygon, ref float min, ref float max)
         {
             float dotProduct = Vector2.Dot(axis, polygon.points[0]);
@@ -102,14 +113,11 @@ namespace GameBehaviour
             }
         }
 
-        // Check if polygon A is going to collide with polygon B.
-        // The last parameter is the *relative* velocity 
-        // of the polygons (i.e. velocityA - velocityB)
+        //return a manifold with the results of the collision
         public Manifold PolygonCollision(Manifold man, Vector2 velocity, GameTime gameTime)
         {
-            Manifold result = new Manifold();
-            result.Intersect = true;
-            result.WillIntersect = true;
+            man.Intersect = true;
+            man.WillIntersect = true;
 
             PolygonCollider polyA = man.A.polygonColl;
             PolygonCollider polyB = man.B.polygonColl;
@@ -132,8 +140,6 @@ namespace GameBehaviour
                     edge = polyB.edges[edgeIndex - edgeCountA];
                 }
 
-                // ===== 1. Find if the polygons are currently intersecting =====
-
                 // Find the axis perpendicular to the current edge
                 Vector2 axis = new Vector2(-edge.Y, edge.X);
                 axis.Normalize();
@@ -145,9 +151,7 @@ namespace GameBehaviour
 
                 // Check if the polygon projections are currentlty intersecting
                 if (IntervalDistance(minA, maxA, minB, maxB) > 0)
-                result.Intersect = false;
-
-                // ===== 2. Now find if the polygons *will* intersect =====
+                man.Intersect = false;
 
                 // Project the velocity on the current axis
                 float velocityProjection = Vector2.Dot(axis, velocity * (float)gameTime.ElapsedGameTime.TotalSeconds);
@@ -164,10 +168,10 @@ namespace GameBehaviour
 
                 // Do the same test as above for the new projection
                 float intervalDistance = IntervalDistance(minA, maxA, minB, maxB);
-                if (intervalDistance > 0) result.WillIntersect = false;
+                if (intervalDistance > 0) man.WillIntersect = false;
 
                 // If the polygons are not intersecting and won't intersect, exit the loop
-                if (!result.Intersect && !result.WillIntersect) break;
+                if (!man.Intersect && !man.WillIntersect) break;
 
                 // Check if the current interval distance is the minimum one. If so store
                 // the interval distance and the current distance.
@@ -186,16 +190,15 @@ namespace GameBehaviour
             }
 
             // The minimum translation vector
-            // can be used to push the polygons appart.
-            if (result.WillIntersect && result.Intersect)
+            if (man.WillIntersect || man.Intersect)
             {
-                result.MinTranslation = 
+                man.MinTranslation = 
                        translationAxis * minIntervalDistance;
-                result.Penetration = minIntervalDistance;
+                man.Penetration = minIntervalDistance;
             }
-
-
-            return result;
+            //normalise the minimum translation to get the collision normal
+            man.Normal = Vector2.Normalize(man.MinTranslation);
+            return man;
         }
 
 
@@ -207,9 +210,8 @@ namespace GameBehaviour
             Vector2 relativeVelocityHack = manifold.B.Velocity - manifold.A.Velocity;
 
             Manifold result = PolygonCollision(manifold, relativeVelocity, gameTime);
-            //get the normal
-            Vector2 normal = Vector2.Normalize(result.MinTranslation);
-            if (!float.IsNaN(normal.X) || !float.IsNaN(normal.Y))
+            
+            if (!float.IsNaN(manifold.Normal.X) || !float.IsNaN(manifold.Normal.Y))
             {
                 //call the OnCollision method of both manifolds
                 if (manifold.A.parent != null && manifold.B.parent != null)
@@ -218,7 +220,7 @@ namespace GameBehaviour
                     manifold.B.parent.OnCollision(manifold);
                 }
                 //find the contact velocity
-                float contactVelocity = Vector2.Dot(relativeVelocityHack, normal);
+                float contactVelocity = Vector2.Dot(relativeVelocityHack, manifold.Normal);
 
                 if (contactVelocity < 0)
                 {
@@ -235,7 +237,7 @@ namespace GameBehaviour
                 float j = -(1.0f + restitution) * contactVelocity;
                 j /= (1 / manifold.A.Mass) + (1 / manifold.B.Mass);
 
-                Vector2 impulse = j * normal;
+                Vector2 impulse = j * manifold.Normal;
 
                 //apply impulse
                 if (!manifold.A.IsStatic)

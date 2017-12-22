@@ -16,7 +16,7 @@ namespace GameBehaviour
         public bool timeToSpawn = false;
         SpriteBatch SpriteBatch;
         Texture2D Texture;
-
+        //create a set of crates as physics objects with a random x and y value
         public CrateSpawn(SpriteBatch spr, Texture2D tex)
         {
             SpriteBatch = spr;
@@ -24,7 +24,8 @@ namespace GameBehaviour
 
             for (int i = 0; i <= 10; i++)
             {
-                Crate crate = new Crate(new RigidBody2D(new Vector2(randX.Next(1310, 2500), randX.Next(100, 500)), new Vector2(0, 0), 1, "crate", false, 2, 3),
+                Crate crate = new Crate(new RigidBody2D(new Vector2(randX.Next(1310, 2500), randX.Next(100, 500)), 
+                                        "crate", false, 2, 3),
                     SpriteBatch, Texture);
                 crates.Add(crate);
             }

@@ -20,8 +20,8 @@ namespace GameBehaviour
 
         float distance;
 
-        public Exit(SpriteBatch spr, Texture2D tex, Player player, Vector2 position, Vector2 rotation, float scale, string tag)
-            : base(position, rotation, scale, tag)
+        public Exit(SpriteBatch spr, Texture2D tex, Player player, Vector2 position, string tag)
+            : base(position, tag)
         {
             SpriteBatch = spr;
             Texture = tex;

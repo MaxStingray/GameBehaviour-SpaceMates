@@ -107,7 +107,10 @@ namespace GameBehaviour
             Vector2 dist = new Vector2(Math.Abs(A.gridX - B.gridX), Math.Abs(A.gridY - B.gridY));
 
             if (dist.X > dist.Y)
+            {
                 return (int)Math.Round(14 * dist.Y + 10 * (dist.X - dist.Y));
+            }
+
             return (int)Math.Round(14 * dist.X + 10 * (dist.X - dist.Y));
         }
 

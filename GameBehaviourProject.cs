@@ -48,7 +48,6 @@ namespace GameBehaviour
         private Selector selector;
         private Texture2D selectorTexture;
 
-        //private Crate testCrate;
         private CrateSpawn crateSpawn;
         private Texture2D crateTexture;
 
@@ -115,28 +114,28 @@ namespace GameBehaviour
 
             font = Content.Load<SpriteFont>("Fuel");
 
-            menu = new Menu(_spriteBatch, menuTexture, new Vector2(0, 0), new Vector2(0, 0), 1, "mainMenu");
-            exitMenu = new Menu(_spriteBatch, exitMenuTexture, new Vector2(0, 0), new Vector2(0, 0), 1, "exitMenu");
+            menu = new Menu(_spriteBatch, menuTexture, new Vector2(0, 0), "mainMenu");
+            exitMenu = new Menu(_spriteBatch, exitMenuTexture, new Vector2(0, 0), "exitMenu");
             board = new Board(_spriteBatch, groundTexture, bounceTexture, 57, 11);
             pathfinding = new Astar();
             pathfinding.board = board;
 
-            player = new Player(new RigidBody2D(new Vector2(200, 460), new Vector2(0, 0), 1, "player", false, 5, 4)
+            player = new Player(new RigidBody2D(new Vector2(200, 460), "player", false, 5, 4)
                 , playerTexture, _spriteBatch, 5);
 
             selector = new Selector(player.Position, new Vector2(0, 0), 1, "Selector", board, _spriteBatch, selectorTexture);
 
-            key = new Key(new RigidBody2D(new Vector2(1000, 350), new Vector2(0, 0), 1, "key", false, 0, 0),
+            key = new Key(new RigidBody2D(new Vector2(1000, 350), "key", false, 0, 0),
                 keyTexture, _spriteBatch);
 
-            mPlatform = new MovingPlatform(player, new RigidBody2D(new Vector2(3290, 495), new Vector2(0, 0), 1, "movingPlatform", true, 4, 5),
+            mPlatform = new MovingPlatform(player, new RigidBody2D(new Vector2(3290, 495), "movingPlatform", true, 4, 5),
                 _spriteBatch, mPlatformTexture, 130);
 
             crateSpawn = new CrateSpawn(_spriteBatch, crateTexture);
 
-            exit = new Exit(_spriteBatch, exitTexture, player, new Vector2(3750, 70), new Vector2(0, 0), 1, "Exit");
+            exit = new Exit(_spriteBatch, exitTexture, player, new Vector2(3750, 70), "Exit");
 
-            drone = new Drone(player, selector, pathfinding, new RigidBody2D(player.ObjRB.Position, new Vector2(0, 0), 1, "drone", false, 1, 3)
+            drone = new Drone(player, selector, pathfinding, new RigidBody2D(player.ObjRB.Position, "drone", false, 1, 3)
                 , _spriteBatch, droneTexture);
 
             player.drone = drone;
@@ -173,20 +172,10 @@ namespace GameBehaviour
         }
 
         /// <summary>
-        /// UnloadContent will be called once per game and is the place to unload
-        /// game-specific content.
-        /// </summary>
-        protected override void UnloadContent()
-        {
-            // TODO: Unload any non ContentManager content here
-        }
-
-        /// <summary>
         /// Allows the game to run logic such as updating the world,
         /// checking for collisions, gathering input, and playing audio.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
-        //public List<Node> path;
         protected override void Update(GameTime gameTime)
         {
             switch (_state)
@@ -363,7 +352,8 @@ namespace GameBehaviour
             player.Draw(_spriteBatch);
             selector.Draw(_spriteBatch);
             crateSpawn.Draw(_spriteBatch);
-            //testCrate.Draw(_spriteBatch);
+            
+            //uncomment out the following statement to view polygon colliders
             //foreach (RigidBody2D rb in _physicsWorld.PhysObjects)//draw bounding boxes
             //{
                 //rb.Draw(_spriteBatch);

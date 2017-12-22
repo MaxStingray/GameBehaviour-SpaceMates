@@ -13,7 +13,7 @@ namespace GameBehaviour
         private Vector2 center;
         public Node targetNode;
         public bool nodeSet;
-        public Selector(Vector2 position, Vector2 rotation, float scale, string tag, Board board, SpriteBatch spr, Texture2D tex) : base (position, rotation, scale, tag)
+        public Selector(Vector2 position, Vector2 rotation, float scale, string tag, Board board, SpriteBatch spr, Texture2D tex) : base (position, tag)
         {
             Position = position;
             Board = board;

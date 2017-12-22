@@ -17,11 +17,9 @@ namespace GameBehaviour
         public float Scale { get; set; }
         public string Tag { get; set; }//unsure if tag should be a required variable, may create duplicate code
         public Vector2 Centre;
-        public GameObject(Vector2 position, Vector2 rotation, float scale, string tag)            
+        public GameObject(Vector2 position, string tag)            
         {
             Position = position;
-            Rotation = rotation;
-            Scale = scale;
             Tag = tag;
         }
 

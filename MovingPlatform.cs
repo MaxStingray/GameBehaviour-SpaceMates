@@ -28,7 +28,7 @@ namespace GameBehaviour
 
         //TODO: set a list of nodes on each part of this sprite and set them to be intraversible
         float delta;
-        public MovingPlatform(Player player, RigidBody2D rb, SpriteBatch spr, Texture2D tex, float targetY) : base(rb.Position, rb.Rotation, rb.Scale, rb.Tag)
+        public MovingPlatform(Player player, RigidBody2D rb, SpriteBatch spr, Texture2D tex, float targetY) : base(rb.Position, rb.Tag)
         {
             Texture = tex;
             SpriteBatch = spr;

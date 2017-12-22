@@ -28,7 +28,7 @@ namespace GameBehaviour
         private float maxJetPackFuel = 100;
 
         public Player(RigidBody2D rb, Texture2D texture,
-            SpriteBatch spriteBatch, float friction) : base (rb.Position, rb.Rotation, rb.Scale, rb.Tag)
+            SpriteBatch spriteBatch, float friction) : base (rb.Position, rb.Tag)
         {
             
             Texture = texture;

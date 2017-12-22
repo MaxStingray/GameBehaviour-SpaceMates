@@ -16,7 +16,7 @@ namespace GameBehaviour
         //public RigidBody2D ObjRB { get; set; }
 
         public Tile(RigidBody2D rb, bool isRendered, Texture2D texture, SpriteBatch spriteBatch, float friction) 
-            : base(rb.Position, rb.Rotation, rb.Scale, rb.Tag, rb.IsStatic, rb.Friction, rb.Mass)
+            : base(rb.Position, rb.Tag, rb.IsStatic, rb.Friction, rb.Mass)
         {
             IsRendered = isRendered;
             Texture = texture;

@@ -20,7 +20,7 @@ namespace GameBehaviour
         public float tileWidth;
         public float tileHeight;
 
-        public Platform(int numTiles, RigidBody2D rb, Tile startPoint, Tile endPoint, bool isBouncy) : base(rb.Position, rb.Rotation, rb.Scale, rb.Tag)
+        public Platform(int numTiles, RigidBody2D rb, Tile startPoint, Tile endPoint, bool isBouncy) : base(rb.Position, rb.Tag)
         {
             NumTiles = numTiles;
             StartPoint = startPoint;

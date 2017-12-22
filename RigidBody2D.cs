@@ -32,8 +32,8 @@ namespace GameBehaviour
         const float minPosChange = 0.2f;
         //rigidbody class inherits from gameobject, all physics objects are rigidbody
 
-        public RigidBody2D(Vector2 position, Vector2 rotation, float scale, string tag, bool isStatic, float friction, float mass) 
-            : base (position, rotation, scale, tag) 
+        public RigidBody2D(Vector2 position, string tag, bool isStatic, float friction, float mass) 
+            : base (position, tag) 
         {
             IsStatic = isStatic;
             Mass = mass;

@@ -21,7 +21,7 @@ namespace GameBehaviour
         public bool reachedDestination = false;
 
         public Key(RigidBody2D rb, Texture2D tex, SpriteBatch spriteBatch) :
-            base(rb.Position, rb.Rotation, rb.Scale, rb.Tag)
+            base(rb.Position, rb.Tag)
         {
             Texture = tex;
             SpriteBatch = spriteBatch;

@@ -10,7 +10,7 @@ namespace GameBehaviour
 
         public bool startButtonPushed = false;
 
-        public Menu(SpriteBatch spriteBatch, Texture2D texture, Vector2 position, Vector2 rotation, float scale, string tag) : base(position, rotation, scale, tag)
+        public Menu(SpriteBatch spriteBatch, Texture2D texture, Vector2 position, string tag) : base(position, tag)
         {
             spr = spriteBatch;
             tex = texture;

@@ -27,7 +27,7 @@ namespace GameBehaviour
         public float updateRate = 2f;
 
         public Drone(Player player, Selector selector, Astar pathFinder, RigidBody2D rb, SpriteBatch spr, Texture2D tex) : 
-            base(rb.Position, rb.Rotation, rb.Scale, rb.Tag)
+            base(rb.Position, rb.Tag)
         {
             ObjRB = rb;
             Spr = spr;
@@ -41,14 +41,6 @@ namespace GameBehaviour
             pFinder = pathFinder;
             path = pFinder.getPath(Position, target);
             UpdatePath();
-        }
-
-        public void OnPathFound(Vector2[] newPath, bool pathSuccess)
-        {
-            if (pathSuccess)
-            {
-                path = newPath;
-            }
         }
 
         void UpdatePath()
@@ -72,7 +64,7 @@ namespace GameBehaviour
             pathComplete = false;
 
             //Direction to next waypoint
-            Vector2 dir = Vector2.Normalize(path[targetIndex] - Position);//may need to reverse y axis
+            Vector2 dir = Vector2.Normalize(path[targetIndex] - Position);
             dir *= speed * delta;
 
             ObjRB.Velocity += dir;

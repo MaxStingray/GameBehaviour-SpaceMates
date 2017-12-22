@@ -36,7 +36,7 @@ namespace GameBehaviour
                 {
                     Vector2 blockPosition = new Vector2(x * blockTexture.Width, y * blockTexture.Height);
 
-                    tiles[x, y] = new Tile(new RigidBody2D(blockPosition, new Vector2(0, 0), 1, "obstacle" , true, 10, 50), false,
+                    tiles[x, y] = new Tile(new RigidBody2D(blockPosition,  "obstacle" , true, 10, 50), false,
                         blockTexture, spriteBatch, 10);
                     tiles[x, y].aStarNode.gridX = x;
                     tiles[x, y].aStarNode.gridY = y;
@@ -131,8 +131,8 @@ namespace GameBehaviour
                             endPoint = tiles[c - 1, y];//set the previous tile as the end point
                             x = c;//set the previous counter to this one
                             //c = 0;//reset c
-                            Platform platform = new Platform((c), new RigidBody2D(startPoint.Position, startPoint.Rotation,
-                                                startPoint.Scale, startPoint.Tag, true, 4, 4), startPoint, endPoint, false);
+                            Platform platform = new Platform((c), new RigidBody2D(startPoint.Position,
+                                startPoint.Tag, true, 4, 4), startPoint, endPoint, false);
                             if (platform.StartPoint == tiles[10, 9])
                             {
                                 platform.SetBouncy();
@@ -143,8 +143,8 @@ namespace GameBehaviour
                         else if (c + 1 == cols)
                         {
                             endPoint = tiles[c, y];
-                            Platform platform = new Platform((c), new RigidBody2D(startPoint.Position, startPoint.Rotation,
-                            startPoint.Scale, startPoint.Tag, true, 4, 4), startPoint, endPoint, false);
+                            Platform platform = new Platform((c), new RigidBody2D(startPoint.Position
+                                                ,startPoint.Tag, true, 4, 4), startPoint, endPoint, false);
                             if (platform.StartPoint == tiles[10, 9])
                             {
                                 platform.SetBouncy();
