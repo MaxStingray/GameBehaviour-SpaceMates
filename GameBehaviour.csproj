@@ -41,7 +41,6 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="AIManager.cs" />
     <Compile Include="Astar.cs" />
     <Compile Include="Board.cs" />
     <Compile Include="BoxCollider.cs" />

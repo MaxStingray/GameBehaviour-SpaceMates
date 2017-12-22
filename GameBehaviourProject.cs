@@ -21,7 +21,6 @@ namespace GameBehaviour
     public class Game1 : Game // this is your game manager class you dork. Fix!
     {
         GameState _state = GameState.Menu;
-        private AIManager manager;
         //use underscores so we can differentiate between global and member variables
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
@@ -121,9 +120,6 @@ namespace GameBehaviour
             board = new Board(_spriteBatch, groundTexture, bounceTexture, 57, 11);
             pathfinding = new Astar();
             pathfinding.board = board;
-            manager = new AIManager(pathfinding);
-            pathfinding.Manager = manager;
-            pathfinding = new Astar();
 
             player = new Player(new RigidBody2D(new Vector2(100, 460), new Vector2(0, 0), 1, "player", false, 5, 4)
                 , playerTexture, _spriteBatch, 5);
@@ -151,7 +147,7 @@ namespace GameBehaviour
             _physicsWorld.PhysObjects.Add(mPlatform.ObjRB);
             //_physicsWorld.PhysObjects.Add(testCrate.ObjRB);
 
-            drone = new Drone(manager, player, selector, pathfinding, new RigidBody2D(player.ObjRB.Position, new Vector2(0, 0), 1, "drone", false, 1, 3)
+            drone = new Drone(player, selector, pathfinding, new RigidBody2D(player.ObjRB.Position, new Vector2(0, 0), 1, "drone", false, 1, 3)
                 , _spriteBatch, droneTexture);
 
             player.drone = drone;

@@ -8,11 +8,10 @@ namespace GameBehaviour
     {
         public RigidBody2D ObjRB;
         SpriteBatch Spr;
-        public AIManager Manager;
         Texture2D Texture;
         public Selector Selector;
         public Player Player;
-
+        public Astar pFinder;
         float delta;
 
         bool pathComplete;
@@ -27,7 +26,7 @@ namespace GameBehaviour
         public float speed = 300f;
         public float updateRate = 2f;
 
-        public Drone(AIManager manager, Player player, Selector selector, Astar pathFinder, RigidBody2D rb, SpriteBatch spr, Texture2D tex) : 
+        public Drone(Player player, Selector selector, Astar pathFinder, RigidBody2D rb, SpriteBatch spr, Texture2D tex) : 
             base(rb.Position, rb.Rotation, rb.Scale, rb.Tag)
         {
             ObjRB = rb;
@@ -39,8 +38,9 @@ namespace GameBehaviour
             ObjRB.polygonColl = new PolygonCollider();
             SetPolygonPoints(ObjRB.polygonColl);
             target = player.ObjRB.Position;
-            Manager = manager;
-            Manager.RequestPath(Position, target, OnPathFound);
+            pFinder = pathFinder;
+            //Manager.RequestPath(Position, target, OnPathFound);
+            path = pFinder.getPath(Position, target);
         }
 
         public void OnPathFound(Vector2[] newPath, bool pathSuccess)
@@ -53,7 +53,8 @@ namespace GameBehaviour
 
         void UpdatePath()
         {
-            Manager.RequestPath(Position, target, OnPathFound);
+            //Manager.RequestPath(Position, target, OnPathFound);
+            path = pFinder.getPath(Position, target);
             FollowPath();
         }
 

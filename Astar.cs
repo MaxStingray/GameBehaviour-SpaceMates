@@ -8,13 +8,22 @@ namespace GameBehaviour
 {
     public class Astar
     {
-
-        public AIManager Manager;
+        Vector2[] waypoints = new Vector2[0];
         public Board board;
        
         public Astar()
         {
            
+        }
+
+        public Vector2[] getPath(Vector2 start, Vector2 end)
+        {
+            if (start != null && end != null && board != null)
+            {
+                FindPath(start, end);
+                return waypoints;
+            }
+            return null;
         }
 
         public void FindPath(Vector2 startPos, Vector2 targetPos)
@@ -23,7 +32,7 @@ namespace GameBehaviour
             Node targetNode = board.NodeFromWorldPoint(targetPos);
             List<Node> openSet = new List<Node>();
             HashSet<Node> closedSet = new HashSet<Node>();
-            Vector2[] waypoints = new Vector2[0];
+            //Vector2[] waypoints = new Vector2[0];
             bool pathSuccess = false;
             openSet.Add(startNode);
             Node currentNode;
@@ -92,8 +101,6 @@ namespace GameBehaviour
                 waypoints = pathCoOrds.ToArray();
                 waypoints.Reverse();
             }
-
-            Manager.FinishedProcessingPath(waypoints, pathSuccess);
         }
 
         public int CalculateHcost(Node A, Node B)
